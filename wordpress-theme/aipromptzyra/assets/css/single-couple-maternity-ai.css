@@ -1,0 +1,880 @@
+/**
+ * Dedicated Scoped Stylesheet for Single Article:
+ * Couple Maternity Photoshoot Prompts for Gemini AI (2026)
+ *
+ * Scope: ONLY elements inside .single-couple-maternity-ai-article
+ * Target URL: https://thepromptadda.in/couple-maternity-photoshoot-prompts-for-gemini-ai/
+ * Post ID: 61594710183320
+ *
+ * @package AIPromptzyra
+ * @version 1.0.0
+ */
+
+/* Page Layout Wrapper with Responsive Right Sidebar */
+.scma-page-layout-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 4rem;
+    box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+    .scma-page-layout-wrapper {
+        grid-template-columns: minmax(0, 1fr) 340px;
+        align-items: start;
+        gap: 2.5rem;
+    }
+    .scma-sidebar-wrapper {
+        position: sticky;
+        top: 96px;
+    }
+}
+
+.single-couple-maternity-ai-article {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 2rem;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: #1e293b;
+    line-height: 1.65;
+}
+
+/* Breadcrumbs */
+.single-couple-maternity-ai-article .scma-breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: #64748b;
+    padding: 0.625rem 1rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.625rem;
+    margin-bottom: 1.5rem;
+}
+
+.single-couple-maternity-ai-article .scma-breadcrumbs a {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.single-couple-maternity-ai-article .scma-breadcrumbs a:hover {
+    color: #7c3aed;
+    text-decoration: underline;
+}
+
+.single-couple-maternity-ai-article .scma-breadcrumbs .scma-sep {
+    color: #94a3b8;
+    user-select: none;
+}
+
+.single-couple-maternity-ai-article .scma-breadcrumbs .scma-current {
+    color: #0f172a;
+    font-weight: 600;
+    max-width: 320px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Header */
+.single-couple-maternity-ai-article .scma-kicker-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3125rem 0.75rem;
+    background: #f5f3ff;
+    color: #6d28d9;
+    border: 1px solid #ddd6fe;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.875rem;
+}
+
+.single-couple-maternity-ai-article .scma-sparkle-dot {
+    width: 6px;
+    height: 6px;
+    background: #7c3aed;
+    border-radius: 50%;
+}
+
+.single-couple-maternity-ai-article .scma-title {
+    font-size: 2.25rem;
+    line-height: 1.25;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem 0;
+}
+
+.single-couple-maternity-ai-article .scma-meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.875rem 0;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.single-couple-maternity-ai-article .scma-author-block {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.single-couple-maternity-ai-article .scma-author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-cover: cover;
+    border: 2px solid #ddd6fe;
+}
+
+.single-couple-maternity-ai-article .scma-author-name {
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.single-couple-maternity-ai-article .scma-author-name a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.single-couple-maternity-ai-article .scma-author-name a:hover {
+    color: #7c3aed;
+}
+
+.single-couple-maternity-ai-article .scma-role-pill {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: #7c3aed;
+    background: #f5f3ff;
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+}
+
+.single-couple-maternity-ai-article .scma-author-title {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.single-couple-maternity-ai-article .scma-meta-details {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: #64748b;
+    font-size: 0.8125rem;
+}
+
+.single-couple-maternity-ai-article .scma-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.single-couple-maternity-ai-article .scma-meta-item strong {
+    color: #1e293b;
+}
+
+/* Featured Media */
+.single-couple-maternity-ai-article .scma-featured-media {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    background: #0f172a;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.single-couple-maternity-ai-article .scma-banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.single-couple-maternity-ai-article .scma-featured-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.875rem 1.25rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    color: #f1f5f9;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.single-couple-maternity-ai-article .scma-lead-intro p {
+    font-size: 1.0625rem;
+    color: #334155;
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+/* Table of Contents */
+.single-couple-maternity-ai-article .scma-toc-card {
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+}
+
+.single-couple-maternity-ai-article .scma-toc-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1.0625rem;
+    color: #5b21b6;
+    margin-bottom: 0.875rem;
+}
+
+.single-couple-maternity-ai-article .scma-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.5rem;
+}
+
+.single-couple-maternity-ai-article .scma-toc-list li a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    color: #1e293b;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+.single-couple-maternity-ai-article .scma-toc-list li a:hover {
+    background: #7c3aed;
+    color: #ffffff;
+    border-color: #7c3aed;
+    transform: translateX(3px);
+}
+
+/* Sections */
+.single-couple-maternity-ai-article .scma-section {
+    margin-bottom: 3.5rem;
+}
+
+.single-couple-maternity-ai-article .scma-section-header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.single-couple-maternity-ai-article .scma-sub-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #7c3aed;
+    margin-bottom: 0.25rem;
+}
+
+.single-couple-maternity-ai-article .scma-h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0.25rem 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.single-couple-maternity-ai-article .scma-section-intro {
+    font-size: 0.9375rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Prompt Card */
+.single-couple-maternity-ai-article .scma-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.single-couple-maternity-ai-article .scma-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    border-color: #cbd5e1;
+}
+
+.single-couple-maternity-ai-article .scma-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 1rem 1.25rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.single-couple-maternity-ai-article .scma-card-num {
+    width: 2rem;
+    height: 2rem;
+    background: #7c3aed;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.8125rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.single-couple-maternity-ai-article .scma-h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.35;
+}
+
+.single-couple-maternity-ai-article .scma-card-sub {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin: 0.25rem 0 0 0;
+}
+
+.single-couple-maternity-ai-article .scma-card-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+    padding: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .single-couple-maternity-ai-article .scma-card-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.single-couple-maternity-ai-article .scma-img-wrap {
+    position: relative;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #0f172a;
+    border: 1px solid #cbd5e1;
+    aspect-ratio: 3/4;
+}
+
+.single-couple-maternity-ai-article .scma-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.single-couple-maternity-ai-article .scma-badge-aspect {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    background: rgba(0,0,0,0.7);
+    color: #ffffff;
+    border-radius: 9999px;
+}
+
+.single-couple-maternity-ai-article .scma-badge-style {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    background: rgba(124, 58, 237, 0.85);
+    color: #ffffff;
+    border-radius: 9999px;
+}
+
+.single-couple-maternity-ai-article .scma-prompt-label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.single-couple-maternity-ai-article .scma-prompt-box {
+    background: #0b0f19;
+    border: 1px solid #1e293b;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    color: #f8fafc;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+}
+
+.single-couple-maternity-ai-article .scma-prompt-text {
+    max-height: 140px;
+    overflow-y: auto;
+    margin: 0 0 0.875rem 0;
+    padding-right: 0.5rem;
+    word-break: break-word;
+}
+
+.single-couple-maternity-ai-article .scma-prompt-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border-top: 1px solid #1e293b;
+    padding-top: 0.75rem;
+}
+
+.single-couple-maternity-ai-article .scma-tool-hint {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-family: inherit;
+}
+
+.single-couple-maternity-ai-article .scma-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background: #7c3aed;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.single-couple-maternity-ai-article .scma-copy-btn:hover {
+    background: #6d28d9;
+}
+
+.single-couple-maternity-ai-article .scma-copy-btn.copied {
+    background: #10b981;
+}
+
+.single-couple-maternity-ai-article .scma-tool-launchers {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.single-couple-maternity-ai-article .scma-launch-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-right: 0.25rem;
+}
+
+.single-couple-maternity-ai-article .scma-launch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3125rem 0.625rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.single-couple-maternity-ai-article .scma-launch-btn.gemini {
+    background: #f5f3ff;
+    color: #6d28d9;
+    border: 1px solid #ddd6fe;
+}
+
+.single-couple-maternity-ai-article .scma-launch-btn.gemini:hover {
+    background: #ede9fe;
+}
+
+.single-couple-maternity-ai-article .scma-launch-btn.chatgpt {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+}
+
+.single-couple-maternity-ai-article .scma-launch-btn.chatgpt:hover {
+    background: #d1fae5;
+}
+
+/* Guides & Poses Grids */
+.single-couple-maternity-ai-article .scma-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+.single-couple-maternity-ai-article .scma-guide-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.single-couple-maternity-ai-article .scma-guide-card-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #7c3aed;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.single-couple-maternity-ai-article .scma-guide-content p {
+    font-size: 0.875rem;
+    color: #334155;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+/* Timing Banner */
+.single-couple-maternity-ai-article .scma-timing-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.single-couple-maternity-ai-article .scma-timing-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background: #f59e0b;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.single-couple-maternity-ai-article .scma-timing-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #92400e;
+    margin: 0 0 0.25rem 0;
+}
+
+.single-couple-maternity-ai-article .scma-timing-desc {
+    font-size: 0.875rem;
+    color: #78350f;
+    margin: 0;
+}
+
+.single-couple-maternity-ai-article .scma-poses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.single-couple-maternity-ai-article .scma-pose-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.single-couple-maternity-ai-article .scma-pose-item h4 {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.5rem 0;
+}
+
+.single-couple-maternity-ai-article .scma-pose-item p {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Dual Face Hero */
+.single-couple-maternity-ai-article .scma-dualface-hero {
+    background: linear-gradient(135deg, #4c1d95, #1e1b4b);
+    color: #ffffff;
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    box-shadow: 0 8px 24px rgba(76, 29, 149, 0.25);
+}
+
+.single-couple-maternity-ai-article .scma-dualface-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: #ffffff;
+}
+
+.single-couple-maternity-ai-article .scma-dualface-intro {
+    font-size: 0.875rem;
+    color: #c4b5fd;
+    margin: 0 0 1.25rem 0;
+}
+
+.single-couple-maternity-ai-article .scma-dualface-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.single-couple-maternity-ai-article .scma-dualface-step {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.single-couple-maternity-ai-article .scma-step-num {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    background: #a78bfa;
+    color: #0f172a;
+    border-radius: 0.375rem;
+    font-weight: 800;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.single-couple-maternity-ai-article .scma-dualface-step h4 {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.375rem 0;
+}
+
+.single-couple-maternity-ai-article .scma-dualface-step p {
+    font-size: 0.75rem;
+    color: #e9d5ff;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* FAQ Accordion */
+.single-couple-maternity-ai-article .scma-faqs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.single-couple-maternity-ai-article .scma-faq-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.single-couple-maternity-ai-article .scma-faq-q {
+    padding: 1rem 1.25rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #0f172a;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    user-select: none;
+}
+
+.single-couple-maternity-ai-article .scma-faq-q::-webkit-details-marker {
+    display: none;
+}
+
+.single-couple-maternity-ai-article .scma-faq-chevron {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.single-couple-maternity-ai-article .scma-faq-item[open] .scma-faq-chevron {
+    transform: rotate(180deg);
+}
+
+.single-couple-maternity-ai-article .scma-faq-a {
+    padding: 0 1.25rem 1rem 1.25rem;
+    font-size: 0.875rem;
+    color: #475569;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 0.75rem;
+}
+
+.single-couple-maternity-ai-article .scma-faq-a p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Community / Related Links */
+.single-couple-maternity-ai-article .scma-community-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.single-couple-maternity-ai-article .scma-h2-small {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.5rem 0;
+}
+
+.single-couple-maternity-ai-article .scma-community-desc {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0 0 1rem 0;
+}
+
+.single-couple-maternity-ai-article .scma-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.75rem;
+}
+
+.single-couple-maternity-ai-article .scma-rel-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.625rem;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.single-couple-maternity-ai-article .scma-rel-item:hover {
+    border-color: #7c3aed;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);
+}
+
+.single-couple-maternity-ai-article .scma-rel-tag {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #7c3aed;
+    background: #f5f3ff;
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.single-couple-maternity-ai-article .scma-rel-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.single-couple-maternity-ai-article .scma-rel-arrow {
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+/* Dark Mode Overrides (Strictly Scoped) */
+html[data-theme="dark"] .single-couple-maternity-ai-article,
+body.dark .single-couple-maternity-ai-article {
+    color: #f1f5f9;
+}
+
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-title,
+body.dark .single-couple-maternity-ai-article .scma-title,
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-h2,
+body.dark .single-couple-maternity-ai-article .scma-h2,
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-h3,
+body.dark .single-couple-maternity-ai-article .scma-h3 {
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-lead-intro p,
+body.dark .single-couple-maternity-ai-article .scma-lead-intro p {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-card,
+body.dark .single-couple-maternity-ai-article .scma-card,
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-guide-card,
+body.dark .single-couple-maternity-ai-article .scma-guide-card,
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-pose-item,
+body.dark .single-couple-maternity-ai-article .scma-pose-item,
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-faq-item,
+body.dark .single-couple-maternity-ai-article .scma-faq-item,
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-rel-item,
+body.dark .single-couple-maternity-ai-article .scma-rel-item {
+    background: #111625;
+    border-color: #1e293b;
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-card-top,
+body.dark .single-couple-maternity-ai-article .scma-card-top,
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-breadcrumbs,
+body.dark .single-couple-maternity-ai-article .scma-breadcrumbs {
+    background: #151c2e;
+    border-color: #1e293b;
+}
+
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-toc-card,
+body.dark .single-couple-maternity-ai-article .scma-toc-card {
+    background: #0f172a;
+    border-color: #312e81;
+}
+
+html[data-theme="dark"] .single-couple-maternity-ai-article .scma-toc-list li a,
+body.dark .single-couple-maternity-ai-article .scma-toc-list li a {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "AIPromptzyra - AI Prompt Discovery & WordPress Theme",
+  "description": "Discover high-quality, copy-ready AI prompts for Gemini, ChatGPT, Midjourney, and explore the complete production WordPress theme.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,34 @@
+<?php
+/**
+ * Template part for displaying a guide card in grids
+ *
+ * @package AIPromptzyra
+ * @version 1.0.0
+ */
+?>
+<article id="post-<?php the_ID(); ?>" <?php post_class('guide-card'); ?>>
+    <div class="guide-card-media">
+        <a href="<?php the_permalink(); ?>">
+            <?php if (has_post_thumbnail()) : ?>
+                <?php the_post_thumbnail('aipromptzyra-guide'); ?>
+            <?php else : ?>
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=80" alt="<?php the_title_attribute(); ?>" loading="lazy" />
+            <?php endif; ?>
+        </a>
+        <button type="button" class="bookmark-btn" aria-label="<?php esc_attr_e('Save guide', 'aipromptzyra'); ?>">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+        </button>
+    </div>
+    <div class="guide-card-body">
+        <h3 class="guide-card-title">
+            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+        </h3>
+        <p class="guide-card-desc"><?php echo wp_trim_words(get_the_excerpt(), 12); ?></p>
+        <div class="guide-card-footer">
+            <span class="guide-date"><?php echo get_the_date('M j, Y'); ?></span>
+            <a href="<?php the_permalink(); ?>" class="guide-read-link">
+                <?php esc_html_e('Read More', 'aipromptzyra'); ?> &rarr;
+            </a>
+        </div>
+    </div>
+</article>

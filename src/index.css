@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #1e293b;
+    background-color: #fafafa;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: #0b0f19;
+  color: #f1f5f9;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
+/* Glassmorphism and badge accents */
+.badge-popular {
+  background-color: #ffedd5;
+  color: #c2410c;
+}
+.badge-trending {
+  background-color: #ccfbf1;
+  color: #0f766e;
+}
+.badge-cinematic {
+  background-color: #e0e7ff;
+  color: #4338ca;
+}
+.badge-festival {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+.badge-ai-art {
+  background-color: #ede9fe;
+  color: #6d28d9;
+}
+.badge-new {
+  background-color: #fae8ff;
+  color: #a21caf;
+}
