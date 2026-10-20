@@ -24,7 +24,6 @@ wordpress-theme/aipromptzyra/
 ├── front-page.php                 # Homepage matching reference screenshot layout
 ├── index.php                      # Fallback template with pagination & empty states
 ├── single.php                     # Single tutorial / guide template with reading time
-├── single-couple-maternity-photoshoot-prompts-for-gemini-ai.php # Dedicated single template for maternity photoshoot article
 ├── single-prompt.php              # Dedicated AI prompt view with 1-click copy box & specs
 ├── page.php                       # Generic page template (About, Contact, Legal)
 ├── page-prompt-builder.php        # Standalone Prompt Builder page template
@@ -40,12 +39,10 @@ wordpress-theme/aipromptzyra/
 │   └── template-tags.php          # Helper functions (posted_on, posted_by)
 ├── template-parts/
 │   ├── content-prompt-card.php    # Reusable prompt card markup
-│   ├── content-guide-card.php     # Reusable guide card markup
-│   └── single-couple-maternity-ai.php # Dedicated template part for maternity article
+│   └── content-guide-card.php     # Reusable guide card markup
 └── assets/
     ├── css/
-    │   ├── theme.css              # Responsive layout, grid system, dark mode overrides
-    │   └── single-couple-maternity-ai.css # 100% scoped CSS for .single-couple-maternity-ai-article
+    │   └── theme.css              # Responsive layout, grid system, dark mode overrides
     └── js/
         ├── theme.js               # Vanilla JS: Dark mode toggle & global copy handler
         └── prompt-builder.js      # Vanilla JS: 8-field prompt formula generator & reset

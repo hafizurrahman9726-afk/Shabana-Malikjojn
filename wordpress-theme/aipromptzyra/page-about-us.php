@@ -140,7 +140,6 @@ get_header(); ?>
                         'categories' => array('Couple Prompts', 'AI Photo Prompts'),
                         'bio'        => 'Editorial writer and prompt designer focusing on couple photography, maternity shoots, and emotion-driven AI portraits. Researches cultural styling, wardrobe details, and posing aesthetics.',
                         'articles'   => array(
-                            array('title' => 'Couple Maternity Photoshoot Prompts for Gemini AI (2026)', 'url' => home_url('/couple-maternity-photoshoot-prompts-for-gemini-ai/')),
                             array('title' => 'Romantic Couple Golden Hour Photography Prompts', 'url' => home_url('/prompts/romantic-couple-golden-hour/')),
                             array('title' => 'Indian Traditional Wedding Prompt for Gemini AI (2026)', 'url' => home_url('/indian-wedding-photo-prompt-for-gemini/')),
                         ),

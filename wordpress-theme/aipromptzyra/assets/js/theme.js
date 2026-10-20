@@ -86,4 +86,63 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // 5. Enhance Single Article Prompts & Callouts
+  const entryContent = document.querySelector('.article-single .entry-content');
+  if (entryContent) {
+    const paragraphs = entryContent.querySelectorAll('p');
+    paragraphs.forEach(function (p) {
+      const text = p.textContent.trim();
+      const strongEl = p.querySelector('strong');
+      const strongText = strongEl ? strongEl.textContent.trim().toLowerCase() : '';
+
+      // Check for prompt label (e.g. "Prompt:" or strong "Prompt:")
+      if (
+        /^prompt:\s*$/i.test(text) ||
+        strongText === 'prompt:' ||
+        strongText === 'prompt'
+      ) {
+        p.classList.add('az-prompt-label');
+        const next = p.nextElementSibling;
+        if (next && next.tagName === 'P') {
+          next.classList.add('az-prompt-box');
+          if (!next.querySelector('.az-copy-prompt-btn')) {
+            const copyBtn = document.createElement('button');
+            copyBtn.type = 'button';
+            copyBtn.className = 'az-copy-prompt-btn';
+            copyBtn.setAttribute('aria-label', 'Copy prompt to clipboard');
+            copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span>';
+
+            copyBtn.addEventListener('click', function () {
+              // Copy text minus the button text
+              const clone = next.cloneNode(true);
+              const b = clone.querySelector('.az-copy-prompt-btn');
+              if (b) b.remove();
+              const copyText = clone.textContent.trim();
+
+              navigator.clipboard.writeText(copyText).then(function () {
+                const s = copyBtn.querySelector('span');
+                if (s) s.textContent = 'Copied! ✨';
+                copyBtn.classList.add('copied');
+                setTimeout(function () {
+                  if (s) s.textContent = 'Copy';
+                  copyBtn.classList.remove('copied');
+                }, 2000);
+              }).catch(function (err) {
+                console.error('Copy failed: ', err);
+              });
+            });
+
+            next.appendChild(copyBtn);
+          }
+        }
+      } else if (
+        /^tip:\s*/i.test(text) ||
+        strongText === 'tip:' ||
+        strongText === 'tip'
+      ) {
+        p.classList.add('az-tip-callout');
+      }
+    });
+  }
 });

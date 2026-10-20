@@ -131,12 +131,6 @@ if (empty($author_bio)) {
                         'img'   => 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=120&h=120&q=80',
                     ),
                     array(
-                        'title' => 'Couple Maternity Photoshoot Prompt Ideas in Indian Saree',
-                        'url'   => home_url('/couple-maternity-photoshoot-prompts-for-gemini-ai/'),
-                        'date'  => 'October 3, 2026',
-                        'img'   => 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=120&h=120&q=80',
-                    ),
-                    array(
                         'title' => 'Eyes Prompt for Girl Instagram & ChatGPT (2026)',
                         'url'   => home_url('/prompts/eyes-prompt-for-girl/'),
                         'date'  => 'October 3, 2026',

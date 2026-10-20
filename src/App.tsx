@@ -14,17 +14,22 @@ import { PromptDetailModal } from './components/PromptDetailModal';
 import { GuideReaderModal } from './components/GuideReaderModal';
 import { ThemeHubModal } from './components/ThemeHubModal';
 import { StaticPageModal } from './components/StaticPageModal';
-import { SingleArticleMaternity } from './components/SingleArticleMaternity';
 import { AboutUsPage } from './components/AboutUsPage';
 import { CATEGORIES_DATA, PROMPTS_DATA, GUIDES_DATA } from './data/promptsData';
 import { PromptItem, GuideItem } from './types';
 
 export default function App() {
-  // Current view routing ('home' for the homepage, 'maternity-article' for the single article guide, 'about' for About Us)
-  const [currentView, setCurrentView] = useState<'home' | 'maternity-article' | 'about'>(() => {
+  // Current view routing ('home' for the homepage, 'about' for About Us, '404' for removed/missing permalinks)
+  const [currentView, setCurrentView] = useState<'home' | 'about' | '404'>(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('view') === 'maternity') return 'maternity-article';
+      const path = window.location.pathname;
+      if (
+        urlParams.get('view') === 'maternity' ||
+        path.includes('couple-maternity-photoshoot-prompts-for-gemini-ai')
+      ) {
+        return '404';
+      }
       if (urlParams.get('view') === 'about') return 'about';
     } catch {
       // ignore
@@ -193,20 +198,49 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {currentView === 'maternity-article' ? (
-          <SingleArticleMaternity
-            onBackToHome={() => {
-              setCurrentView('home');
-              setActiveNav('Home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenThemeHub={() => setThemeHubOpen(true)}
-            onSelectCategory={handleSelectCategory}
-            onOpenPrompt={(id) => {
-              const p = PROMPTS_DATA.find((item) => item.id === id);
-              if (p) setSelectedPrompt(p);
-            }}
-          />
+        {currentView === '404' ? (
+          <div className="max-w-3xl mx-auto px-4 py-24 text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 mb-6">
+              <span>HTTP 410 Gone / 404 Not Found</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-['Outfit'] mb-4">
+              Article Permanently Removed
+            </h1>
+            <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed mb-8 max-w-xl mx-auto">
+              The article <strong className="text-slate-800 dark:text-slate-200">"Couple Maternity Photoshoot Prompts for Gemini AI (2026): 11+ Indian &amp; Western Pregnancy Photo Ideas"</strong> and its dedicated single-post template have been completely deleted from AIPromptZyra.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <button
+                onClick={() => {
+                  setCurrentView('home');
+                  setActiveNav('Home');
+                  if (window.history.pushState) {
+                    window.history.pushState({}, '', '/');
+                  }
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-sm transition-all shadow-md shadow-purple-500/20 cursor-pointer"
+              >
+                Return to Homepage
+              </button>
+              <button
+                onClick={() => {
+                  setCurrentView('home');
+                  setActiveNav('Guides');
+                  if (window.history.pushState) {
+                    window.history.pushState({}, '', '/');
+                  }
+                  setTimeout(() => {
+                    const el = document.getElementById('guides-section');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 50);
+                }}
+                className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm transition-all cursor-pointer"
+              >
+                Browse Active Guides
+              </button>
+            </div>
+          </div>
         ) : currentView === 'about' ? (
           <AboutUsPage
             onBackToHome={() => {
@@ -218,8 +252,7 @@ export default function App() {
             onSelectCategory={handleSelectCategory}
             onSelectGuideBySlug={(slug) => {
               if (slug === 'couple-maternity-photoshoot-prompts-for-gemini-ai') {
-                setCurrentView('maternity-article');
-                setActiveNav('Maternity Article');
+                setCurrentView('404');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               } else {
                 const g = GUIDES_DATA.find((item) => item.slug === slug);
@@ -256,13 +289,7 @@ export default function App() {
               savedGuides={savedGuides}
               onToggleSaveGuide={handleToggleSaveGuide}
               onSelectGuide={(g) => {
-                if (g.id === 'guide-maternity' || g.slug === 'couple-maternity-photoshoot-prompts-for-gemini-ai') {
-                  setCurrentView('maternity-article');
-                  setActiveNav('Maternity Article');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                  setSelectedGuide(g);
-                }
+                setSelectedGuide(g);
               }}
               onViewAllGuides={() => {
                 const el = document.getElementById('guides-section');

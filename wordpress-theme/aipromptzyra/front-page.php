@@ -243,9 +243,8 @@ get_header(); ?>
                 endif;
                 wp_reset_postdata();
             else :
-                // Curated library of 30 distinct published articles & tutorials
+                // Curated library of distinct published articles & tutorials
                 $curated_articles = array(
-                    array('title' => 'Couple Maternity Photoshoot Prompts for Gemini AI (2026)', 'desc' => '11+ ultra-realistic couple pregnancy photoshoot ideas for Gemini and ChatGPT in Indian sarees and western gowns.', 'date' => 'Oct 2, 2026', 'img' => 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/couple-maternity-photoshoot-prompts-for-gemini-ai/')),
                     array('title' => 'Gemini Imagen 3 Prompting Masterclass: Photorealistic Portraits', 'desc' => 'Deep-dive into aperture settings, natural skin texture prompts, and lighting keywords for Google Gemini.', 'date' => 'Jan 15, 2026', 'img' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/gemini-imagen-3-prompting-masterclass/')),
                     array('title' => 'Indian Traditional Wedding Prompt for Gemini AI (2026)', 'desc' => 'Royal groom sherwani and bridal crimson lehenga portraits in ornate mandap palace courtyards.', 'date' => 'Jan 12, 2026', 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/indian-wedding-photo-prompt-for-gemini/')),
                     array('title' => 'How to Write Better AI Prompts: Beginner to Pro Guide', 'desc' => 'Step-by-step framework to engineer concise, high-converting prompts for image generators.', 'date' => 'Jan 10, 2026', 'img' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/how-to-write-better-ai-prompts/')),

@@ -10,8 +10,8 @@ interface HeaderProps {
   activeNav: string;
   setActiveNav: (nav: string) => void;
   onOpenPage: (pageSlug: string) => void;
-  currentView?: 'home' | 'maternity-article' | 'about';
-  onSelectView?: (view: 'home' | 'maternity-article' | 'about') => void;
+  currentView?: 'home' | 'about' | '404';
+  onSelectView?: (view: 'home' | 'about') => void;
   onSelectCategory?: (slug: string) => void;
 }
 
@@ -64,16 +64,6 @@ export const Header: React.FC<HeaderProps> = ({
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const handleMaternityArticleClick = () => {
-    setActiveNav('Maternity Article');
-    setMobileMenuOpen(false);
-    setCategoriesDropdownOpen(false);
-    if (onSelectView) {
-      onSelectView('maternity-article');
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -197,20 +187,6 @@ export const Header: React.FC<HeaderProps> = ({
             Prompt Builder
           </button>
 
-          {/* Couple Maternity Guide Pill */}
-          <button
-            onClick={handleMaternityArticleClick}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              currentView === 'maternity-article'
-                ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-md shadow-purple-500/25 ring-2 ring-purple-400/40'
-                : 'text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/60 hover:bg-violet-100 dark:hover:bg-violet-900/60 border border-violet-200 dark:border-violet-800/60'
-            }`}
-            title="Read: Couple Maternity Photoshoot Prompts for Gemini AI"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Maternity Guide</span>
-          </button>
-
           <button
             onClick={() => handleNavClick('guides-section', 'Guides')}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
@@ -295,13 +271,6 @@ export const Header: React.FC<HeaderProps> = ({
             className="w-full text-left px-3 py-2 text-sm font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30"
           >
             Home
-          </button>
-          <button
-            onClick={handleMaternityArticleClick}
-            className="w-full text-left px-3 py-2 text-sm font-bold rounded-lg text-white bg-gradient-to-r from-violet-600 to-purple-600 flex items-center justify-between"
-          >
-            <span>✨ Couple Maternity Article Guide</span>
-            <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded">Guide</span>
           </button>
           
           {/* Mobile Category Shortcuts */}

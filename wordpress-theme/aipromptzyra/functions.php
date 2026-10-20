@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-define('AIPROMPTZYRA_VERSION', '1.0.1');
+define('AIPROMPTZYRA_VERSION', '1.0.3');
 define('AIPROMPTZYRA_DIR', get_template_directory());
 define('AIPROMPTZYRA_URI', get_template_directory_uri());
 
@@ -319,16 +319,6 @@ function aipromptzyra_scripts() {
         array('aipromptzyra-style'),
         AIPROMPTZYRA_VERSION
     );
-
-    // Conditionally enqueue scoped styles ONLY for the Couple Maternity single article redesign
-    if (is_single('couple-maternity-photoshoot-prompts-for-gemini-ai') || is_page_template('single-couple-maternity-photoshoot-prompts-for-gemini-ai.php')) {
-        wp_enqueue_style(
-            'aipromptzyra-maternity-single',
-            AIPROMPTZYRA_URI . '/assets/css/single-couple-maternity-ai.css',
-            array('aipromptzyra-theme-css'),
-            AIPROMPTZYRA_VERSION
-        );
-    }
 
     wp_enqueue_script(
         'aipromptzyra-theme-js',

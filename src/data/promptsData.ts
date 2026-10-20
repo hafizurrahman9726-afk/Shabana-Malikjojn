@@ -644,16 +644,6 @@ export const PROMPTS_DATA: PromptItem[] = [
 
 export const GUIDES_DATA: GuideItem[] = [
   {
-    id: 'guide-maternity',
-    slug: 'couple-maternity-photoshoot-prompts-for-gemini-ai',
-    title: 'Couple Maternity Photoshoot Prompts for Gemini AI (2026)',
-    desc: '11+ Indian & Western pregnancy photo ideas: Godh Bharai silk saree, flying gown, beach sunset & studio poses.',
-    date: 'Oct 2, 2026',
-    img: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&auto=format&fit=crop&q=80',
-    readTime: '7 min read',
-    content: 'Curated 11+ ultra-realistic couple maternity prompts for Gemini AI, ChatGPT (DALL-E 3), and Bing Image Creator with dual-face consistency tips and styling guidelines.',
-  },
-  {
     id: 'guide-imagen-3-masterclass',
     slug: 'gemini-imagen-3-prompting-masterclass',
     title: 'Gemini Imagen 3 Prompting Masterclass: Photorealistic Portraits',
@@ -1104,14 +1094,8 @@ export const AUTHORS_DATA: AuthorProfile[] = [
     avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=320&auto=format&fit=crop&q=80',
     bio: 'Editorial writer and prompt designer focusing on couple photography, maternity shoots, and emotion-driven AI portraits. Researches cultural styling, wardrobe details, and posing aesthetics.',
     categories: ['Couple Prompts', 'AI Photo Prompts'],
-    articleCount: 12,
+    articleCount: 11,
     featuredArticles: [
-      {
-        title: 'Couple Maternity Photoshoot Prompts for Gemini AI (2026)',
-        slug: 'couple-maternity-photoshoot-prompts-for-gemini-ai',
-        category: 'Couple Prompts',
-        date: 'Oct 2, 2026',
-      },
       {
         title: 'Romantic Couple Golden Hour Photography Prompts',
         slug: 'romantic-couple-golden-hour',

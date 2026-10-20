@@ -6,7 +6,7 @@ interface FooterProps {
   onOpenPage: (pageSlug: string) => void;
   onSelectCategory: (categorySlug: string) => void;
   onOpenThemeHub: () => void;
-  onSelectView?: (view: 'home' | 'maternity-article' | 'about') => void;
+  onSelectView?: (view: 'home' | 'about') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({

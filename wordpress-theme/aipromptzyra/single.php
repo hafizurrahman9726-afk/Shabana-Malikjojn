@@ -12,12 +12,6 @@ get_header(); ?>
     <?php
     while (have_posts()) :
         the_post();
-
-        // Strictly scoped routing for couple maternity single article redesign
-        if (is_single('couple-maternity-photoshoot-prompts-for-gemini-ai') || get_the_ID() == 61594710183320) {
-            get_template_part('template-parts/single', 'couple-maternity-ai');
-            continue;
-        }
     ?>
         <div class="single-article-main-col">
             <article id="post-<?php the_ID(); ?>" <?php post_class('article-single'); ?>>

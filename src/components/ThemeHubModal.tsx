@@ -213,47 +213,6 @@ get_header(); ?>
   ...
 });`,
     },
-    'single-couple-maternity.php': {
-      desc: 'Dedicated single article template strictly scoped for post ID 61594710183320 (Couple Maternity Photoshoot Prompts).',
-      code: `<?php
-/**
- * Template Name: Couple Maternity AI Single Article
- * Post: couple-maternity-photoshoot-prompts-for-gemini-ai
- * Wrapper: .single-couple-maternity-ai-article
- */
-get_header(); ?>
-<main id="primary" class="site-main container scma-main-container">
-    <?php
-    while (have_posts()) : the_post();
-        get_template_part('template-parts/single', 'couple-maternity-ai');
-    endwhile;
-    ?>
-</main>
-<?php get_footer(); ?>`,
-    },
-    'single-couple-maternity-ai.css': {
-      desc: '100% scoped CSS strictly targeting .single-couple-maternity-ai-article to prevent any side effects on other pages.',
-      code: `/* Scoped Styles for Couple Maternity AI Single Article */
-.single-couple-maternity-ai-article {
-    width: 100%;
-    max-width: 960px;
-    margin: 0 auto;
-}
-.single-couple-maternity-ai-article .scma-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 1rem;
-}
-.single-couple-maternity-ai-article .scma-copy-btn {
-    background: #7c3aed;
-    color: #ffffff;
-    border-radius: 0.5rem;
-}
-.single-couple-maternity-ai-article .scma-launch-btn.gemini {
-    background: #f5f3ff;
-    color: #6d28d9;
-}`,
-    },
     'template-parts/sidebar-single.php': {
       desc: 'Single article right sidebar with Post Author (verified badge), Trending Prompts, and 3 approved Categories.',
       code: `<?php
