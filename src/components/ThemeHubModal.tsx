@@ -172,6 +172,40 @@ Text Domain: aipromptzyra
 </body>
 </html>`,
     },
+    'single.php': {
+      desc: 'Clean single post template without outer rounded cards, unboxed prompt text, and without bottom author bio card.',
+      code: `<?php
+/**
+ * Clean Single Post Template
+ * Border-free, unboxed prompts, responsive mobile layout
+ */
+get_header(); ?>
+<main id="primary" class="site-main container single-article-layout">
+    <?php while (have_posts()) : the_post(); ?>
+        <div class="single-article-main-col">
+            <article id="post-<?php the_ID(); ?>" <?php post_class('article-single'); ?>>
+                <header class="entry-header">
+                    <h1 class="entry-title"><?php the_title(); ?></h1>
+                    <div class="entry-meta-bar">...</div>
+                </header>
+                <?php if (has_post_thumbnail()) : ?>
+                    <figure class="entry-featured-media"><?php the_post_thumbnail('large'); ?></figure>
+                <?php endif; ?>
+                <div class="entry-content">
+                    <?php the_content(); ?>
+                </div>
+                <?php if (has_tag()) : ?>
+                    <footer class="entry-footer"><?php the_tags(); ?></footer>
+                <?php endif; ?>
+            </article>
+        </div>
+        <div class="single-article-sidebar-col">
+            <?php get_sidebar('single'); ?>
+        </div>
+    <?php endwhile; ?>
+</main>
+<?php get_footer(); ?>`,
+    },
     'single-prompt.php': {
       desc: 'Dedicated single prompt template with artwork display, one-click copy box, and parameters.',
       code: `<?php

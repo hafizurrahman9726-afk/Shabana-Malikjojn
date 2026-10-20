@@ -122,42 +122,11 @@ get_header(); ?>
                     ?>
                 </div>
 
-                <footer class="entry-footer">
-                    <?php the_tags('<div class="entry-tags"><span class="tags-label">' . esc_html__('Tags:', 'aipromptzyra') . '</span> ', ' ', '</div>'); ?>
-
-                    <!-- End-of-article Author Bio Card -->
-                    <div class="author-bio-card">
-                        <div class="author-bio-avatar-wrap">
-                            <?php if ($author_avatar) : ?>
-                                <?php echo get_avatar($author_id, 68, '', esc_attr($author_name), array('class' => 'bio-avatar-img')); ?>
-                            <?php endif; ?>
-                        </div>
-                        <div class="author-bio-content">
-                            <div class="bio-kicker"><?php esc_html_e('WRITTEN BY', 'aipromptzyra'); ?></div>
-                            <h3 class="bio-author-title">
-                                <?php if ($author_url) : ?>
-                                    <a href="<?php echo esc_url($author_url); ?>"><?php echo esc_html($author_name); ?></a>
-                                <?php else : ?>
-                                    <?php echo esc_html($author_name); ?>
-                                <?php endif; ?>
-                            </h3>
-                            <p class="bio-author-desc">
-                                <?php
-                                if ($author_bio) {
-                                    echo esc_html($author_bio);
-                                } else {
-                                    printf(esc_html__('Author and AI prompt researcher at AIPromptZyra specializing in high-fidelity generative formulas and visual tutorials.', 'aipromptzyra'));
-                                }
-                                ?>
-                            </p>
-                            <?php if ($author_url) : ?>
-                                <a href="<?php echo esc_url($author_url); ?>" class="bio-archive-link">
-                                    <?php printf(esc_html__('View all articles by %s', 'aipromptzyra'), esc_html($author_name)); ?> &rarr;
-                                </a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </footer>
+                <?php if (has_tag()) : ?>
+                    <footer class="entry-footer">
+                        <?php the_tags('<div class="entry-tags"><span class="tags-label">' . esc_html__('Tags:', 'aipromptzyra') . '</span> ', ' ', '</div>'); ?>
+                    </footer>
+                <?php endif; ?>
             </article>
 
             <!-- Post Navigation -->

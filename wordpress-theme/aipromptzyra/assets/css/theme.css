@@ -40,12 +40,15 @@ html {
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .brand-icon {
   width: 36px;
   height: 36px;
   border-radius: 8px;
+  flex-shrink: 0;
 }
 
 .brand-title {
@@ -54,6 +57,8 @@ html {
   font-weight: 800;
   color: var(--az-text);
   letter-spacing: -0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .main-navigation .nav-menu {
@@ -1510,11 +1515,60 @@ html {
 }
 
 @media (max-width: 768px) {
-  .main-navigation {
-    display: none;
+  .site-header-inner {
+    height: 60px;
+    gap: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .brand-title {
+    font-size: 1.15rem;
+    white-space: nowrap;
+  }
+  .brand-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .header-actions {
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-end;
+  }
+  .header-search-form {
+    flex: 1;
+    min-width: 0;
+    max-width: 170px;
+  }
+  .header-search-input {
+    width: 100%;
+    min-width: 80px;
+    max-width: 170px;
+    padding: 6px 12px 6px 32px;
+    font-size: 0.8125rem;
+  }
+  .header-search-input:focus {
+    width: 100%;
+    max-width: 180px;
+  }
+  .header-search-input-wrapper .search-icon {
+    left: 10px;
+    width: 14px;
+    height: 14px;
+  }
+  .theme-toggle-btn {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
   }
   .mobile-toggle-btn {
     display: block;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+  }
+  .main-navigation {
+    display: none;
   }
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1919,16 +1973,43 @@ html {
 }
 
 /* ==========================================================================
-   Single Article Layout & Sidebar (Post Author, Trending Prompts, Categories)
-   Reference: Screenshot AIPromptZyra Sidebar Specification
+   Full White Background for Single Posts (#FFFFFF)
    ========================================================================== */
+body.single,
+body.single-post,
+body.single-prompt,
+body.single #page,
+body.single #content,
+body.single .site-content,
+body.single .single-article-layout,
+body.single-post #page,
+body.single-post #content,
+body.single-post .site-content,
+body.single-post .single-article-layout,
+body.single-prompt #page,
+body.single-prompt #content,
+body.single-prompt .site-content,
+body.single-prompt .single-prompt-container {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
 
 .single-article-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 32px;
-  padding-top: 36px;
+  padding-top: 24px;
   padding-bottom: 64px;
+}
+
+@media (max-width: 768px) {
+  .single-article-layout {
+    padding-top: 14px;
+    padding-bottom: 40px;
+    gap: 20px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -1949,24 +2030,26 @@ html {
 }
 
 .article-single {
-  background: var(--az-surface, #ffffff);
-  border: 1px solid var(--az-border, #e2e8f0);
-  border-radius: 20px;
-  padding: 38px 44px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0 0 24px 0;
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {
   .article-single {
-    padding: 24px 18px;
-    border-radius: 16px;
+    padding: 0 0 16px 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 }
 
 [data-theme="dark"] .article-single {
-  background: #111726;
-  border-color: #1e293b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .single-article-sidebar {
@@ -3111,86 +3194,36 @@ html {
   color: #c4b5fd;
 }
 
-/* Prompt Label Badge */
+/* Prompt Label Badge - Completely removed/hidden per specification */
 .article-single .entry-content .az-prompt-label,
 .entry-content .az-prompt-label,
-.article-single .entry-content p:has(> strong:only-child) {
-  display: inline-flex;
+.az-prompt-label {
+  display: none !important;
+}
+
+/* Prompt Action Bar with Clean Copy Button positioned above prompt text */
+.az-prompt-action-bar {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.8125rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #7c3aed;
-  background: rgba(124, 58, 237, 0.08);
-  border: 1px solid rgba(124, 58, 237, 0.22);
-  padding: 4px 14px;
-  border-radius: 9999px;
-  margin-top: 1rem;
-  margin-bottom: 0.65rem;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+  margin-bottom: 0.35rem;
 }
 
-[data-theme="dark"] .article-single .entry-content .az-prompt-label,
-[data-theme="dark"] .entry-content .az-prompt-label,
-[data-theme="dark"] .article-single .entry-content p:has(> strong:only-child) {
-  color: #c4b5fd;
-  background: rgba(124, 58, 237, 0.2);
-  border-color: rgba(124, 58, 237, 0.4);
-}
-
-.article-single .entry-content .az-prompt-label strong,
-.entry-content .az-prompt-label strong,
-.article-single .entry-content p:has(> strong:only-child) strong {
-  color: inherit;
-}
-
-/* Prompt Box Card */
-.article-single .entry-content .az-prompt-box,
-.entry-content .az-prompt-box,
-.article-single .entry-content p:has(> strong:only-child) + p {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-left: 4px solid #7c3aed;
-  border-radius: 14px;
-  padding: 18px 22px;
-  margin-top: 0;
-  margin-bottom: 2rem;
-  font-size: 1.03125rem;
-  line-height: 1.75;
-  color: #1e293b;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  position: relative;
-}
-
-[data-theme="dark"] .article-single .entry-content .az-prompt-box,
-[data-theme="dark"] .entry-content .az-prompt-box,
-[data-theme="dark"] .article-single .entry-content p:has(> strong:only-child) + p {
-  background: #0f172a;
-  border-color: #1e293b;
-  border-left-color: #a78bfa;
-  color: #e2e8f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-}
-
-/* Copy Prompt Button inside Prompt Box */
 .az-copy-prompt-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  color: #64748b;
+  gap: 6px;
+  background: var(--az-surface, #ffffff);
+  border: 1px solid var(--az-border, #e2e8f0);
+  color: var(--az-text-muted, #64748b);
   font-size: 0.75rem;
   font-weight: 700;
-  padding: 5px 11px;
+  padding: 5px 12px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .az-copy-prompt-btn:hover {
@@ -3217,13 +3250,31 @@ html {
   border-color: #a78bfa;
 }
 
-@media (max-width: 640px) {
-  .article-single .entry-content .az-prompt-box,
-  .entry-content .az-prompt-box,
-  .article-single .entry-content p:has(> strong:only-child) + p {
-    padding: 16px;
-    padding-top: 38px;
-  }
+/* Unboxed Prompt Text - Clean, natural reading typography without card/border wrappers */
+.article-single .entry-content .az-prompt-box,
+.entry-content .az-prompt-box,
+.az-prompt-text-clean {
+  background: transparent !important;
+  border: none !important;
+  border-left: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin-top: 0.35rem !important;
+  margin-bottom: 1.75rem !important;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #334155;
+  box-shadow: none !important;
+  position: relative;
+}
+
+[data-theme="dark"] .article-single .entry-content .az-prompt-box,
+[data-theme="dark"] .entry-content .az-prompt-box,
+[data-theme="dark"] .az-prompt-text-clean {
+  background: transparent !important;
+  border: none !important;
+  color: #cbd5e1;
+  box-shadow: none !important;
 }
 
 /* Tip Callout */
@@ -3325,112 +3376,9 @@ html {
   margin-top: 0.5rem;
 }
 
-/* End-of-Article Author Bio Card */
+/* End-of-Article Author Bio Card - Removed per user specification */
 .author-bio-card {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  background: var(--az-surface, #ffffff);
-  border: 1px solid var(--az-border, #e2e8f0);
-  border-radius: 20px;
-  padding: 28px;
-  margin-top: 36px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-[data-theme="dark"] .author-bio-card {
-  background: #111726;
-  border-color: #1e293b;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-}
-
-@media (max-width: 640px) {
-  .author-bio-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 22px;
-  }
-}
-
-.author-bio-avatar-wrap {
-  width: 68px;
-  height: 68px;
-  border-radius: 9999px;
-  overflow: hidden;
-  border: 3px solid rgba(124, 58, 237, 0.25);
-  flex-shrink: 0;
-}
-
-.author-bio-avatar-wrap .bio-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.author-bio-content {
-  flex: 1;
-}
-
-.bio-kicker {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #7c3aed;
-  margin-bottom: 4px;
-}
-
-[data-theme="dark"] .bio-kicker {
-  color: #c4b5fd;
-}
-
-.bio-author-title {
-  font-family: var(--az-font-heading, 'Outfit', sans-serif);
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--az-text, #0f172a);
-  margin: 0 0 6px 0;
-}
-
-.bio-author-title a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.bio-author-title a:hover {
-  color: #7c3aed;
-}
-
-[data-theme="dark"] .bio-author-title {
-  color: #ffffff;
-}
-
-.bio-author-desc {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--az-text-muted, #64748b);
-  margin: 0 0 12px 0;
-}
-
-.bio-archive-link {
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: #7c3aed;
-  text-decoration: none;
-  transition: transform 0.2s;
-}
-
-.bio-archive-link:hover {
-  text-decoration: underline;
-  transform: translateX(3px);
-}
-
-[data-theme="dark"] .bio-archive-link {
-  color: #c4b5fd;
+  display: none !important;
 }
 
 /* Custom Editor Content in About Us */

@@ -99,29 +99,8 @@ export const GuideReaderModal: React.FC<GuideReaderModalProps> = ({ guide, onClo
           {guide.content.trim()}
         </div>
 
-        {/* Author / Footer */}
-        <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <div className="relative shrink-0">
-              <img
-                src={matchedAuthor ? matchedAuthor.avatar : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'}
-                alt={matchedAuthor ? matchedAuthor.name : 'Editorial Team'}
-                className="w-11 h-11 rounded-full object-cover border-2 border-purple-500/30"
-              />
-              <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[8px]" title="Verified">
-                ✓
-              </span>
-            </div>
-            <div>
-              <p className="text-xs font-bold text-slate-900 dark:text-white">
-                {matchedAuthor ? matchedAuthor.name : 'AIPromptzyra Editorial Team'}
-              </p>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                {matchedAuthor ? matchedAuthor.role : 'Prompt Engineering & Creative AI Specialists'}
-              </p>
-            </div>
-          </div>
-
+        {/* Modal Bottom Actions */}
+        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end">
           <button
             onClick={handleShare}
             className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1.5 transition-colors"

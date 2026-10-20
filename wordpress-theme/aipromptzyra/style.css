@@ -4,7 +4,7 @@ Theme URI: https://aipromptzyra.com/
 Author: AIPromptzyra Team
 Author URI: https://aipromptzyra.com/about/
 Description: A premium, ultra-fast WordPress theme crafted for AI prompt discovery, visual prompt categorization, dynamic prompt builders, and creative tutorials. Designed for Gemini, ChatGPT, and Midjourney creators.
-Version: 1.0.3
+Version: 1.0.5
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -110,4 +110,160 @@ img {
   top: 5px;
   width: auto;
   z-index: 100000;
+}
+
+/* ==========================================================================
+   Clean Single Article Layout & Unboxed Prompts (v1.0.4 Update)
+   - Removes outer card borders, rounded containers, and card shadows
+   - Removes dedicated 'Prompt:' labels and blue/purple prompt boxes
+   - Removes bottom 'WRITTEN BY' author card across all single posts
+   - Fixes mobile header brand text wrapping & search bar responsive width
+   ========================================================================== */
+
+/* 1. Full White Background on Single Posts (#FFFFFF) & Remove Outer Rounded Border */
+body.single,
+body.single-post,
+body.single-prompt,
+body.single #page,
+body.single #content,
+body.single .site-content,
+body.single .single-article-layout,
+body.single-post #page,
+body.single-post #content,
+body.single-post .site-content,
+body.single-post .single-article-layout,
+body.single-prompt #page,
+body.single-prompt #content,
+body.single-prompt .site-content,
+body.single-prompt .single-prompt-container {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+.article-single {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 24px 0 !important;
+}
+
+@media (max-width: 768px) {
+  .article-single {
+    padding: 0 0 16px 0 !important;
+  }
+  .single-article-layout {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-top: 14px !important;
+  }
+}
+
+/* 2. Remove dedicated Prompt: Labels and Unbox Prompt Text */
+.az-prompt-label,
+.article-single .entry-content .az-prompt-label,
+.entry-content .az-prompt-label {
+  display: none !important;
+}
+
+.article-single .entry-content .az-prompt-box,
+.entry-content .az-prompt-box,
+.az-prompt-text-clean {
+  background: transparent !important;
+  border: none !important;
+  border-left: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-top: 0.35rem !important;
+  margin-bottom: 1.75rem !important;
+  line-height: 1.75 !important;
+}
+
+.az-prompt-action-bar {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.az-copy-prompt-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  background: var(--az-surface, #ffffff);
+  border: 1px solid var(--az-border, #e2e8f0);
+  color: var(--az-text-muted, #64748b);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.az-copy-prompt-btn:hover {
+  color: #7c3aed;
+  border-color: #7c3aed;
+  background: #faf5ff;
+}
+
+.az-copy-prompt-btn.copied {
+  background: #10b981 !important;
+  border-color: #10b981 !important;
+  color: #ffffff !important;
+}
+
+/* 3. Remove "WRITTEN BY" author card */
+.author-bio-card {
+  display: none !important;
+}
+
+/* 4. Mobile Header & Responsive Brand Fix */
+.site-branding .brand-link,
+.brand-title {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .site-header-inner {
+    height: 60px !important;
+    gap: 8px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  .brand-title {
+    font-size: 1.15rem !important;
+  }
+  .brand-icon {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .header-actions {
+    gap: 8px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+    justify-content: flex-end !important;
+  }
+  .header-search-form {
+    flex: 1 !important;
+    min-width: 0 !important;
+    max-width: 170px !important;
+  }
+  .header-search-input {
+    width: 100% !important;
+    min-width: 80px !important;
+    max-width: 170px !important;
+    padding: 6px 12px 6px 32px !important;
+    font-size: 0.8125rem !important;
+  }
+  .theme-toggle-btn,
+  .mobile-toggle-btn {
+    width: 34px !important;
+    height: 34px !important;
+    flex-shrink: 0 !important;
+  }
 }

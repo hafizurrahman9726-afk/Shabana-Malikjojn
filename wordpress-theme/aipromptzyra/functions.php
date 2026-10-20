@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-define('AIPROMPTZYRA_VERSION', '1.0.3');
+define('AIPROMPTZYRA_VERSION', '1.0.5');
 define('AIPROMPTZYRA_DIR', get_template_directory());
 define('AIPROMPTZYRA_URI', get_template_directory_uri());
 
@@ -320,6 +320,13 @@ function aipromptzyra_scripts() {
         AIPROMPTZYRA_VERSION
     );
 
+    wp_enqueue_style(
+        'aipromptzyra-ai-prompt-box-style',
+        AIPROMPTZYRA_URI . '/assets/css/ai-prompt-box.css',
+        array('aipromptzyra-theme-css'),
+        AIPROMPTZYRA_VERSION
+    );
+
     wp_enqueue_script(
         'aipromptzyra-theme-js',
         AIPROMPTZYRA_URI . '/assets/js/theme.js',
@@ -344,6 +351,34 @@ function aipromptzyra_scripts() {
     ));
 }
 add_action('wp_enqueue_scripts', 'aipromptzyra_scripts');
+
+/**
+ * Register AI Prompt Box Custom Gutenberg Block
+ */
+function aipromptzyra_register_ai_prompt_box_block() {
+    // Register editor script for Gutenberg blocks inserter
+    wp_register_script(
+        'aipromptzyra-ai-prompt-box-editor-js',
+        AIPROMPTZYRA_URI . '/assets/js/ai-prompt-box-block.js',
+        array('wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n'),
+        AIPROMPTZYRA_VERSION,
+        true
+    );
+
+    // Register block CSS (editor & frontend)
+    wp_register_style(
+        'aipromptzyra-ai-prompt-box-style',
+        AIPROMPTZYRA_URI . '/assets/css/ai-prompt-box.css',
+        array(),
+        AIPROMPTZYRA_VERSION
+    );
+
+    register_block_type('aipromptzyra/ai-prompt-box', array(
+        'editor_script' => 'aipromptzyra-ai-prompt-box-editor-js',
+        'style'         => 'aipromptzyra-ai-prompt-box-style',
+    ));
+}
+add_action('init', 'aipromptzyra_register_ai_prompt_box_block');
 
 /**
  * AJAX Handler for Prompt Builder

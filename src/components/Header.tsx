@@ -86,7 +86,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <path d="M20 12L24 20L20 23L16 20L20 12Z" fill="#DDD6FE" />
               </svg>
             </div>
-            <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white font-['Outfit']">
+            <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white font-['Outfit'] whitespace-nowrap shrink-0">
               AIPromptzyra
             </span>
           </a>

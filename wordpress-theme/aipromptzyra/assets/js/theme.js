@@ -50,12 +50,39 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // 3. Global Copy Prompt Buttons
+  // 3. AI Prompt Box View & Copy Handlers (Custom Gutenberg Block & Global Prompts)
   document.addEventListener('click', function (e) {
-    const copyBtn = e.target.closest('.copy-prompt-btn');
+    // 3a. View Prompt Toggle (Expand / Collapse with gradient preview)
+    const viewBtn = e.target.closest('.az-btn-view-prompt, [data-action="toggle-prompt"]');
+    if (viewBtn) {
+      e.preventDefault();
+      const promptBox = viewBtn.closest('.az-ai-prompt-box');
+      if (promptBox) {
+        const wrapper = promptBox.querySelector('.az-prompt-content-wrapper');
+        if (wrapper) {
+          const isExpanded = wrapper.classList.toggle('az-expanded');
+          viewBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+          const span = viewBtn.querySelector('span');
+          if (span) {
+            span.textContent = isExpanded ? 'Hide Prompt' : 'View Prompt';
+          }
+        }
+      }
+      return;
+    }
+
+    // 3b. Copy Prompt
+    const copyBtn = e.target.closest('.copy-prompt-btn, .az-copy-prompt-btn, .az-btn-copy-prompt, [data-action="copy-prompt"]');
     if (!copyBtn) return;
 
-    const promptText = copyBtn.getAttribute('data-prompt');
+    let promptText = copyBtn.getAttribute('data-prompt');
+    if (!promptText) {
+      const promptBox = copyBtn.closest('.az-ai-prompt-box');
+      if (promptBox) {
+        promptText = promptBox.getAttribute('data-prompt') || promptBox.querySelector('.az-prompt-text-preview')?.textContent?.trim();
+      }
+    }
+
     if (!promptText) return;
 
     navigator.clipboard.writeText(promptText).then(() => {
@@ -87,40 +114,56 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // 5. Enhance Single Article Prompts & Callouts
+  // 5. Clean Prompt Presentation (Remove 'Prompt:' labels, unbox prompt text, preserve clean copy button)
   const entryContent = document.querySelector('.article-single .entry-content');
   if (entryContent) {
-    const paragraphs = entryContent.querySelectorAll('p');
+    // 5a. Remove any preexisting .az-prompt-label elements
+    entryContent.querySelectorAll('.az-prompt-label').forEach(el => el.remove());
+
+    // 5b. Scan paragraphs for dedicated prompt labels
+    const paragraphs = Array.from(entryContent.querySelectorAll('p'));
     paragraphs.forEach(function (p) {
+      if (!p.parentNode) return;
       const text = p.textContent.trim();
       const strongEl = p.querySelector('strong');
       const strongText = strongEl ? strongEl.textContent.trim().toLowerCase() : '';
 
-      // Check for prompt label (e.g. "Prompt:" or strong "Prompt:")
-      if (
+      // Check if paragraph is purely a "Prompt:" or "PROMPT:" label
+      const isPromptLabel =
         /^prompt:\s*$/i.test(text) ||
+        /^prompt\s*$/i.test(text) ||
+        /^ai prompt:\s*$/i.test(text) ||
         strongText === 'prompt:' ||
-        strongText === 'prompt'
-      ) {
-        p.classList.add('az-prompt-label');
+        strongText === 'prompt' ||
+        strongText === 'ai prompt:';
+
+      if (isPromptLabel) {
         const next = p.nextElementSibling;
-        if (next && next.tagName === 'P') {
-          next.classList.add('az-prompt-box');
-          if (!next.querySelector('.az-copy-prompt-btn')) {
+
+        // Remove the dedicated "Prompt:" label from the DOM
+        p.remove();
+
+        if (next && (next.tagName === 'P' || next.tagName === 'DIV' || next.tagName === 'BLOCKQUOTE')) {
+          // Remove any legacy box styling
+          next.classList.remove('az-prompt-box');
+          next.classList.add('az-prompt-text-clean');
+
+          // Ensure an action bar with copy button is placed cleanly ABOVE the prompt text
+          const prevEl = next.previousElementSibling;
+          if (!prevEl || !prevEl.classList.contains('az-prompt-action-bar')) {
+            const actionBar = document.createElement('div');
+            actionBar.className = 'az-prompt-action-bar';
+
             const copyBtn = document.createElement('button');
             copyBtn.type = 'button';
             copyBtn.className = 'az-copy-prompt-btn';
             copyBtn.setAttribute('aria-label', 'Copy prompt to clipboard');
-            copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span>';
+            copyBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span>';
 
             copyBtn.addEventListener('click', function () {
-              // Copy text minus the button text
-              const clone = next.cloneNode(true);
-              const b = clone.querySelector('.az-copy-prompt-btn');
-              if (b) b.remove();
-              const copyText = clone.textContent.trim();
-
-              navigator.clipboard.writeText(copyText).then(function () {
+              // Copy the clean prompt text
+              const promptText = next.textContent.trim();
+              navigator.clipboard.writeText(promptText).then(function () {
                 const s = copyBtn.querySelector('span');
                 if (s) s.textContent = 'Copied! ✨';
                 copyBtn.classList.add('copied');
@@ -133,16 +176,17 @@ document.addEventListener('DOMContentLoaded', function () {
               });
             });
 
-            next.appendChild(copyBtn);
+            actionBar.appendChild(copyBtn);
+            next.parentNode.insertBefore(actionBar, next);
           }
         }
-      } else if (
-        /^tip:\s*/i.test(text) ||
-        strongText === 'tip:' ||
-        strongText === 'tip'
-      ) {
-        p.classList.add('az-tip-callout');
       }
+    });
+
+    // 5c. Strip any remaining legacy .az-prompt-box card styles
+    entryContent.querySelectorAll('.az-prompt-box').forEach(box => {
+      box.classList.remove('az-prompt-box');
+      box.classList.add('az-prompt-text-clean');
     });
   }
 });
