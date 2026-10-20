@@ -1,11 +1,12 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Youtube, Pin as Pinterest, Globe } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Pin as Pinterest } from 'lucide-react';
 
 interface FooterProps {
   onNavClick: (sectionId: string, navName: string) => void;
   onOpenPage: (pageSlug: string) => void;
   onSelectCategory: (categorySlug: string) => void;
   onOpenThemeHub: () => void;
+  onSelectView?: (view: 'home' | 'maternity-article' | 'about') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
@@ -13,6 +14,7 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenPage,
   onSelectCategory,
   onOpenThemeHub,
+  onSelectView,
 }) => {
   return (
     <footer className="bg-[#0B0F19] text-slate-400 pt-16 pb-12 border-t border-slate-800 relative overflow-hidden">
@@ -154,10 +156,17 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <button
-                  onClick={() => onOpenPage('about')}
-                  className="hover:text-white transition-colors"
+                  onClick={() => {
+                    if (onSelectView) {
+                      onSelectView('about');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                      onOpenPage('about');
+                    }
+                  }}
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
-                  About
+                  About Us
                 </button>
               </li>
             </ul>
@@ -282,17 +291,6 @@ export const Footer: React.FC<FooterProps> = ({
               >
                 <Instagram className="w-3 h-3" />
               </a>
-            </div>
-
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={onOpenThemeHub}
-                className="w-full text-left px-3 py-2 rounded-xl bg-purple-950/40 border border-purple-800/80 text-purple-300 hover:text-white hover:bg-purple-900/60 text-xs font-semibold flex items-center justify-between transition-colors"
-              >
-                <span>Theme Source & ZIP</span>
-                <Globe className="w-3.5 h-3.5 text-purple-400" />
-              </button>
             </div>
           </div>
         </div>

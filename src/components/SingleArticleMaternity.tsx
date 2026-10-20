@@ -20,6 +20,7 @@ import {
   Share2,
   FileCode,
   ArrowLeft,
+  ArrowRight,
   CheckCircle2,
   Compass,
   Download,
@@ -198,48 +199,22 @@ export function SingleArticleMaternity({ onBackToHome, onOpenThemeHub, onSelectC
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Left Column: Article Content */}
           <div className="lg:col-span-8 min-w-0">
-        {/* B. Breadcrumb Navigation */}
-        <nav
-          aria-label="Breadcrumb"
-          className="maternity-breadcrumbs flex items-center flex-wrap gap-2 text-xs text-slate-500 dark:text-slate-400 mb-6 py-2.5 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200/70 dark:border-slate-800/80 shadow-xs"
-        >
-          <button
-            type="button"
-            onClick={onBackToHome}
-            className="hover:text-violet-600 dark:hover:text-violet-400 font-medium transition-colors cursor-pointer inline-flex items-center gap-1"
-          >
-            Home
-          </button>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-          <button
-            type="button"
-            onClick={() => {
-              if (onSelectCategory) {
-                onSelectCategory('couple-prompts');
-              } else if (onBackToHome) {
-                onBackToHome();
-              }
-            }}
-            className="hover:text-violet-600 dark:hover:text-violet-400 font-medium transition-colors cursor-pointer"
-          >
-            Couple Prompts
-          </button>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-          <span className="text-slate-800 dark:text-slate-200 font-medium truncate max-w-[280px] sm:max-w-none" aria-current="page">
-            Couple Maternity Photoshoot Prompts for Gemini AI
-          </span>
-        </nav>
+            {/* C. Article Header */}
+            <header className="maternity-header mb-8">
+              {/* Category Pill */}
+              <div className="mb-3.5">
+                <button
+                  type="button"
+                  onClick={() => onSelectCategory && onSelectCategory('couple-prompts')}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60 hover:bg-rose-100 transition-colors cursor-pointer"
+                >
+                  <span>{MATERNITY_ARTICLE.category.name}</span>
+                </button>
+              </div>
 
-        {/* C. Article Header */}
-        <header className="maternity-header mb-8">
-          <div className="inline-flex items-center gap-2 mb-3.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-50 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300 border border-violet-200/80 dark:border-violet-800/60 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
-            <span className="tracking-wide">2026 Editorial Guide & Prompts Collection</span>
-          </div>
-
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4.5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
-            {MATERNITY_ARTICLE.h1}
-          </h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4.5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
+                {MATERNITY_ARTICLE.h1}
+              </h1>
 
           {/* Author & Publication Meta Bar */}
           <div className="flex flex-wrap items-center justify-between gap-4 py-3.5 border-y border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
@@ -723,6 +698,44 @@ export function SingleArticleMaternity({ onBackToHome, onOpenThemeHub, onSelectC
           </div>
         </section>
 
+        {/* AUTHOR BIO CARD */}
+        <section className="mb-12">
+          <div className="bg-white dark:bg-slate-800/90 rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-xs">
+            <div className="relative shrink-0">
+              <img
+                src={MATERNITY_ARTICLE.author.avatar}
+                alt={MATERNITY_ARTICLE.author.name}
+                className="w-20 h-20 rounded-full object-cover border-2 border-purple-500/40 p-0.5"
+              />
+              <span className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs shadow-sm" title="Verified Author">
+                ✓
+              </span>
+            </div>
+            <div className="flex-1 text-center sm:text-left space-y-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                Written by
+              </span>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">
+                <a href={MATERNITY_ARTICLE.author.url} className="hover:text-purple-600 transition-colors">
+                  {MATERNITY_ARTICLE.author.name}
+                </a>
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Rhea Sharma is an editorial writer and prompt designer at AIPromptZyra focusing on couple photography, maternity shoots, and emotion-driven AI portraits. She researches cultural styling, wardrobe details, and dual-subject facial consistency across Google Gemini and ChatGPT.
+              </p>
+              <div className="pt-2">
+                <a
+                  href={MATERNITY_ARTICLE.author.url}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline"
+                >
+                  <span>View all articles by {MATERNITY_ARTICLE.author.name}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* SECTION 6: COMMUNITY & EXPLORE MORE */}
         <section id="community-section" className="scroll-mt-28 mb-12">
           <div className="bg-slate-100 dark:bg-slate-900/80 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800">
@@ -793,7 +806,7 @@ export function SingleArticleMaternity({ onBackToHome, onOpenThemeHub, onSelectC
 
             {/* Author Short Biography */}
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs mb-4">
-              {MATERNITY_ARTICLE.author.name} is a passionate blogger and digital creator with years of experience in creative technology and AI prompt engineering. Through AIPromptZyra, Mariya focuses on AI photo editing prompts, festive creative ideas, couple portraits, and practical guides.
+              {MATERNITY_ARTICLE.author.name} is an editorial writer and prompt designer focusing on couple photography, maternity shoots, and emotion-driven AI portraits. Through AIPromptZyra, Rhea researches cultural styling, wardrobe details, and dual-subject consistency.
             </p>
 
             {/* "View All Guides" link matching screenshot */}

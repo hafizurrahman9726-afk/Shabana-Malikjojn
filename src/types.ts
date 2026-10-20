@@ -47,3 +47,21 @@ export interface BuilderState {
   cameraAngle: string;
   colorTone: string;
 }
+
+export interface AuthorProfile {
+  id: string;
+  name: string;
+  slug: string;
+  role: string;
+  avatar: string;
+  bio: string;
+  categories: string[];
+  articleCount: number;
+  featuredArticles: {
+    title: string;
+    slug?: string;
+    guideId?: string;
+    category: string;
+    date: string;
+  }[];
+}

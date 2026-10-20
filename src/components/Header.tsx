@@ -10,8 +10,8 @@ interface HeaderProps {
   activeNav: string;
   setActiveNav: (nav: string) => void;
   onOpenPage: (pageSlug: string) => void;
-  currentView?: 'home' | 'maternity-article';
-  onSelectView?: (view: 'home' | 'maternity-article') => void;
+  currentView?: 'home' | 'maternity-article' | 'about';
+  onSelectView?: (view: 'home' | 'maternity-article' | 'about') => void;
   onSelectCategory?: (slug: string) => void;
 }
 
@@ -35,12 +35,15 @@ export const Header: React.FC<HeaderProps> = ({
     setActiveNav(navName);
     setMobileMenuOpen(false);
     setCategoriesDropdownOpen(false);
+    if (navName === 'About') {
+      if (onSelectView) {
+        onSelectView('about');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (onSelectView) {
       onSelectView('home');
-    }
-    if (navName === 'About') {
-      onOpenPage('about');
-      return;
     }
     const el = document.getElementById(sectionId);
     if (el) {
@@ -222,8 +225,8 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={() => handleNavClick('about', 'About')}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-              activeNav === 'About'
-                ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300'
+              currentView === 'about' || activeNav === 'About'
+                ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-bold'
                 : 'text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
             }`}
           >

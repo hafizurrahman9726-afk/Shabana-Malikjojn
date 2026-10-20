@@ -28,22 +28,90 @@ export const StaticPageModal: React.FC<StaticPageModalProps> = ({ pageSlug, onCl
         return {
           title: 'About AIPromptzyra',
           icon: <Info className="w-6 h-6 text-purple-600" />,
-          subtitle: 'Empowering creators with clear, verified, copy-ready AI prompts.',
+          subtitle: 'Empowering creators with clear, verified, copy-ready AI prompts and tutorials.',
           content: (
-            <div className="space-y-4 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              <p>
-                <strong>AIPromptzyra</strong> is a dedicated AI prompt discovery and prompt engineering platform designed to bridge the gap between creative imagination and machine intelligence.
-              </p>
-              <h4 className="font-bold text-slate-900 dark:text-white pt-2">Our Mission</h4>
-              <p>
-                With the explosive growth of multimodal models like Google Gemini, OpenAI ChatGPT, and Midjourney, getting exact photographic, cinematic, or artistic results requires structured descriptive syntax. We create, test, and publish copy-ready formulas that work reliably.
-              </p>
-              <h4 className="font-bold text-slate-900 dark:text-white pt-2">Core Principles</h4>
-              <ul className="list-disc pl-5 space-y-1">
-                <li><strong>Grounded Quality:</strong> Every prompt formula is tested across real AI engines.</li>
-                <li><strong>Zero Slop:</strong> We avoid repetitive, non-working keyword stuffing.</li>
-                <li><strong>Total Transparency:</strong> We provide camera parameters, lighting tips, and aspect ratios.</li>
-              </ul>
+            <div className="space-y-6 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-1">About AIPromptZyra</h4>
+                <p>
+                  <strong>AIPromptzyra</strong> is an independent AI prompt research resource. We test, refine, and publish copy-ready formulas for models like Google Gemini, ChatGPT, and Midjourney, enabling artists, creators, and enthusiasts to achieve photorealistic and artistic results with structured syntax.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-1">Our Story</h4>
+                <p>
+                  Generative AI models require precise optical keywords, lighting parameters, and sensory details rather than conversational shorthand. AIPromptZyra was founded to eliminate the trial-and-error cycle by publishing transparent, reproducible prompt formulas that anyone can adapt.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-2">What You Can Find Here</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                  <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/70 dark:border-amber-800/50">
+                    <strong className="text-amber-800 dark:text-amber-300 block mb-1">🔥 Trending Prompts</strong>
+                    Viral aesthetics, neon urban photography, and video generation tips.
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/70 dark:border-rose-800/50">
+                    <strong className="text-rose-800 dark:text-rose-300 block mb-1">💑 Couple Prompts</strong>
+                    Couple maternity shoots, traditional weddings, and candid sunset portraits.
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/70 dark:border-indigo-800/50">
+                    <strong className="text-indigo-800 dark:text-indigo-300 block mb-1">📸 AI Photo Prompts</strong>
+                    Photorealistic studio lighting, camera optics, and natural skin textures.
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-2">Meet Our Verified Writers</h4>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <img
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80"
+                      alt="Hafizur Rahman"
+                      className="w-10 h-10 rounded-full object-cover border border-purple-500 shrink-0"
+                    />
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">Hafizur Rahman <span className="text-[10px] bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 px-1.5 py-0.5 rounded font-normal ml-1">Founder & Lead Curator</span></div>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Focuses on camera optics, lighting formulas, and technical evaluation across Gemini &amp; ChatGPT.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <img
+                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80"
+                      alt="Rhea Sharma"
+                      className="w-10 h-10 rounded-full object-cover border border-rose-500 shrink-0"
+                    />
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">Rhea Sharma <span className="text-[10px] bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 px-1.5 py-0.5 rounded font-normal ml-1">Editorial Writer</span></div>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Specializes in couple photography, maternity sessions, and culturally authentic styling.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <img
+                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80"
+                      alt="Aditya Sen"
+                      className="w-10 h-10 rounded-full object-cover border border-amber-500 shrink-0"
+                    />
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">Aditya Sen <span className="text-[10px] bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 px-1.5 py-0.5 rounded font-normal ml-1">Creative Technologist</span></div>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Tracks emerging visual aesthetics, cyberpunk cinematography, and generative video tools.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-1">Our Editorial Approach</h4>
+                <ul className="list-disc pl-5 space-y-1 text-xs">
+                  <li><strong>Structured Prompts:</strong> Subject &rarr; Environment &rarr; Lighting &rarr; Camera &rarr; Style.</li>
+                  <li><strong>Zero Slop:</strong> We avoid repetitive, non-working keyword stuffing.</li>
+                  <li><strong>Reader Feedback:</strong> We review and update guides based on tool updates.</li>
+                </ul>
+              </div>
             </div>
           ),
         };

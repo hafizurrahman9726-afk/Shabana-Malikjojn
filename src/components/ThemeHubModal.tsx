@@ -57,7 +57,7 @@ add_action('init', 'aipromptzyra_register_post_types');
 ...`,
     },
     'front-page.php': {
-      desc: 'Homepage template implementing Hero collage, Categories, Featured Prompts, Prompt Builder, Guides, and Newsletter.',
+      desc: 'Homepage template implementing Hero collage, Categories, Latest Guides & Tutorials (30 per page + pagination), Prompt Builder, Community, FAQs, and Author Profile.',
       code: `<?php
 /**
  * The front page template file for AIPromptzyra
@@ -72,8 +72,8 @@ get_header(); ?>
     <!-- 2. EXPLORE PROMPTS BY CATEGORY (3 Main Categories: Trending, Couple, AI Photo) -->
     <section class="section categories-section">...</section>
 
-    <!-- 3. FEATURED PROMPTS (30 published articles per page + orange pagination) -->
-    <section class="section featured-section">...</section>
+    <!-- 3. LATEST GUIDES & TUTORIALS (30 published articles per page + pagination) -->
+    <section id="guides-section" class="section guides-section">...</section>
 
     <!-- 4. AI PROMPT BUILDER (8 fields) -->
     <section id="prompt-builder" class="section builder-section">...</section>

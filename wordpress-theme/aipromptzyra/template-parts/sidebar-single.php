@@ -18,12 +18,22 @@ if (!defined('ABSPATH')) {
 
 $current_post_id = get_the_ID();
 $author_id       = get_the_author_meta('ID');
-$author_name     = get_the_author() ?: 'Mariya Ansari';
+$author_name     = get_the_author();
 $author_bio      = get_the_author_meta('description');
-$author_posts_url = $author_id ? get_author_posts_url($author_id) : home_url('/author/mariya-ansari/');
+
+// Fallback to neutral editorial team identity instead of fabricated person
+if (empty($author_name)) {
+    $author_name = __('AIPromptzyra Editorial Team', 'aipromptzyra');
+}
+
+$author_posts_url = $author_id ? get_author_posts_url($author_id) : home_url('/');
 
 if (empty($author_bio)) {
-    $author_bio = __('Mariya Ansari is a passionate blogger and digital creator with years of experience in creative technology and AI prompt engineering. Through AIPromptZyra, Mariya focuses on AI photo editing prompts, festive creative ideas, couple portraits, and practical guides.', 'aipromptzyra');
+    $author_bio = sprintf(
+        /* translators: %s: author name */
+        esc_html__('%s is a prompt researcher and editorial contributor at AIPromptZyra, developing and testing photographic prompt formulas across Google Gemini, ChatGPT, and Midjourney.', 'aipromptzyra'),
+        $author_name
+    );
 }
 ?>
 

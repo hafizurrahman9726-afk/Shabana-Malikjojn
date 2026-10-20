@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { X, Calendar, Clock, BookOpen, Share2 } from 'lucide-react';
 import { GuideItem } from '../types';
+import { AUTHORS_DATA } from '../data/promptsData';
 
 interface GuideReaderModalProps {
   guide: GuideItem | null;
@@ -11,6 +12,19 @@ export const GuideReaderModal: React.FC<GuideReaderModalProps> = ({ guide, onClo
   if (!guide) return null;
 
   const [copied, setCopied] = React.useState(false);
+
+  const matchedAuthor = useMemo(() => {
+    if (!guide) return null;
+    return (
+      AUTHORS_DATA.find((a) =>
+        a.featuredArticles.some(
+          (art) => art.slug === guide.slug || art.title.toLowerCase() === guide.title.toLowerCase()
+        )
+      ) ||
+      // Default to team lead Hafizur Rahman if not explicitly assigned
+      AUTHORS_DATA[0]
+    );
+  }, [guide]);
 
   const handleShare = () => {
     if (navigator.share) {
@@ -42,19 +56,26 @@ export const GuideReaderModal: React.FC<GuideReaderModalProps> = ({ guide, onClo
         </button>
 
         {/* Metadata Top Bar */}
-        <div className="flex items-center gap-4 text-xs text-slate-400">
-          <span className="flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5" />
+        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-2">
+            <img
+              src={matchedAuthor ? matchedAuthor.avatar : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'}
+              alt={matchedAuthor ? matchedAuthor.name : 'AIPromptzyra Author'}
+              className="w-6 h-6 rounded-full object-cover border border-purple-500/40"
+            />
+            <span className="font-semibold text-slate-800 dark:text-slate-200">
+              {matchedAuthor ? matchedAuthor.name : 'AIPromptzyra Editorial Team'}
+            </span>
+          </div>
+          <span>&bull;</span>
+          <span className="flex items-center gap-1">
+            <Calendar className="w-3.5 h-3.5 text-slate-400" />
             {guide.date}
           </span>
           <span>&bull;</span>
-          <span className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5" />
+          <span className="flex items-center gap-1">
+            <Clock className="w-3.5 h-3.5 text-slate-400" />
             {guide.readTime}
-          </span>
-          <span>&bull;</span>
-          <span className="text-purple-600 dark:text-purple-400 font-bold">
-            Tutorial & Guide
           </span>
         </div>
 
@@ -79,17 +100,24 @@ export const GuideReaderModal: React.FC<GuideReaderModalProps> = ({ guide, onClo
         </div>
 
         {/* Author / Footer */}
-        <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-sm">
-              AZ
+        <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <div className="relative shrink-0">
+              <img
+                src={matchedAuthor ? matchedAuthor.avatar : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'}
+                alt={matchedAuthor ? matchedAuthor.name : 'Editorial Team'}
+                className="w-11 h-11 rounded-full object-cover border-2 border-purple-500/30"
+              />
+              <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[8px]" title="Verified">
+                ✓
+              </span>
             </div>
             <div>
               <p className="text-xs font-bold text-slate-900 dark:text-white">
-                AIPromptzyra Editorial Team
+                {matchedAuthor ? matchedAuthor.name : 'AIPromptzyra Editorial Team'}
               </p>
-              <p className="text-[11px] text-slate-400">
-                Prompt Engineering & Creative AI Specialists
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                {matchedAuthor ? matchedAuthor.role : 'Prompt Engineering & Creative AI Specialists'}
               </p>
             </div>
           </div>

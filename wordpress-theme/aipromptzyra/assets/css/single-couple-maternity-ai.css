@@ -45,68 +45,7 @@
     line-height: 1.65;
 }
 
-/* Breadcrumbs */
-.single-couple-maternity-ai-article .scma-breadcrumbs {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-    font-size: 0.8125rem;
-    color: #64748b;
-    padding: 0.625rem 1rem;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.625rem;
-    margin-bottom: 1.5rem;
-}
-
-.single-couple-maternity-ai-article .scma-breadcrumbs a {
-    color: #64748b;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.15s ease;
-}
-
-.single-couple-maternity-ai-article .scma-breadcrumbs a:hover {
-    color: #7c3aed;
-    text-decoration: underline;
-}
-
-.single-couple-maternity-ai-article .scma-breadcrumbs .scma-sep {
-    color: #94a3b8;
-    user-select: none;
-}
-
-.single-couple-maternity-ai-article .scma-breadcrumbs .scma-current {
-    color: #0f172a;
-    font-weight: 600;
-    max-width: 320px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 /* Header */
-.single-couple-maternity-ai-article .scma-kicker-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.3125rem 0.75rem;
-    background: #f5f3ff;
-    color: #6d28d9;
-    border: 1px solid #ddd6fe;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    margin-bottom: 0.875rem;
-}
-
-.single-couple-maternity-ai-article .scma-sparkle-dot {
-    width: 6px;
-    height: 6px;
-    background: #7c3aed;
-    border-radius: 50%;
-}
 
 .single-couple-maternity-ai-article .scma-title {
     font-size: 2.25rem;

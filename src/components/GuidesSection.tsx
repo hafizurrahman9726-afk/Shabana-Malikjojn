@@ -81,8 +81,7 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({
             onClick={onViewAllGuides}
             className="inline-flex items-center gap-1.5 text-sm font-bold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors group shrink-0 cursor-pointer"
           >
-            <span>View All Guides</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span>View All Guides &rarr;</span>
           </button>
         </div>
 
@@ -154,8 +153,7 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({
                       {g.date}
                     </span>
                     <span className="inline-flex items-center gap-1 font-bold text-purple-600 dark:text-purple-400 group-hover:translate-x-0.5 transition-transform">
-                      <span>Read More</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <span>Read More &rarr;</span>
                     </span>
                   </div>
                 </div>
@@ -174,20 +172,24 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({
               {/* Previous Link */}
               {safePage > 1 && (
                 <li>
-                  <button
-                    onClick={() => handlePageChange(safePage - 1)}
+                  <a
+                    href={safePage - 1 === 1 ? '#guides-section' : `?page=${safePage - 1}#guides-section`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(safePage - 1);
+                    }}
                     className="inline-flex items-center gap-1.5 px-4 h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-400 font-semibold text-xs sm:text-sm transition-all cursor-pointer shadow-xs hover:shadow"
                     aria-label="Previous page"
                   >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span>Previous</span>
-                  </button>
+                    <span>&larr; Previous</span>
+                  </a>
                 </li>
               )}
 
               {/* Numbered Page Buttons */}
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
                 const isActive = pageNum === safePage;
+                const pageUrl = pageNum === 1 ? '#guides-section' : `?page=${pageNum}#guides-section`;
                 return (
                   <li key={pageNum}>
                     {isActive ? (
@@ -198,13 +200,17 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({
                         {pageNum}
                       </span>
                     ) : (
-                      <button
-                        onClick={() => handlePageChange(pageNum)}
+                      <a
+                        href={pageUrl}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(pageNum);
+                        }}
                         className="inline-flex items-center justify-center min-w-[40px] h-10 px-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-400 font-semibold text-xs sm:text-sm transition-all cursor-pointer shadow-xs hover:shadow"
                         aria-label={`Go to page ${pageNum}`}
                       >
                         {pageNum}
-                      </button>
+                      </a>
                     )}
                   </li>
                 );
@@ -213,14 +219,17 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({
               {/* Next Link */}
               {safePage < totalPages && (
                 <li>
-                  <button
-                    onClick={() => handlePageChange(safePage + 1)}
+                  <a
+                    href={`?page=${safePage + 1}#guides-section`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(safePage + 1);
+                    }}
                     className="inline-flex items-center gap-1.5 px-4 h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-400 font-semibold text-xs sm:text-sm transition-all cursor-pointer shadow-xs hover:shadow"
                     aria-label="Next page"
                   >
-                    <span>Next</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                    <span>Next &rarr;</span>
+                  </a>
                 </li>
               )}
             </ul>

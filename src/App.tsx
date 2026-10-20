@@ -15,15 +15,17 @@ import { GuideReaderModal } from './components/GuideReaderModal';
 import { ThemeHubModal } from './components/ThemeHubModal';
 import { StaticPageModal } from './components/StaticPageModal';
 import { SingleArticleMaternity } from './components/SingleArticleMaternity';
+import { AboutUsPage } from './components/AboutUsPage';
 import { CATEGORIES_DATA, PROMPTS_DATA, GUIDES_DATA } from './data/promptsData';
 import { PromptItem, GuideItem } from './types';
 
 export default function App() {
-  // Current view routing ('home' for the homepage, 'maternity-article' for the single article guide)
-  const [currentView, setCurrentView] = useState<'home' | 'maternity-article'>(() => {
+  // Current view routing ('home' for the homepage, 'maternity-article' for the single article guide, 'about' for About Us)
+  const [currentView, setCurrentView] = useState<'home' | 'maternity-article' | 'about'>(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('view') === 'maternity') return 'maternity-article';
+      if (urlParams.get('view') === 'about') return 'about';
     } catch {
       // ignore
     }
@@ -205,6 +207,26 @@ export default function App() {
               if (p) setSelectedPrompt(p);
             }}
           />
+        ) : currentView === 'about' ? (
+          <AboutUsPage
+            onBackToHome={() => {
+              setCurrentView('home');
+              setActiveNav('Home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenContact={() => setActivePageSlug('contact')}
+            onSelectCategory={handleSelectCategory}
+            onSelectGuideBySlug={(slug) => {
+              if (slug === 'couple-maternity-photoshoot-prompts-for-gemini-ai') {
+                setCurrentView('maternity-article');
+                setActiveNav('Maternity Article');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              } else {
+                const g = GUIDES_DATA.find((item) => item.slug === slug);
+                if (g) setSelectedGuide(g);
+              }
+            }}
+          />
         ) : (
           <>
             {/* 2. Hero Section */}
@@ -251,10 +273,10 @@ export default function App() {
             {/* 5. AI Prompt Builder */}
             <PromptBuilder />
 
-            {/* 7. How to Use AI Prompts (3 Steps + Robot visual) */}
+            {/* 6. How to Use AI Prompts (3 Steps + Robot visual) */}
             <HowToUseSection />
 
-            {/* 8. Why Choose AIPromptZyra (Editorial 3-Feature Cards) */}
+            {/* 7. Why Choose AIPromptZyra (Editorial 3-Feature Cards) */}
             <WhyChooseSection onLearnMore={() => setActivePageSlug('about')} />
 
             {/* 9. Join Our Community (Facebook, Telegram, Instagram) */}
@@ -280,6 +302,7 @@ export default function App() {
         onOpenPage={(slug) => setActivePageSlug(slug)}
         onSelectCategory={handleSelectCategory}
         onOpenThemeHub={() => setThemeHubOpen(true)}
+        onSelectView={(view) => setCurrentView(view)}
       />
 
       {/* Interactive Modals */}

@@ -1,4 +1,4 @@
-import { PromptItem, CategoryItem, GuideItem } from '../types';
+import { PromptItem, CategoryItem, GuideItem, AuthorProfile } from '../types';
 
 export const CATEGORIES_DATA: CategoryItem[] = [
   {
@@ -1056,5 +1056,116 @@ Key keywords to incorporate:
     img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&auto=format&fit=crop&q=80',
     readTime: '5 min read',
     content: 'Moroccan riads offer stunning architectural symmetry. Prompt for ornate carved plasterwork, zellige ceramic mosaic floors, potted orange trees, and warm filtered courtyard skylight.',
+  },
+];
+
+export const AUTHORS_DATA: AuthorProfile[] = [
+  {
+    id: 'author-hafizur',
+    name: 'Hafizur Rahman',
+    slug: 'hafizur-rahman',
+    role: 'Founder & Lead AI Prompt Curator',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=320&auto=format&fit=crop&q=80',
+    bio: 'Founder of AIPromptZyra and visual prompt researcher. Specializes in realistic camera optics, lighting formulas, and technical prompt frameworks across Google Gemini, ChatGPT, and Midjourney.',
+    categories: ['AI Photo Prompts', 'Trending Prompts'],
+    articleCount: 16,
+    featuredArticles: [
+      {
+        title: 'Gemini Imagen 3 Prompting Masterclass: Photorealistic Portraits',
+        slug: 'gemini-imagen-3-prompting-masterclass',
+        category: 'AI Photo Prompts',
+        date: 'Jan 15, 2026',
+      },
+      {
+        title: 'Practical Tips to Make AI Images Look Truly Photorealistic',
+        slug: 'tips-for-realistic-ai-images',
+        category: 'AI Photo Prompts',
+        date: 'Dec 20, 2025',
+      },
+      {
+        title: 'How to Write Better AI Prompts: Beginner to Pro Guide',
+        slug: 'how-to-write-better-ai-prompts',
+        category: 'Trending Prompts',
+        date: 'Jan 10, 2026',
+      },
+      {
+        title: 'Gemini vs ChatGPT for Image Prompts: Comprehensive Comparison',
+        slug: 'gemini-vs-chatgpt-for-image-prompts',
+        category: 'AI Photo Prompts',
+        date: 'Jan 6, 2026',
+      },
+    ],
+  },
+  {
+    id: 'author-rhea',
+    name: 'Rhea Sharma',
+    slug: 'rhea-sharma',
+    role: 'Editorial Writer & Couple Photography Lead',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=320&auto=format&fit=crop&q=80',
+    bio: 'Editorial writer and prompt designer focusing on couple photography, maternity shoots, and emotion-driven AI portraits. Researches cultural styling, wardrobe details, and posing aesthetics.',
+    categories: ['Couple Prompts', 'AI Photo Prompts'],
+    articleCount: 12,
+    featuredArticles: [
+      {
+        title: 'Couple Maternity Photoshoot Prompts for Gemini AI (2026)',
+        slug: 'couple-maternity-photoshoot-prompts-for-gemini-ai',
+        category: 'Couple Prompts',
+        date: 'Oct 2, 2026',
+      },
+      {
+        title: 'Romantic Couple Golden Hour Photography Prompts',
+        slug: 'romantic-couple-golden-hour',
+        category: 'Couple Prompts',
+        date: 'Dec 5, 2025',
+      },
+      {
+        title: 'Indian Traditional Wedding Prompt for Gemini AI (2026)',
+        slug: 'indian-wedding-photo-prompt-for-gemini',
+        category: 'Couple Prompts',
+        date: 'Jan 12, 2026',
+      },
+      {
+        title: 'Golden Hour Wildflower Meadow Candid Couples Guide',
+        slug: 'golden-hour-wildflower-meadow-candid-couples',
+        category: 'Couple Prompts',
+        date: 'Aug 5, 2025',
+      },
+    ],
+  },
+  {
+    id: 'author-aditya',
+    name: 'Aditya Sen',
+    slug: 'aditya-sen',
+    role: 'Senior Creative Technologist & Trend Analyst',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=320&auto=format&fit=crop&q=80',
+    bio: 'Creative technologist tracking generative AI trends, cyberpunk cinematography, and video generation tools. Translates emerging visual styles and video workflows into clean prompt recipes.',
+    categories: ['Trending Prompts', 'AI Photo Prompts'],
+    articleCount: 10,
+    featuredArticles: [
+      {
+        title: 'Viral Neon Urban Portrait Prompt Formula',
+        slug: 'viral-neon-urban-portrait',
+        category: 'Trending Prompts',
+        date: 'Oct 18, 2026',
+      },
+      {
+        title: 'AI Video Prompts Guide: Runway Gen-3 and Luma Tips',
+        slug: 'ai-video-prompts-guide',
+        category: 'Trending Prompts',
+        date: 'Dec 15, 2025',
+      },
+      {
+        title: 'Vintage 1970s 35mm Analog Film Aesthetic Prompts',
+        slug: 'vintage-35mm-film',
+        category: 'Trending Prompts',
+        date: 'Nov 10, 2025',
+      },
+      {
+        title: 'Cyberpunk Tokyo Neon Rain Alley AI Concept Art',
+        slug: 'cyberpunk-neon-portrait',
+        category: 'Trending Prompts',
+        date: 'Nov 15, 2025',
+      },
+    ],
   },
 ];

@@ -17,20 +17,13 @@ if (!defined('ABSPATH')) {
 <div class="scma-page-layout-wrapper">
 <article id="post-<?php the_ID(); ?>" <?php post_class('single-couple-maternity-ai-article'); ?>>
 
-    <!-- B. Breadcrumb Navigation -->
-    <nav aria-label="<?php esc_attr_e('Breadcrumbs', 'aipromptzyra'); ?>" class="scma-breadcrumbs">
-        <a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('Home', 'aipromptzyra'); ?></a>
-        <span class="scma-sep" aria-hidden="true">&raquo;</span>
-        <a href="<?php echo esc_url(home_url('/category/couple-prompts-guide/')); ?>"><?php esc_html_e('Couple Prompts Guide', 'aipromptzyra'); ?></a>
-        <span class="scma-sep" aria-hidden="true">&raquo;</span>
-        <span class="scma-current" aria-current="page"><?php esc_html_e('Couple Maternity Photoshoot Prompts for Gemini AI', 'aipromptzyra'); ?></span>
-    </nav>
-
     <!-- C. Article Header -->
     <header class="scma-header">
-        <div class="scma-kicker-badge">
-            <span class="scma-sparkle-dot"></span>
-            <?php esc_html_e('2026 Editorial Guide & Copy-Ready Prompts', 'aipromptzyra'); ?>
+
+        <div class="scma-category-wrap">
+            <a href="<?php echo esc_url(home_url('/?category=couple-prompts#guides-section')); ?>" class="scma-category-badge">
+                <?php esc_html_e('Couple Prompts', 'aipromptzyra'); ?>
+            </a>
         </div>
 
         <h1 class="scma-title">
@@ -38,14 +31,36 @@ if (!defined('ABSPATH')) {
         </h1>
 
         <div class="scma-meta-bar">
+            <?php
+            $author_id   = get_the_author_meta('ID');
+            $author_name = get_the_author();
+            if (empty($author_name) || $author_name === 'admin') {
+                $rhea_user = get_user_by('slug', 'rhea-sharma');
+                if ($rhea_user) {
+                    $author_id   = $rhea_user->ID;
+                    $author_name = $rhea_user->display_name;
+                } else {
+                    $author_name = 'Rhea Sharma';
+                }
+            }
+            $author_url  = $author_id ? get_author_posts_url($author_id) : home_url('/author/rhea-sharma/');
+            $author_role = $author_id && get_the_author_meta('description', $author_id) ? wp_trim_words(get_the_author_meta('description', $author_id), 8) : esc_html__('Editorial Writer & Couple Photography Lead', 'aipromptzyra');
+            ?>
             <div class="scma-author-block">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80" alt="Mariya Ansari" class="scma-author-avatar" width="48" height="48" loading="lazy">
+                <?php
+                $avatar_tag = $author_id ? get_avatar($author_id, 48, '', esc_attr($author_name), array('class' => 'scma-author-avatar')) : '';
+                if ($avatar_tag) {
+                    echo $avatar_tag;
+                } else {
+                    echo '<img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80" alt="' . esc_attr($author_name) . '" class="scma-author-avatar" width="48" height="48" loading="lazy" />';
+                }
+                ?>
                 <div>
                     <div class="scma-author-name">
-                        <?php esc_html_e('by', 'aipromptzyra'); ?> <a href="<?php echo esc_url(home_url('/author/mariya-ansari/')); ?>">Mariya Ansari</a>
+                        <?php esc_html_e('by', 'aipromptzyra'); ?> <a href="<?php echo esc_url($author_url); ?>"><?php echo esc_html($author_name); ?></a>
                         <span class="scma-role-pill"><?php esc_html_e('Author', 'aipromptzyra'); ?></span>
                     </div>
-                    <div class="scma-author-title"><?php esc_html_e('Senior AI Visual Prompt Engineer', 'aipromptzyra'); ?></div>
+                    <div class="scma-author-title"><?php echo esc_html($author_role); ?></div>
                 </div>
             </div>
 
@@ -54,9 +69,14 @@ if (!defined('ABSPATH')) {
                     <svg class="scma-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     <span><?php esc_html_e('Published:', 'aipromptzyra'); ?> <strong><?php echo get_the_date('F j, Y') ?: 'October 2, 2026'; ?></strong></span>
                 </span>
+                <?php
+                $content = get_post_field('post_content', get_the_ID());
+                $word_count = !empty($content) ? str_word_count(strip_tags($content)) : 1450;
+                $reading_time = max(1, ceil($word_count / 200));
+                ?>
                 <span class="scma-meta-item">
                     <svg class="scma-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span><?php esc_html_e('Est. Read Time:', 'aipromptzyra'); ?> <strong>7 min read</strong></span>
+                    <span><?php esc_html_e('Est. Read Time:', 'aipromptzyra'); ?> <strong><?php printf(esc_html__('%d min read', 'aipromptzyra'), $reading_time); ?></strong></span>
                 </span>
             </div>
         </div>
