@@ -117,41 +117,17 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={() => onNavClick('hero', 'Home')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
                   Home
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onNavClick('categories-section', 'Explore Prompts')}
-                  className="hover:text-white transition-colors"
-                >
-                  Explore Prompts
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => onNavClick('prompt-builder', 'Prompt Builder')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
                   Prompt Builder
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavClick('categories-section', 'Categories')}
-                  className="hover:text-white transition-colors"
-                >
-                  Categories
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavClick('guides-section', 'Guides')}
-                  className="hover:text-white transition-colors"
-                >
-                  Guides
                 </button>
               </li>
               <li>
@@ -181,7 +157,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={() => onOpenPage('contact')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
                   Contact Us
                 </button>
@@ -189,7 +165,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={() => onOpenPage('privacy-policy')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
                   Privacy Policy
                 </button>
@@ -197,7 +173,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={() => onOpenPage('terms-and-conditions')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
                   Terms & Conditions
                 </button>
@@ -205,17 +181,9 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={() => onOpenPage('disclaimer')}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
                   Disclaimer
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onOpenPage('editorial-policy')}
-                  className="hover:text-white transition-colors"
-                >
-                  Editorial Policy
                 </button>
               </li>
             </ul>
@@ -329,16 +297,9 @@ export const Footer: React.FC<FooterProps> = ({
             <span className="text-slate-700">|</span>
             <button
               onClick={() => onOpenPage('disclaimer')}
-              className="hover:text-slate-300 transition-colors"
+              className="hover:text-slate-300 transition-colors cursor-pointer"
             >
               Disclaimer
-            </button>
-            <span className="text-slate-700">|</span>
-            <button
-              onClick={() => onOpenPage('editorial-policy')}
-              className="hover:text-slate-300 transition-colors"
-            >
-              Editorial Policy
             </button>
           </div>
         </div>

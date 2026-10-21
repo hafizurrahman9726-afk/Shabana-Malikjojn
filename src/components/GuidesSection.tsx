@@ -19,17 +19,14 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({
   onSelectGuide,
   onViewAllGuides,
 }) => {
-  // Selected category filter state
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  // Selected category filter state (default to all or trending-prompts)
+  const [selectedCategory, setSelectedCategory] = useState<string>('trending-prompts');
 
-  // Filter categories matching prompt specifications
+  // Filter categories matching prompt specifications: Exactly 3 Category Filters
   const FILTER_CATEGORIES = [
-    { slug: 'all', name: 'All Prompts' },
-    { slug: 'trending-prompts', name: 'Trending Prompts' },
-    { slug: 'festival-prompt', name: 'Festival Prompt' },
-    { slug: 'couple-prompts', name: 'Couple Prompts Guide' },
-    { slug: 'boys-prompts', name: 'Boys Prompts' },
-    { slug: 'ai-photo-prompts', name: 'AI Photo Prompts' },
+    { slug: 'trending-prompts', name: 'Trending Prompts', url: 'https://aipromptzyra.com/prompt-category/trending-prompts/' },
+    { slug: 'couple-prompts', name: 'Couple Prompts', url: 'https://aipromptzyra.com/prompt-category/couple-prompts/' },
+    { slug: 'ai-photo-prompts', name: 'AI Photo Prompts', url: 'https://aipromptzyra.com/prompt-category/ai-photo-prompts/' },
   ];
 
   // Dynamic filter matching logic
@@ -41,14 +38,8 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({
       if (selectedCategory === 'trending-prompts') {
         return text.includes('trending') || text.includes('masterclass') || text.includes('popular') || text.includes('cinematic') || text.includes('gala');
       }
-      if (selectedCategory === 'festival-prompt') {
-        return text.includes('festival') || text.includes('diwali') || text.includes('puja') || text.includes('celebrat') || text.includes('holiday');
-      }
       if (selectedCategory === 'couple-prompts') {
         return text.includes('couple') || text.includes('wedding') || text.includes('romantic') || text.includes('haldi') || text.includes('lehenga');
-      }
-      if (selectedCategory === 'boys-prompts') {
-        return text.includes('boy') || text.includes('groom') || text.includes('men') || text.includes('man') || text.includes('tuxedo') || text.includes('sherwani') || text.includes('headshot');
       }
       if (selectedCategory === 'ai-photo-prompts') {
         return text.includes('photo') || text.includes('portrait') || text.includes('camera') || text.includes('studio') || text.includes('lighting');

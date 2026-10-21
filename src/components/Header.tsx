@@ -29,12 +29,13 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectCategory,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
+  const [importantPagesDropdownOpen, setImportantPagesDropdownOpen] = useState(false);
+  const [mobileImportantPagesOpen, setMobileImportantPagesOpen] = useState(true);
 
   const handleNavClick = (sectionId: string, navName: string) => {
     setActiveNav(navName);
     setMobileMenuOpen(false);
-    setCategoriesDropdownOpen(false);
+    setImportantPagesDropdownOpen(false);
     if (navName === 'About') {
       if (onSelectView) {
         onSelectView('about');
@@ -52,7 +53,8 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const handleCategoryClick = (slug: string, name: string) => {
-    setCategoriesDropdownOpen(false);
+    setActiveNav(name);
+    setImportantPagesDropdownOpen(false);
     setMobileMenuOpen(false);
     if (onSelectView) {
       onSelectView('home');
@@ -60,9 +62,23 @@ export const Header: React.FC<HeaderProps> = ({
     if (onSelectCategory) {
       onSelectCategory(slug);
     }
-    const el = document.getElementById('categories-section');
+    const el = document.getElementById('prompt-carousel-section') || document.getElementById('categories-section');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleImportantPageClick = (slug: string) => {
+    setImportantPagesDropdownOpen(false);
+    setMobileMenuOpen(false);
+    if (slug === 'about') {
+      setActiveNav('About Us');
+      if (onSelectView) {
+        onSelectView('about');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      onOpenPage(slug);
     }
   };
 
@@ -93,9 +109,13 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-1">
-          <button
-            onClick={() => handleNavClick('hero', 'Home')}
+        <nav className="hidden lg:flex items-center gap-1.5" aria-label="Primary Menu">
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('hero', 'Home');
+            }}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               currentView === 'home' && activeNav === 'Home'
                 ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300'
@@ -103,111 +123,160 @@ export const Header: React.FC<HeaderProps> = ({
             }`}
           >
             Home
-          </button>
+          </a>
 
-          {/* Categories Dropdown in Main Navigation */}
-          <div className="relative">
+          {/* 1. Trending Prompts */}
+          <a
+            href="https://aipromptzyra.com/prompt-category/trending-prompts/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleCategoryClick('trending-prompts', 'Trending Prompts');
+            }}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+              activeNav === 'Trending Prompts'
+                ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 font-bold'
+                : 'text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400'
+            }`}
+          >
+            Trending Prompts
+          </a>
+
+          {/* 2. Couple Prompts */}
+          <a
+            href="https://aipromptzyra.com/prompt-category/couple-prompts/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleCategoryClick('couple-prompts', 'Couple Prompts');
+            }}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+              activeNav === 'Couple Prompts'
+                ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-300 font-bold'
+                : 'text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400'
+            }`}
+          >
+            Couple Prompts
+          </a>
+
+          {/* 3. AI Photo Prompts */}
+          <a
+            href="https://aipromptzyra.com/prompt-category/ai-photo-prompts/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleCategoryClick('ai-photo-prompts', 'AI Photo Prompts');
+            }}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+              activeNav === 'AI Photo Prompts'
+                ? 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300 font-bold'
+                : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400'
+            }`}
+          >
+            AI Photo Prompts
+          </a>
+
+          {/* Important Pages Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setImportantPagesDropdownOpen(true)}
+            onMouseLeave={() => setImportantPagesDropdownOpen(false)}
+          >
             <button
-              onClick={() => setCategoriesDropdownOpen((prev) => !prev)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1 ${
-                categoriesDropdownOpen || (currentView === 'home' && activeNav === 'Categories')
-                  ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300'
+              type="button"
+              onClick={() => setImportantPagesDropdownOpen((prev) => !prev)}
+              aria-haspopup="true"
+              aria-expanded={importantPagesDropdownOpen}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                importantPagesDropdownOpen || currentView === 'about'
+                  ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
               }`}
             >
-              <span>Categories</span>
-              <span className="text-[10px]">&darr;</span>
+              <span>Important Pages</span>
+              <svg
+                className={`w-3 h-3 transition-transform duration-200 ${
+                  importantPagesDropdownOpen ? 'rotate-180 text-purple-600' : 'text-slate-400'
+                }`}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
             </button>
 
-            {categoriesDropdownOpen && (
-              <div className="absolute top-full left-0 mt-1.5 w-56 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                <div className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                  Featured Categories
+            {importantPagesDropdownOpen && (
+              <div
+                role="menu"
+                className="absolute top-full left-0 mt-1 w-56 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+              >
+                <div className="px-3.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  Site Information
                 </div>
-                <button
-                  onClick={() => handleCategoryClick('trending-prompts', 'Trending Prompts')}
+                <a
+                  role="menuitem"
+                  href="https://aipromptzyra.com/about/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('about');
+                  }}
                   className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-950/60 hover:text-purple-600 flex items-center justify-between cursor-pointer"
                 >
-                  <span>🔥 Trending Prompts</span>
-                  <span className="text-[10px] bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 px-1.5 py-0.5 rounded font-mono">Hot</span>
-                </button>
-                <button
-                  onClick={() => handleCategoryClick('couple-prompts', 'Couple Prompts')}
+                  <span>About Us</span>
+                  <span className="text-[10px] text-slate-400">Our Story</span>
+                </a>
+                <a
+                  role="menuitem"
+                  href="https://aipromptzyra.com/contact/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('contact');
+                  }}
                   className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-950/60 hover:text-purple-600 flex items-center justify-between cursor-pointer"
                 >
-                  <span>💑 Couple Prompts</span>
-                  <span className="text-[10px] bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 px-1.5 py-0.5 rounded font-mono">Popular</span>
-                </button>
-                <button
-                  onClick={() => handleCategoryClick('ai-photo-prompts', 'AI Photo Prompts')}
+                  <span>Contact Us</span>
+                  <span className="text-[10px] text-slate-400">Get Help</span>
+                </a>
+                <a
+                  role="menuitem"
+                  href="https://aipromptzyra.com/privacy-policy/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('privacy-policy');
+                  }}
                   className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-950/60 hover:text-purple-600 flex items-center justify-between cursor-pointer"
                 >
-                  <span>📸 AI Photo Prompts</span>
-                  <span className="text-[10px] bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded font-mono">Realistic</span>
-                </button>
-                <div className="my-1 border-t border-slate-100 dark:border-slate-700" />
-                <button
-                  onClick={() => handleNavClick('categories-section', 'Categories')}
-                  className="w-full text-left px-3.5 py-1.5 text-xs text-purple-600 dark:text-purple-400 font-bold hover:underline cursor-pointer"
+                  <span>Privacy Policy</span>
+                  <span className="text-[10px] text-slate-400">Privacy</span>
+                </a>
+                <a
+                  role="menuitem"
+                  href="https://aipromptzyra.com/disclaimer/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('disclaimer');
+                  }}
+                  className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-950/60 hover:text-purple-600 flex items-center justify-between cursor-pointer"
                 >
-                  Explore All 3 Categories &rarr;
-                </button>
+                  <span>Disclaimer</span>
+                  <span className="text-[10px] text-slate-400">Notice</span>
+                </a>
+                <a
+                  role="menuitem"
+                  href="https://aipromptzyra.com/terms-and-conditions/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('terms-and-conditions');
+                  }}
+                  className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-950/60 hover:text-purple-600 flex items-center justify-between cursor-pointer"
+                >
+                  <span>Terms &amp; Conditions</span>
+                  <span className="text-[10px] text-slate-400">Terms</span>
+                </a>
               </div>
             )}
           </div>
-
-          {/* Quick Direct Category Access Pills in Header */}
-          <button
-            onClick={() => handleCategoryClick('trending-prompts', 'Trending Prompts')}
-            className="px-2.5 py-1 rounded-full text-[11px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 border border-amber-200 dark:border-amber-800/60 transition-colors cursor-pointer"
-          >
-            Trending
-          </button>
-          <button
-            onClick={() => handleCategoryClick('couple-prompts', 'Couple Prompts')}
-            className="px-2.5 py-1 rounded-full text-[11px] font-bold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 border border-rose-200 dark:border-rose-800/60 transition-colors cursor-pointer"
-          >
-            Couple
-          </button>
-          <button
-            onClick={() => handleCategoryClick('ai-photo-prompts', 'AI Photo Prompts')}
-            className="px-2.5 py-1 rounded-full text-[11px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 border border-indigo-200 dark:border-indigo-800/60 transition-colors cursor-pointer"
-          >
-            AI Photo
-          </button>
-
-          <button
-            onClick={() => handleNavClick('prompt-builder', 'Prompt Builder')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-              currentView === 'home' && activeNav === 'Prompt Builder'
-                ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300'
-                : 'text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
-            }`}
-          >
-            Prompt Builder
-          </button>
-
-          <button
-            onClick={() => handleNavClick('guides-section', 'Guides')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-              activeNav === 'Guides'
-                ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300'
-                : 'text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
-            }`}
-          >
-            Guides
-          </button>
-
-          <button
-            onClick={() => handleNavClick('about', 'About')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-              currentView === 'about' || activeNav === 'About'
-                ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-bold'
-                : 'text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400'
-            }`}
-          >
-            About
-          </button>
 
           {/* WP Theme Hub Trigger */}
           <button
@@ -266,77 +335,140 @@ export const Header: React.FC<HeaderProps> = ({
               className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
-          <button
-            onClick={() => handleNavClick('hero', 'Home')}
-            className="w-full text-left px-3 py-2 text-sm font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30"
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('hero', 'Home');
+            }}
+            className="block w-full text-left px-3.5 py-2.5 text-sm font-semibold rounded-xl text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors"
           >
             Home
-          </button>
-          
-          {/* Mobile Category Shortcuts */}
-          <div className="py-2 px-1 border-y border-slate-100 dark:border-slate-800 space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2">
-              Featured Categories
-            </span>
-            <div className="grid grid-cols-3 gap-1.5 pt-1">
-              <button
-                onClick={() => handleCategoryClick('trending-prompts', 'Trending Prompts')}
-                className="px-2 py-1.5 rounded-lg text-xs font-bold text-center bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800"
+          </a>
+
+          {/* 1. Trending Prompts */}
+          <a
+            href="https://aipromptzyra.com/prompt-category/trending-prompts/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleCategoryClick('trending-prompts', 'Trending Prompts');
+            }}
+            className="block w-full text-left px-3.5 py-2.5 text-sm font-semibold rounded-xl text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-950/40 hover:text-amber-700 dark:hover:text-amber-300 transition-colors"
+          >
+            Trending Prompts
+          </a>
+
+          {/* 2. Couple Prompts */}
+          <a
+            href="https://aipromptzyra.com/prompt-category/couple-prompts/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleCategoryClick('couple-prompts', 'Couple Prompts');
+            }}
+            className="block w-full text-left px-3.5 py-2.5 text-sm font-semibold rounded-xl text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-700 dark:hover:text-rose-300 transition-colors"
+          >
+            Couple Prompts
+          </a>
+
+          {/* 3. AI Photo Prompts */}
+          <a
+            href="https://aipromptzyra.com/prompt-category/ai-photo-prompts/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleCategoryClick('ai-photo-prompts', 'AI Photo Prompts');
+            }}
+            className="block w-full text-left px-3.5 py-2.5 text-sm font-semibold rounded-xl text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+          >
+            AI Photo Prompts
+          </a>
+
+          {/* Important Pages Mobile Accordion */}
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={() => setMobileImportantPagesOpen((prev) => !prev)}
+              aria-expanded={mobileImportantPagesOpen}
+              className="w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-bold rounded-xl text-purple-700 dark:text-purple-300 bg-purple-50/80 dark:bg-purple-950/40 cursor-pointer"
+            >
+              <span>Important Pages</span>
+              <svg
+                className={`w-4 h-4 transition-transform duration-200 ${
+                  mobileImportantPagesOpen ? 'rotate-180' : ''
+                }`}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                🔥 Trending
-              </button>
-              <button
-                onClick={() => handleCategoryClick('couple-prompts', 'Couple Prompts')}
-                className="px-2 py-1.5 rounded-lg text-xs font-bold text-center bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800"
-              >
-                💑 Couple
-              </button>
-              <button
-                onClick={() => handleCategoryClick('ai-photo-prompts', 'AI Photo Prompts')}
-                className="px-2 py-1.5 rounded-lg text-xs font-bold text-center bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800"
-              >
-                📸 AI Photo
-              </button>
-            </div>
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+
+            {mobileImportantPagesOpen && (
+              <div className="pl-3 pr-1 py-1 mt-1 space-y-1 border-l-2 border-purple-200 dark:border-purple-800 ml-3">
+                <a
+                  href="https://aipromptzyra.com/about/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('about');
+                  }}
+                  className="block px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 rounded-md hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                >
+                  About Us
+                </a>
+                <a
+                  href="https://aipromptzyra.com/contact/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('contact');
+                  }}
+                  className="block px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 rounded-md hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                >
+                  Contact Us
+                </a>
+                <a
+                  href="https://aipromptzyra.com/privacy-policy/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('privacy-policy');
+                  }}
+                  className="block px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 rounded-md hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                >
+                  Privacy Policy
+                </a>
+                <a
+                  href="https://aipromptzyra.com/disclaimer/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('disclaimer');
+                  }}
+                  className="block px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 rounded-md hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                >
+                  Disclaimer
+                </a>
+                <a
+                  href="https://aipromptzyra.com/terms-and-conditions/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleImportantPageClick('terms-and-conditions');
+                  }}
+                  className="block px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 rounded-md hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                >
+                  Terms &amp; Conditions
+                </a>
+              </div>
+            )}
           </div>
 
-          <button
-            onClick={() => handleNavClick('categories-section', 'Explore Prompts')}
-            className="w-full text-left px-3 py-2 text-sm font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30"
-          >
-            Explore All Categories
-          </button>
-          <button
-            onClick={() => handleNavClick('prompt-builder', 'Prompt Builder')}
-            className="w-full text-left px-3 py-2 text-sm font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30"
-          >
-            Prompt Builder
-          </button>
-          <button
-            onClick={() => handleNavClick('categories-section', 'Categories')}
-            className="w-full text-left px-3 py-2 text-sm font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30"
-          >
-            Categories
-          </button>
-          <button
-            onClick={() => handleNavClick('guides-section', 'Guides')}
-            className="w-full text-left px-3 py-2 text-sm font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30"
-          >
-            Guides
-          </button>
-          <button
-            onClick={() => handleNavClick('about', 'About')}
-            className="w-full text-left px-3 py-2 text-sm font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-purple-50 dark:hover:bg-purple-900/30"
-          >
-            About
-          </button>
           <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenThemeHub();
               }}
-              className="w-full py-2.5 bg-purple-600 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow"
+              className="w-full py-2.5 bg-purple-600 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>WordPress Theme Center (.zip)</span>

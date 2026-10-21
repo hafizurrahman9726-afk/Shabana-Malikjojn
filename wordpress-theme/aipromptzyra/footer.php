@@ -54,11 +54,8 @@ if (!defined('ABSPATH')) {
                 <h4 class="footer-heading"><?php esc_html_e('Quick Links', 'aipromptzyra'); ?></h4>
                 <ul class="footer-links">
                     <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('Home', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo esc_url(home_url('/prompts/')); ?>"><?php esc_html_e('Explore Prompts', 'aipromptzyra'); ?></a></li>
                     <li><a href="<?php echo esc_url(home_url('/prompt-builder/')); ?>"><?php esc_html_e('Prompt Builder', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo esc_url(home_url('/categories/')); ?>"><?php esc_html_e('Categories', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo esc_url(home_url('/guides/')); ?>"><?php esc_html_e('Guides', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php esc_html_e('About', 'aipromptzyra'); ?></a></li>
+                    <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php esc_html_e('About Us', 'aipromptzyra'); ?></a></li>
                 </ul>
             </div>
 
@@ -70,7 +67,6 @@ if (!defined('ABSPATH')) {
                     <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php esc_html_e('Privacy Policy', 'aipromptzyra'); ?></a></li>
                     <li><a href="<?php echo esc_url(home_url('/terms-and-conditions/')); ?>"><?php esc_html_e('Terms & Conditions', 'aipromptzyra'); ?></a></li>
                     <li><a href="<?php echo esc_url(home_url('/disclaimer/')); ?>"><?php esc_html_e('Disclaimer', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo esc_url(home_url('/editorial-policy/')); ?>"><?php esc_html_e('Editorial Policy', 'aipromptzyra'); ?></a></li>
                 </ul>
             </div>
 
@@ -119,8 +115,6 @@ if (!defined('ABSPATH')) {
                 <a href="<?php echo esc_url(home_url('/terms-and-conditions/')); ?>"><?php esc_html_e('Terms', 'aipromptzyra'); ?></a>
                 <span class="sep">|</span>
                 <a href="<?php echo esc_url(home_url('/disclaimer/')); ?>"><?php esc_html_e('Disclaimer', 'aipromptzyra'); ?></a>
-                <span class="sep">|</span>
-                <a href="<?php echo esc_url(home_url('/editorial-policy/')); ?>"><?php esc_html_e('Editorial Policy', 'aipromptzyra'); ?></a>
             </nav>
         </div>
     </div>

@@ -50,6 +50,54 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // 2b. Accessible Dropdown Menu Support (Desktop & Mobile)
+  const dropdownParents = document.querySelectorAll('.main-navigation .menu-item-has-children');
+  dropdownParents.forEach(parent => {
+    const trigger = parent.querySelector('> a, > .dropdown-toggle-link, > button');
+    if (!trigger) return;
+
+    trigger.addEventListener('click', function (e) {
+      if (trigger.getAttribute('href') === '#' || trigger.tagName.toLowerCase() === 'button' || parent.classList.contains('dropdown')) {
+        e.preventDefault();
+        const isOpen = parent.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+    });
+
+    parent.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        parent.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.main-navigation .menu-item-has-children')) {
+      dropdownParents.forEach(p => {
+        p.classList.remove('is-open');
+        const trigger = p.querySelector('> a, > .dropdown-toggle-link, > button');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  // Mobile Accordion Toggle
+  const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+  mobileDropdownToggles.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+      const targetId = btn.getAttribute('aria-controls');
+      const targetSub = targetId ? document.getElementById(targetId) : btn.nextElementSibling;
+      if (targetSub) {
+        targetSub.hidden = isExpanded;
+      }
+    });
+  });
+
   // 3. AI Prompt Box View & Copy Handlers (Custom Gutenberg Block & Global Prompts)
   document.addEventListener('click', function (e) {
     // 3a. View Prompt Toggle (Expand / Collapse with gradient preview)
@@ -249,8 +297,8 @@ document.addEventListener('DOMContentLoaded', function () {
     startAutoScroll();
   }
 
-  // 7. Dynamic Category Filter for Latest Guides & Tutorials
-  const filterPills = document.querySelectorAll('.guides-filter-pill');
+  // 7. Dynamic Category Filter for Latest Guides & Tutorials (for button-based filters)
+  const filterPills = document.querySelectorAll('button.guides-filter-pill');
   const guidesGrid = document.getElementById('guides-grid');
   const emptyFilterState = document.getElementById('guides-filter-empty');
   const resetFilterBtn = document.getElementById('guides-filter-reset-btn');

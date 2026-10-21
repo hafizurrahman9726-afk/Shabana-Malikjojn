@@ -180,54 +180,40 @@ get_header(); ?>
                     <h2 class="section-title"><?php esc_html_e('Latest Guides & Tutorials', 'aipromptzyra'); ?></h2>
                     <p class="section-subtitle"><?php esc_html_e('Helpful articles to improve your AI skills and get better results.', 'aipromptzyra'); ?></p>
                 </div>
-                <a href="<?php echo esc_url(home_url('/guides/')); ?>" class="section-link">
+                <?php
+                // View All Guides points to the Trending Prompts category archive
+                $trending_cat_term = get_term_by('slug', 'trending-prompts', 'prompt_category');
+                $trending_archive_url = ($trending_cat_term && !is_wp_error(get_term_link($trending_cat_term))) 
+                    ? get_term_link($trending_cat_term) 
+                    : home_url('/prompt-category/trending-prompts/');
+
+                $couple_cat_term = get_term_by('slug', 'couple-prompts', 'prompt_category');
+                $couple_archive_url = ($couple_cat_term && !is_wp_error(get_term_link($couple_cat_term))) 
+                    ? get_term_link($couple_cat_term) 
+                    : home_url('/prompt-category/couple-prompts/');
+
+                $ai_photo_cat_term = get_term_by('slug', 'ai-photo-prompts', 'prompt_category');
+                $ai_photo_archive_url = ($ai_photo_cat_term && !is_wp_error(get_term_link($ai_photo_cat_term))) 
+                    ? get_term_link($ai_photo_cat_term) 
+                    : home_url('/prompt-category/ai-photo-prompts/');
+                ?>
+                <a href="<?php echo esc_url($trending_archive_url); ?>" class="section-link">
                     <?php esc_html_e('View All Guides', 'aipromptzyra'); ?> &rarr;
                 </a>
             </div>
 
-            <!-- Horizontal Category Filter Bar -->
-            <?php
-            // Build dynamic list of filter categories
-            // Primary categories matching requested pill buttons
-            $filter_tabs = array(
-                'all'              => __('All Prompts', 'aipromptzyra'),
-                'trending-prompts' => __('Trending Prompts', 'aipromptzyra'),
-                'festival-prompt'  => __('Festival Prompt', 'aipromptzyra'),
-                'couple-prompts'   => __('Couple Prompts Guide', 'aipromptzyra'),
-                'boys-prompts'     => __('Boys Prompts', 'aipromptzyra'),
-            );
-
-            // Fetch any additional dynamic categories and prompt terms existing in WordPress
-            $wp_categories = get_categories(array('hide_empty' => false));
-            if (!empty($wp_categories) && !is_wp_error($wp_categories)) {
-                foreach ($wp_categories as $wcat) {
-                    if ($wcat->slug !== 'uncategorized' && !isset($filter_tabs[$wcat->slug])) {
-                        $filter_tabs[$wcat->slug] = $wcat->name;
-                    }
-                }
-            }
-            $prompt_tax_terms = get_terms(array('taxonomy' => 'prompt_category', 'hide_empty' => false));
-            if (!empty($prompt_tax_terms) && !is_wp_error($prompt_tax_terms)) {
-                foreach ($prompt_tax_terms as $ptag) {
-                    if (!isset($filter_tabs[$ptag->slug])) {
-                        $filter_tabs[$ptag->slug] = $ptag->name;
-                    }
-                }
-            }
-            ?>
-            <div class="guides-filter-bar-wrapper" role="tablist" aria-label="<?php esc_attr_e('Filter Guides by Category', 'aipromptzyra'); ?>">
+            <!-- Horizontal Category Filter Bar: Exactly 3 Category Filters linking to archives -->
+            <div class="guides-filter-bar-wrapper" role="navigation" aria-label="<?php esc_attr_e('Filter Guides by Category', 'aipromptzyra'); ?>">
                 <div class="guides-filter-scroll-track" id="guides-filter-track">
-                    <?php foreach ($filter_tabs as $tab_slug => $tab_name) : ?>
-                        <button
-                            type="button"
-                            class="guides-filter-pill <?php echo ($tab_slug === 'all') ? 'active' : ''; ?>"
-                            data-filter="<?php echo esc_attr($tab_slug); ?>"
-                            role="tab"
-                            aria-selected="<?php echo ($tab_slug === 'all') ? 'true' : 'false'; ?>"
-                        >
-                            <span><?php echo esc_html($tab_name); ?></span>
-                        </button>
-                    <?php endforeach; ?>
+                    <a href="<?php echo esc_url($trending_archive_url); ?>" class="guides-filter-pill">
+                        <span><?php esc_html_e('Trending Prompts', 'aipromptzyra'); ?></span>
+                    </a>
+                    <a href="<?php echo esc_url($couple_archive_url); ?>" class="guides-filter-pill">
+                        <span><?php esc_html_e('Couple Prompts', 'aipromptzyra'); ?></span>
+                    </a>
+                    <a href="<?php echo esc_url($ai_photo_archive_url); ?>" class="guides-filter-pill">
+                        <span><?php esc_html_e('AI Photo Prompts', 'aipromptzyra'); ?></span>
+                    </a>
                 </div>
             </div>
 
@@ -942,7 +928,13 @@ get_header(); ?>
                     <?php esc_html_e('Hafizur Rahman is the creator of AIPromptZyra and a dedicated visual AI prompt researcher. He specializes in designing, testing, and refining photographic prompt formulas for Google Gemini, ChatGPT, and Midjourney, helping creators worldwide turn imaginative concepts into realistic, high-definition AI imagery.', 'aipromptzyra'); ?>
                 </p>
 
-                <a href="<?php echo esc_url(home_url('/author/hafizur-rahman/')); ?>" class="btn-author-guides">
+                <?php
+                $author_archive_url = get_author_posts_url(1);
+                if (!$author_archive_url || is_wp_error($author_archive_url)) {
+                    $author_archive_url = home_url('/author/aipromptzyra/');
+                }
+                ?>
+                <a href="<?php echo esc_url($author_archive_url); ?>" class="btn-author-guides">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                     <span><?php esc_html_e('View All Guides', 'aipromptzyra'); ?></span>
                     <span class="btn-arrow">&rarr;</span>

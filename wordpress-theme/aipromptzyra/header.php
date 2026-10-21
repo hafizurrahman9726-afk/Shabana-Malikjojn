@@ -64,19 +64,26 @@ if (!defined('ABSPATH')) {
                         <a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('Home', 'aipromptzyra'); ?></a>
                     </li>
                     <li class="menu-item">
-                        <a href="<?php echo $is_home ? '#categories-section' : esc_url(home_url('/#categories-section')); ?>"><?php esc_html_e('Explore Prompts', 'aipromptzyra'); ?></a>
+                        <a href="<?php echo esc_url(home_url('/prompt-category/trending-prompts/')); ?>"><?php esc_html_e('Trending Prompts', 'aipromptzyra'); ?></a>
                     </li>
                     <li class="menu-item">
-                        <a href="<?php echo $is_home ? '#prompt-builder' : esc_url(home_url('/#prompt-builder')); ?>"><?php esc_html_e('Prompt Builder', 'aipromptzyra'); ?></a>
+                        <a href="<?php echo esc_url(home_url('/prompt-category/couple-prompts/')); ?>"><?php esc_html_e('Couple Prompts', 'aipromptzyra'); ?></a>
                     </li>
                     <li class="menu-item">
-                        <a href="<?php echo $is_home ? '#categories-section' : esc_url(home_url('/#categories-section')); ?>"><?php esc_html_e('Categories', 'aipromptzyra'); ?></a>
+                        <a href="<?php echo esc_url(home_url('/prompt-category/ai-photo-prompts/')); ?>"><?php esc_html_e('AI Photo Prompts', 'aipromptzyra'); ?></a>
                     </li>
-                    <li class="menu-item">
-                        <a href="<?php echo $is_home ? '#guides-section' : esc_url(home_url('/#guides-section')); ?>"><?php esc_html_e('Guides', 'aipromptzyra'); ?></a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="<?php echo $is_home ? '#why-choose-section' : esc_url(home_url('/about/')); ?>"><?php esc_html_e('About', 'aipromptzyra'); ?></a>
+                    <li class="menu-item menu-item-has-children dropdown">
+                        <a href="<?php echo esc_url(home_url('/about/')); ?>" class="dropdown-toggle-link" aria-haspopup="true" aria-expanded="false" role="button">
+                            <span><?php esc_html_e('Important Pages', 'aipromptzyra'); ?></span>
+                            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </a>
+                        <ul class="sub-menu">
+                            <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php esc_html_e('About Us', 'aipromptzyra'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php esc_html_e('Contact Us', 'aipromptzyra'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php esc_html_e('Privacy Policy', 'aipromptzyra'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/disclaimer/')); ?>"><?php esc_html_e('Disclaimer', 'aipromptzyra'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/terms-and-conditions/')); ?>"><?php esc_html_e('Terms & Conditions', 'aipromptzyra'); ?></a></li>
+                        </ul>
                     </li>
                 </ul>
             <?php endif; ?>
@@ -139,11 +146,22 @@ if (!defined('ABSPATH')) {
             ?>
                 <ul class="mobile-nav-menu">
                     <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('Home', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo $is_home ? '#categories-section' : esc_url(home_url('/#categories-section')); ?>"><?php esc_html_e('Explore Prompts', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo $is_home ? '#prompt-builder' : esc_url(home_url('/#prompt-builder')); ?>"><?php esc_html_e('Prompt Builder', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo $is_home ? '#categories-section' : esc_url(home_url('/#categories-section')); ?>"><?php esc_html_e('Categories', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo $is_home ? '#guides-section' : esc_url(home_url('/#guides-section')); ?>"><?php esc_html_e('Guides', 'aipromptzyra'); ?></a></li>
-                    <li><a href="<?php echo $is_home ? '#why-choose-section' : esc_url(home_url('/about/')); ?>"><?php esc_html_e('About', 'aipromptzyra'); ?></a></li>
+                    <li><a href="<?php echo esc_url(home_url('/prompt-category/trending-prompts/')); ?>"><?php esc_html_e('Trending Prompts', 'aipromptzyra'); ?></a></li>
+                    <li><a href="<?php echo esc_url(home_url('/prompt-category/couple-prompts/')); ?>"><?php esc_html_e('Couple Prompts', 'aipromptzyra'); ?></a></li>
+                    <li><a href="<?php echo esc_url(home_url('/prompt-category/ai-photo-prompts/')); ?>"><?php esc_html_e('AI Photo Prompts', 'aipromptzyra'); ?></a></li>
+                    <li class="mobile-menu-item-has-children">
+                        <button type="button" class="mobile-dropdown-toggle" aria-expanded="true" aria-controls="mobile-sub-important-pages">
+                            <span><?php esc_html_e('Important Pages', 'aipromptzyra'); ?></span>
+                            <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <ul id="mobile-sub-important-pages" class="mobile-sub-menu">
+                            <li><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php esc_html_e('About Us', 'aipromptzyra'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php esc_html_e('Contact Us', 'aipromptzyra'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php esc_html_e('Privacy Policy', 'aipromptzyra'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/disclaimer/')); ?>"><?php esc_html_e('Disclaimer', 'aipromptzyra'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/terms-and-conditions/')); ?>"><?php esc_html_e('Terms & Conditions', 'aipromptzyra'); ?></a></li>
+                        </ul>
+                    </li>
                 </ul>
             <?php endif; ?>
         </div>
