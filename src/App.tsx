@@ -250,6 +250,7 @@ export default function App() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onOpenContact={() => setActivePageSlug('contact')}
+            onOpenPage={(slug) => setActivePageSlug(slug)}
             onSelectCategory={handleSelectCategory}
             onSelectGuideBySlug={(slug) => {
               if (slug === 'couple-maternity-photoshoot-prompts-for-gemini-ai') {

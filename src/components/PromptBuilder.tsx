@@ -68,29 +68,29 @@ export const PromptBuilder: React.FC = () => {
 
 
   return (
-    <section id="prompt-builder" className="py-16 bg-white dark:bg-[#0B0F19]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 p-6 sm:p-10 shadow-xl shadow-purple-900/5">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+    <section id="prompt-builder" className="py-12 sm:py-16 bg-white dark:bg-[#0B0F19] w-full overflow-hidden sm:overflow-visible">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full box-border">
+        <div className="rounded-2xl sm:rounded-3xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 p-4 sm:p-8 lg:p-10 shadow-xl shadow-purple-900/5 w-full box-border min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start w-full min-w-0">
             {/* Left Column: Form Controls */}
-            <div className="lg:col-span-7 space-y-6">
+            <div className="lg:col-span-7 space-y-5 sm:space-y-6 w-full min-w-0">
               {/* Header with Purple Icon */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#7C3AED] to-[#9333EA] text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-600/30">
-                  <Sliders className="w-6 h-6" />
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-[#7C3AED] to-[#9333EA] text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-600/30">
+                  <Sliders className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
-                <div>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight font-['Outfit']">
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight font-['Outfit']">
                     AI Prompt Builder
                   </h2>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base mt-1">
+                  <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm lg:text-base mt-1">
                     Create your own custom prompt with easy options. Select your preferences and generate a ready-to-use prompt.
                   </p>
                 </div>
               </div>
 
-              {/* Form 8 Fields Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Form 8 Fields Grid (Single column on small mobile, 2 cols when space allows >= 480px, 4 cols on desktop) */}
+              <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full min-w-0">
                 {/* 1. Subject */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
@@ -241,29 +241,29 @@ export const PromptBuilder: React.FC = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3 pt-2">
+              {/* Action Buttons (Full width stacked on mobile <= 540px, side-by-side on larger screens) */}
+              <div className="flex flex-col min-[540px]:flex-row items-stretch min-[540px]:items-center gap-2.5 sm:gap-3 pt-2 w-full">
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="flex-1 py-3 px-6 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-sm sm:text-base rounded-xl shadow-md shadow-purple-600/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  className="flex-1 py-3 px-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-sm sm:text-base rounded-xl shadow-md shadow-purple-600/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99] min-h-[46px] text-center"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-300" />
+                  <Sparkles className="w-4 h-4 text-amber-300 shrink-0" />
                   <span>Generate Prompt ✨</span>
                 </button>
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="py-3 px-5 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-sm rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                  className="py-2.5 sm:py-3 px-5 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-sm rounded-xl flex items-center justify-center gap-1.5 transition-colors min-h-[46px] text-center"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-4 h-4 shrink-0" />
                   <span>Reset</span>
                 </button>
               </div>
             </div>
 
             {/* Right Column: Visual Preview & Output Box */}
-            <div className="lg:col-span-5 space-y-4">
+            <div className="lg:col-span-5 space-y-4 w-full min-w-0">
               {/* Dynamic Preview Image */}
               <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm bg-slate-100 dark:bg-slate-900 group">
                 <img
@@ -286,19 +286,19 @@ export const PromptBuilder: React.FC = () => {
               </div>
 
               {/* Prompt Output Card */}
-              <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/80 space-y-3">
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/80 space-y-3 w-full min-w-0 box-border">
                 <h3 className="font-bold text-sm text-slate-900 dark:text-white font-['Outfit']">
                   Your Generated Prompt
                 </h3>
-                <div className="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-mono">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-mono break-words overflow-hidden">
                   {generatedPrompt}
                 </div>
 
-                <div className="flex items-center gap-3 pt-1">
+                <div className="flex flex-col min-[540px]:flex-row items-stretch min-[540px]:items-center gap-2.5 sm:gap-3 pt-1 w-full">
                   <button
                     type="button"
                     onClick={handleCopy}
-                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all min-h-[44px] text-center ${
                       copied
                         ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
                         : 'bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-600/20'
@@ -306,12 +306,12 @@ export const PromptBuilder: React.FC = () => {
                   >
                     {copied ? (
                       <>
-                        <Check className="w-4 h-4" />
+                        <Check className="w-4 h-4 shrink-0" />
                         <span>Copied!</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-4 h-4" />
+                        <Copy className="w-4 h-4 shrink-0" />
                         <span>Copy Prompt</span>
                       </>
                     )}
@@ -321,9 +321,9 @@ export const PromptBuilder: React.FC = () => {
                     href={geminiUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2.5 px-4 rounded-xl border border-purple-300 dark:border-purple-700 hover:bg-purple-50 dark:hover:bg-purple-950/40 text-purple-700 dark:text-purple-300 text-sm font-bold flex items-center justify-center gap-1.5 transition-colors"
+                    className="flex-1 py-2.5 px-4 rounded-xl border border-purple-300 dark:border-purple-700 hover:bg-purple-50 dark:hover:bg-purple-950/40 text-purple-700 dark:text-purple-300 text-sm font-bold flex items-center justify-center gap-1.5 transition-colors min-h-[44px] text-center"
                   >
-                    <ExternalLink className="w-4 h-4" />
+                    <ExternalLink className="w-4 h-4 shrink-0" />
                     <span>Try in Gemini</span>
                   </a>
                 </div>

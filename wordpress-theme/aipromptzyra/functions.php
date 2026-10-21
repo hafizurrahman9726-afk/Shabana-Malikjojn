@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-define('AIPROMPTZYRA_VERSION', '1.0.5');
+define('AIPROMPTZYRA_VERSION', '1.0.8');
 define('AIPROMPTZYRA_DIR', get_template_directory());
 define('AIPROMPTZYRA_URI', get_template_directory_uri());
 

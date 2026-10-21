@@ -22,6 +22,7 @@ import { AuthorProfile, GuideItem } from '../types';
 interface AboutUsPageProps {
   onBackToHome: () => void;
   onOpenContact?: () => void;
+  onOpenPage?: (slug: string) => void;
   onSelectCategory?: (slug: string) => void;
   onSelectGuideBySlug?: (slug: string) => void;
 }
@@ -29,6 +30,7 @@ interface AboutUsPageProps {
 export const AboutUsPage: React.FC<AboutUsPageProps> = ({
   onBackToHome,
   onOpenContact,
+  onOpenPage,
   onSelectCategory,
   onSelectGuideBySlug,
 }) => {
@@ -237,29 +239,35 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
                     {author.bio}
                   </p>
 
-                  {/* Featured Articles Published by this Author */}
+                  {/* Recent Published Articles Published by this Author */}
                   <div className="pt-2 border-t border-slate-100 dark:border-slate-700/80">
                     <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
                       Recent Published Articles
                     </span>
-                    <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-                      {author.featuredArticles.slice(0, 3).map((art, idx) => (
-                        <li key={idx} className="flex items-start gap-1.5">
-                          <span className="text-purple-500 shrink-0 font-bold">•</span>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (art.slug && onSelectGuideBySlug) {
-                                onSelectGuideBySlug(art.slug);
-                              }
-                            }}
-                            className="text-left hover:text-purple-600 dark:hover:text-purple-400 transition-colors line-clamp-1 cursor-pointer"
-                          >
-                            {art.title}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
+                    {author.featuredArticles && author.featuredArticles.length > 0 ? (
+                      <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+                        {author.featuredArticles.slice(0, 3).map((art, idx) => (
+                          <li key={idx} className="flex items-start gap-1.5">
+                            <span className="text-purple-500 shrink-0 font-bold">•</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (art.slug && onSelectGuideBySlug) {
+                                  onSelectGuideBySlug(art.slug);
+                                }
+                              }}
+                              className="text-left hover:text-purple-600 dark:hover:text-purple-400 transition-colors line-clamp-1 cursor-pointer"
+                            >
+                              {art.title}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-xs text-slate-500 dark:text-slate-400 italic">
+                        No published articles yet. Check back soon for new guides from this author!
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -279,123 +287,125 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           </div>
         </section>
 
-        {/* 5. OUR EDITORIAL APPROACH */}
-        <section className="bg-white dark:bg-slate-800 rounded-3xl p-8 sm:p-10 border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
-          <div className="max-w-3xl space-y-3">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
-              <ShieldCheck className="w-4 h-4" />
-              <span>Integrity &amp; Standards</span>
+        {/* 5. OUR EVERYDAY PROMISE TO YOU (4-Card Editorial Section) */}
+        <section className="space-y-8">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800/60 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+              <span>Editorial Integrity &amp; Transparency</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
-              Our Editorial Approach
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
+              Our Everyday Promise to You
             </h2>
             <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
-              Every formula and tutorial published on AIPromptZyra adheres to four consistent benchmarks:
+              At AIPromptZyra, our goal is to provide practical, clearly written AI prompts that readers can understand, customize, and use with confidence. We focus on transparent instructions, realistic variables, and reproducible creative techniques across modern multimodal tools.
             </p>
           </div>
 
+          {/* 4 Numbered Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700 space-y-2">
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white font-['Outfit']">
-                1. Structural Verification
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                We organize prompts logically: Subject &rarr; Environment &rarr; Lighting &rarr; Camera &rarr; Style. This syntax ensures multimodal models prioritize subjects correctly without hallucinating unwanted artifacts.
-              </p>
+            {/* Card 01 */}
+            <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 sm:p-8 border border-slate-200/90 dark:border-slate-700/80 shadow-sm hover:border-purple-300 dark:hover:border-purple-600 transition-all flex flex-col justify-between space-y-5">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl sm:text-3xl font-black font-['Outfit'] text-purple-600 dark:text-purple-400 tracking-tight">
+                    01
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/70 dark:border-purple-800/60">
+                    Precision Crafting
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">
+                  Practical Prompts, Not Empty Promises
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Every prompt formula is built around actionable descriptive components—such as concrete camera lenses, lighting ratios, sensor depth, and physical materials—rather than hollow marketing buzzwords. We avoid claiming that every formula is universally guaranteed or exhaustively benchmarked unless supported by actual testing documentation, focusing instead on reliable foundations you can build upon.
+                </p>
+              </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700 space-y-2">
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white font-['Outfit']">
-                2. No Repetitive Keyword Stuffing
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Modern diffusion and autoregressive image models ignore redundant terms like “hyperrealistic, 4k, photorealistic, trending on artstation” when repeated. We use optical descriptions that trigger true photographic behavior.
-              </p>
+            {/* Card 02 */}
+            <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 sm:p-8 border border-slate-200/90 dark:border-slate-700/80 shadow-sm hover:border-purple-300 dark:hover:border-purple-600 transition-all flex flex-col justify-between space-y-5">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl sm:text-3xl font-black font-['Outfit'] text-purple-600 dark:text-purple-400 tracking-tight">
+                    02
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/70 dark:border-purple-800/60">
+                    Cultural Nuance
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">
+                  Respect for Cultural Details
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Cultural depiction requires genuine attention to detail. When crafting prompts for traditional Indian weddings, festive celebrations, and regional ethnic attire like Banarasi sarees or royal sherwanis, we describe traditional textiles, sacred rituals, and heritage aesthetics with accuracy and respect, avoiding superficial stereotypes.
+                </p>
+              </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700 space-y-2">
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white font-['Outfit']">
-                3. Regular Model Updates
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                When new model weights (such as Imagen 3 updates or Midjourney releases) change prompt adherence, our writers revisit older guides, adjust phrasing, and flag tool-specific nuances.
-              </p>
+            {/* Card 03 */}
+            <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 sm:p-8 border border-slate-200/90 dark:border-slate-700/80 shadow-sm hover:border-purple-300 dark:hover:border-purple-600 transition-all flex flex-col justify-between space-y-5">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl sm:text-3xl font-black font-['Outfit'] text-purple-600 dark:text-purple-400 tracking-tight">
+                    03
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/70 dark:border-purple-800/60">
+                    Organic Aesthetics
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">
+                  Natural-Looking Creative Results
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Great prompt engineering prioritizes organic realism over synthetic perfection. We guide users on natural skin texture, balanced ambient light, authentic eye reflections, and realistic camera perspectives to reduce plastic artifacts, while recognizing that AI models naturally vary with each generation.
+                </p>
+              </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700 space-y-2">
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white font-['Outfit']">
-                4. Reader Corrections &amp; Open Feedback
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                If a prompt formula fails to yield expected results across specific tool interfaces, readers can submit corrections via our contact channel. We review and update guides promptly.
-              </p>
+            {/* Card 04 */}
+            <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 sm:p-8 border border-slate-200/90 dark:border-slate-700/80 shadow-sm hover:border-purple-300 dark:hover:border-purple-600 transition-all flex flex-col justify-between space-y-5">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl sm:text-3xl font-black font-['Outfit'] text-purple-600 dark:text-purple-400 tracking-tight">
+                    04
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/70 dark:border-purple-800/60">
+                    Open Accessibility
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">
+                  Simple, Accessible Prompt Guides
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Exploring and applying AI prompts should be simple and friction-free. Our tutorials feature clear explanations, one-click copy functionality, and transparent disclosures about tool-specific capabilities and limitations, ensuring readers always have straightforward access without confusing barriers.
+                </p>
+              </div>
             </div>
           </div>
-        </section>
 
-        {/* 6. HOW TO USE OUR PROMPTS */}
-        <section className="bg-gradient-to-br from-purple-50/60 via-white to-slate-50 dark:from-slate-900 dark:via-[#0E1526] dark:to-slate-900 rounded-3xl p-8 sm:p-10 border border-purple-200/80 dark:border-purple-900/50 space-y-6">
-          <div className="space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
-              How to Use Our Prompts
-            </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
-              Applying our prompt formulas into your AI workflow is straightforward:
+          {/* Supporting Section: How We Keep AIPromptZyra Accessible */}
+          <div className="bg-gradient-to-br from-purple-50/70 via-white to-slate-50 dark:from-slate-900 dark:via-purple-950/20 dark:to-slate-900 rounded-3xl p-8 sm:p-10 border border-purple-200/80 dark:border-purple-900/60 shadow-xs space-y-4">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300">
+              <ShieldCheck className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+              <span>Reader Access &amp; Operations</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
+              How We Keep AIPromptZyra Accessible
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              AIPromptZyra operates as an open, freely accessible educational resource supported by ethical, non-intrusive digital advertising. We never place core tutorials behind paywalls, subscription fees, or hidden reader costs. We hold reader trust and privacy in the highest regard: we do not track personal identifying data or sell visitor information to third parties. For complete details on our data protection commitments, please review our{' '}
+              <button
+                type="button"
+                onClick={() => onOpenPage && onOpenPage('privacy-policy')}
+                className="font-semibold text-purple-600 dark:text-purple-400 hover:underline cursor-pointer inline-flex items-center gap-0.5"
+              >
+                <span>Privacy Policy</span>
+                <ExternalLink className="w-3 h-3 inline" />
+              </button>
+              .
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            <div className="space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center text-sm">
-                1
-              </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white">Copy the Formula</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                Use the one-click copy button on any prompt card or tutorial to copy the tested descriptive string.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center text-sm">
-                2
-              </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white">Swap Key Variables</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                Customize subjects, outfit colors, background locations, and lighting moods to match your project's needs.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center text-sm">
-                3
-              </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white">Paste into Your Tool</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                Paste directly into Google Gemini, ChatGPT DALL-E 3, Midjourney, or Bing Image Creator and render.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* 7. OUR COMMITMENT TO READERS */}
-        <section className="bg-white dark:bg-slate-800 rounded-3xl p-8 sm:p-10 border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>Ethical Standards</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
-            Our Commitment to Readers
-          </h2>
-          <div className="space-y-3 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
-            <p>
-              We believe generative technology is an assistive tool that empowers human creativity. We uphold:
-            </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
-              <li><strong>Original Content:</strong> All guides, tips, and articles are written by our verified human editorial team.</li>
-              <li><strong>Clear Labeling:</strong> AI-generated visual examples are clearly identified as sample outputs.</li>
-              <li><strong>Responsible Creativity:</strong> We do not publish prompts designed for non-consensual deepfakes, copyright infringement, or deceptive impersonation.</li>
-              <li><strong>Respect for Privacy:</strong> We do not track reader personal information or sell reader data to third parties.</li>
-            </ul>
           </div>
         </section>
 

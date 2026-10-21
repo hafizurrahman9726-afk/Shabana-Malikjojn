@@ -5,31 +5,20 @@ interface HeroProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   onSearchSubmit: (e: React.FormEvent) => void;
-  onSelectTag: (tag: string) => void;
+  onSelectTag?: (tag: string) => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({
   searchQuery,
   setSearchQuery,
   onSearchSubmit,
-  onSelectTag,
 }) => {
-  const popularTags = [
-    'Girl Portrait',
-    'Couple Photo',
-    'Festival',
-    'Saree',
-    'Cinematic',
-    'Family',
-    'AI Art',
-  ];
-
   return (
     <section id="hero" className="relative pt-8 pb-12 lg:pt-12 lg:pb-16 overflow-hidden bg-white dark:bg-[#0B0F19]">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Headline, Description, Search, Tags */}
+          {/* Left Column: Headline, Description, Search */}
           <div className="lg:col-span-7 space-y-6">
             {/* Kicker Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 text-xs font-bold tracking-wider">
@@ -71,23 +60,6 @@ export const Hero: React.FC<HeroProps> = ({
                 </button>
               </div>
             </form>
-
-            {/* Popular Tags */}
-            <div className="flex items-center gap-2 pt-1 flex-wrap">
-              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mr-1">
-                Popular:
-              </span>
-              {popularTags.map((tag) => (
-                <button
-                  key={tag}
-                  type="button"
-                  onClick={() => onSelectTag(tag)}
-                  className="px-3 py-1 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-900/40 text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-300 text-xs font-medium rounded-full border border-slate-200 dark:border-slate-700 hover:border-purple-300 transition-all shadow-2xs"
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Right Column: Hero Collage */}

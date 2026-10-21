@@ -126,11 +126,6 @@ get_header(); ?>
                         'avatar'     => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=320&auto=format&fit=crop&q=80',
                         'categories' => array('AI Photo Prompts', 'Trending Prompts'),
                         'bio'        => 'Founder of AIPromptZyra and visual prompt researcher. Specializes in realistic camera optics, lighting formulas, and technical prompt frameworks across Google Gemini, ChatGPT, and Midjourney.',
-                        'articles'   => array(
-                            array('title' => 'Gemini Imagen 3 Masterclass: Photorealistic Portraits', 'url' => home_url('/gemini-imagen-3-prompting-masterclass/')),
-                            array('title' => 'Practical Tips to Make AI Images Look Truly Photorealistic', 'url' => home_url('/guides/tips-for-realistic-ai-images/')),
-                            array('title' => 'How to Write Better AI Prompts: Beginner to Pro Guide', 'url' => home_url('/guides/how-to-write-better-ai-prompts/')),
-                        ),
                     ),
                     array(
                         'name'       => 'Rhea Sharma',
@@ -139,10 +134,6 @@ get_header(); ?>
                         'avatar'     => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=320&auto=format&fit=crop&q=80',
                         'categories' => array('Couple Prompts', 'AI Photo Prompts'),
                         'bio'        => 'Editorial writer and prompt designer focusing on couple photography, maternity shoots, and emotion-driven AI portraits. Researches cultural styling, wardrobe details, and posing aesthetics.',
-                        'articles'   => array(
-                            array('title' => 'Romantic Couple Golden Hour Photography Prompts', 'url' => home_url('/prompts/romantic-couple-golden-hour/')),
-                            array('title' => 'Indian Traditional Wedding Prompt for Gemini AI (2026)', 'url' => home_url('/indian-wedding-photo-prompt-for-gemini/')),
-                        ),
                     ),
                     array(
                         'name'       => 'Aditya Sen',
@@ -151,17 +142,49 @@ get_header(); ?>
                         'avatar'     => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=320&auto=format&fit=crop&q=80',
                         'categories' => array('Trending Prompts', 'AI Photo Prompts'),
                         'bio'        => 'Creative technologist tracking generative AI trends, cyberpunk cinematography, and video generation tools. Translates emerging visual styles and video workflows into clean prompt recipes.',
-                        'articles'   => array(
-                            array('title' => 'Viral Neon Urban Portrait Prompt Formula', 'url' => home_url('/prompts/viral-neon-urban-portrait/')),
-                            array('title' => 'AI Video Prompts Guide: Runway Gen-3 and Luma Tips', 'url' => home_url('/guides/ai-video-prompts-guide/')),
-                            array('title' => 'Vintage 1970s 35mm Analog Film Aesthetic Prompts', 'url' => home_url('/prompts/vintage-35mm-film/')),
-                        ),
                     ),
                 );
 
                 foreach ($authors_list as $auth) :
+                    // Resolve user object dynamically
                     $author_obj = get_user_by('slug', $auth['slug']);
+                    if (!$author_obj) {
+                        $author_obj = get_user_by('login', $auth['slug']);
+                    }
+                    if (!$author_obj) {
+                        $author_obj = get_user_by('login', 'aipromptzyra');
+                    }
+                    if (!$author_obj) {
+                        $author_obj = get_user_by('display_name', $auth['name']);
+                    }
+
+                    $author_id = $author_obj ? $author_obj->ID : 0;
                     $author_url = $author_obj ? get_author_posts_url($author_obj->ID) : home_url('/author/' . urlencode($auth['slug']) . '/');
+
+                    // Dynamic query for latest published articles by this author
+                    $author_recent_articles = array();
+                    if ($author_id > 0) {
+                        $author_query = new WP_Query(array(
+                            'author'         => $author_id,
+                            'post_type'      => array('post', 'prompt'),
+                            'post_status'    => 'publish',
+                            'posts_per_page' => 3,
+                            'orderby'        => 'date',
+                            'order'          => 'DESC',
+                            'no_found_rows'  => true,
+                        ));
+
+                        if ($author_query->have_posts()) {
+                            while ($author_query->have_posts()) {
+                                $author_query->the_post();
+                                $author_recent_articles[] = array(
+                                    'title' => get_the_title(),
+                                    'url'   => get_permalink(),
+                                );
+                            }
+                            wp_reset_postdata();
+                        }
+                    }
                 ?>
                     <div class="author-profile-box">
                         <div class="author-box-top">
@@ -185,15 +208,21 @@ get_header(); ?>
 
                         <div class="author-recent-articles">
                             <h4 class="recent-articles-heading"><?php esc_html_e('Recent Published Articles', 'aipromptzyra'); ?></h4>
-                            <ul class="recent-articles-list">
-                                <?php foreach ($auth['articles'] as $art) : ?>
-                                    <li>
-                                        <a href="<?php echo esc_url($art['url']); ?>">
-                                            <?php echo esc_html($art['title']); ?>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
+                            <?php if (!empty($author_recent_articles)) : ?>
+                                <ul class="recent-articles-list">
+                                    <?php foreach ($author_recent_articles as $art) : ?>
+                                        <li>
+                                            <a href="<?php echo esc_url($art['url']); ?>">
+                                                <?php echo esc_html($art['title']); ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php else : ?>
+                                <p class="author-no-articles-text">
+                                    <?php esc_html_e('No published articles yet. Check back soon for new guides from this author!', 'aipromptzyra'); ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="author-box-action">
@@ -206,77 +235,82 @@ get_header(); ?>
             </div>
         </section>
 
-        <!-- 5. OUR EDITORIAL APPROACH -->
-        <section class="about-section editorial-approach-section">
-            <div class="section-card">
-                <div class="section-card-kicker"><?php esc_html_e('Integrity & Standards', 'aipromptzyra'); ?></div>
-                <h2 class="section-card-title"><?php esc_html_e('Our Editorial Approach', 'aipromptzyra'); ?></h2>
-                <p class="section-card-lead">
-                    <?php esc_html_e('Every formula and tutorial published on AIPromptZyra adheres to four consistent benchmarks:', 'aipromptzyra'); ?>
+        <!-- 5. OUR EVERYDAY PROMISE TO YOU -->
+        <section class="about-section promise-section">
+            <div class="section-heading-centered">
+                <div class="about-kicker-pill">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#7C3AED" aria-hidden="true">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
+                    <span><?php esc_html_e('EDITORIAL INTEGRITY & TRANSPARENCY', 'aipromptzyra'); ?></span>
+                </div>
+                <h2 class="section-title"><?php esc_html_e('Our Everyday Promise to You', 'aipromptzyra'); ?></h2>
+                <p class="section-subtitle">
+                    <?php esc_html_e('At AIPromptZyra, our goal is to provide practical, clearly written AI prompts that readers can understand, customize, and use with confidence. We focus on transparent instructions, realistic variables, and reproducible creative techniques across modern multimodal tools.', 'aipromptzyra'); ?>
                 </p>
+            </div>
 
-                <div class="approach-grid">
-                    <div class="approach-item">
-                        <h3><?php esc_html_e('1. Structural Verification', 'aipromptzyra'); ?></h3>
-                        <p><?php esc_html_e('We organize prompts logically: Subject → Environment → Lighting → Camera → Style. This syntax ensures multimodal models prioritize subjects correctly without hallucinating unwanted artifacts.', 'aipromptzyra'); ?></p>
+            <!-- 4-Card Grid -->
+            <div class="promise-cards-grid">
+                <!-- Card 01 -->
+                <div class="promise-card">
+                    <div class="promise-card-top">
+                        <span class="promise-num">01</span>
+                        <span class="promise-badge"><?php esc_html_e('Precision Crafting', 'aipromptzyra'); ?></span>
                     </div>
+                    <h3 class="promise-title"><?php esc_html_e('Practical Prompts, Not Empty Promises', 'aipromptzyra'); ?></h3>
+                    <p class="promise-desc">
+                        <?php esc_html_e('Every prompt formula is built around actionable descriptive components—such as concrete camera lenses, lighting ratios, sensor depth, and physical materials—rather than hollow marketing buzzwords. We avoid claiming that every formula is universally guaranteed or exhaustively benchmarked unless supported by actual testing documentation, focusing instead on reliable foundations you can build upon.', 'aipromptzyra'); ?>
+                    </p>
+                </div>
 
-                    <div class="approach-item">
-                        <h3><?php esc_html_e('2. No Repetitive Keyword Stuffing', 'aipromptzyra'); ?></h3>
-                        <p><?php esc_html_e('Modern diffusion and autoregressive image models ignore redundant terms like “hyperrealistic, 4k, photorealistic” when repeated. We use optical descriptions that trigger true photographic behavior.', 'aipromptzyra'); ?></p>
+                <!-- Card 02 -->
+                <div class="promise-card">
+                    <div class="promise-card-top">
+                        <span class="promise-num">02</span>
+                        <span class="promise-badge"><?php esc_html_e('Cultural Nuance', 'aipromptzyra'); ?></span>
                     </div>
+                    <h3 class="promise-title"><?php esc_html_e('Respect for Cultural Details', 'aipromptzyra'); ?></h3>
+                    <p class="promise-desc">
+                        <?php esc_html_e('Cultural depiction requires genuine attention to detail. When crafting prompts for traditional Indian weddings, festive celebrations, and regional ethnic attire like Banarasi sarees or royal sherwanis, we describe traditional textiles, sacred rituals, and heritage aesthetics with accuracy and respect, avoiding superficial stereotypes.', 'aipromptzyra'); ?>
+                    </p>
+                </div>
 
-                    <div class="approach-item">
-                        <h3><?php esc_html_e('3. Regular Model Updates', 'aipromptzyra'); ?></h3>
-                        <p><?php esc_html_e('When new model weights (such as Imagen 3 updates or Midjourney releases) change prompt adherence, our writers revisit older guides, adjust phrasing, and flag tool-specific nuances.', 'aipromptzyra'); ?></p>
+                <!-- Card 03 -->
+                <div class="promise-card">
+                    <div class="promise-card-top">
+                        <span class="promise-num">03</span>
+                        <span class="promise-badge"><?php esc_html_e('Organic Aesthetics', 'aipromptzyra'); ?></span>
                     </div>
+                    <h3 class="promise-title"><?php esc_html_e('Natural-Looking Creative Results', 'aipromptzyra'); ?></h3>
+                    <p class="promise-desc">
+                        <?php esc_html_e('Great prompt engineering prioritizes organic realism over synthetic perfection. We guide users on natural skin texture, balanced ambient light, authentic eye reflections, and realistic camera perspectives to reduce plastic artifacts, while recognizing that AI models naturally vary with each generation.', 'aipromptzyra'); ?>
+                    </p>
+                </div>
 
-                    <div class="approach-item">
-                        <h3><?php esc_html_e('4. Reader Corrections & Open Feedback', 'aipromptzyra'); ?></h3>
-                        <p><?php esc_html_e('If a prompt formula fails to yield expected results across specific tool interfaces, readers can submit corrections via our contact channel. We review and update guides promptly.', 'aipromptzyra'); ?></p>
+                <!-- Card 04 -->
+                <div class="promise-card">
+                    <div class="promise-card-top">
+                        <span class="promise-num">04</span>
+                        <span class="promise-badge"><?php esc_html_e('Open Accessibility', 'aipromptzyra'); ?></span>
                     </div>
+                    <h3 class="promise-title"><?php esc_html_e('Simple, Accessible Prompt Guides', 'aipromptzyra'); ?></h3>
+                    <p class="promise-desc">
+                        <?php esc_html_e('Exploring and applying AI prompts should be simple and friction-free. Our tutorials feature clear explanations, one-click copy functionality, and transparent disclosures about tool-specific capabilities and limitations, ensuring readers always have straightforward access without confusing barriers.', 'aipromptzyra'); ?>
+                    </p>
                 </div>
             </div>
-        </section>
 
-        <!-- 6. HOW TO USE OUR PROMPTS -->
-        <section class="about-section how-to-use-box">
-            <h2 class="section-card-title"><?php esc_html_e('How to Use Our Prompts', 'aipromptzyra'); ?></h2>
-            <p class="section-card-lead"><?php esc_html_e('Applying our prompt formulas into your AI workflow is straightforward:', 'aipromptzyra'); ?></p>
-
-            <div class="how-to-steps-3col">
-                <div class="how-to-step">
-                    <span class="step-num">1</span>
-                    <h4><?php esc_html_e('Copy the Formula', 'aipromptzyra'); ?></h4>
-                    <p><?php esc_html_e('Use the one-click copy button on any prompt card or tutorial to copy the tested descriptive string.', 'aipromptzyra'); ?></p>
+            <!-- Supporting Section: How We Keep AIPromptZyra Accessible -->
+            <div class="accessibility-card-wrapper">
+                <div class="accessibility-badge">
+                    <span><?php esc_html_e('READER ACCESS & OPERATIONS', 'aipromptzyra'); ?></span>
                 </div>
-                <div class="how-to-step">
-                    <span class="step-num">2</span>
-                    <h4><?php esc_html_e('Swap Key Variables', 'aipromptzyra'); ?></h4>
-                    <p><?php esc_html_e('Customize subjects, outfit colors, background locations, and lighting moods to match your project’s needs.', 'aipromptzyra'); ?></p>
-                </div>
-                <div class="how-to-step">
-                    <span class="step-num">3</span>
-                    <h4><?php esc_html_e('Paste into Your Tool', 'aipromptzyra'); ?></h4>
-                    <p><?php esc_html_e('Paste directly into Google Gemini, ChatGPT DALL-E 3, Midjourney, or Bing Image Creator and render.', 'aipromptzyra'); ?></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. OUR COMMITMENT TO READERS -->
-        <section class="about-section commitment-section">
-            <div class="section-card">
-                <div class="section-card-kicker"><?php esc_html_e('Ethical Standards', 'aipromptzyra'); ?></div>
-                <h2 class="section-card-title"><?php esc_html_e('Our Commitment to Readers', 'aipromptzyra'); ?></h2>
-                <div class="section-card-text">
-                    <p><?php esc_html_e('We believe generative technology is an assistive tool that empowers human creativity. We uphold:', 'aipromptzyra'); ?></p>
-                    <ul class="commitment-bullets">
-                        <li><strong><?php esc_html_e('Original Content:', 'aipromptzyra'); ?></strong> <?php esc_html_e('All guides, tips, and articles are written by our verified human editorial team.', 'aipromptzyra'); ?></li>
-                        <li><strong><?php esc_html_e('Clear Labeling:', 'aipromptzyra'); ?></strong> <?php esc_html_e('AI-generated visual examples are clearly identified as sample outputs.', 'aipromptzyra'); ?></li>
-                        <li><strong><?php esc_html_e('Responsible Creativity:', 'aipromptzyra'); ?></strong> <?php esc_html_e('We do not publish prompts designed for non-consensual deepfakes, copyright infringement, or deceptive impersonation.', 'aipromptzyra'); ?></li>
-                        <li><strong><?php esc_html_e('Respect for Privacy:', 'aipromptzyra'); ?></strong> <?php esc_html_e('We do not track reader personal information or sell reader data to third parties.', 'aipromptzyra'); ?></li>
-                    </ul>
-                </div>
+                <h3 class="accessibility-title"><?php esc_html_e('How We Keep AIPromptZyra Accessible', 'aipromptzyra'); ?></h3>
+                <p class="accessibility-text">
+                    <?php esc_html_e('AIPromptZyra operates as an open, freely accessible educational resource supported by ethical, non-intrusive digital advertising. We never place core tutorials behind paywalls, subscription fees, or hidden reader costs. We hold reader trust and privacy in the highest regard: we do not track personal identifying data or sell visitor information to third parties. For complete details on our data protection commitments, please review our', 'aipromptzyra'); ?>
+                    <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>" class="accessibility-privacy-link"><?php esc_html_e('Privacy Policy', 'aipromptzyra'); ?></a>.
+                </p>
             </div>
         </section>
 

@@ -66,7 +66,7 @@ add_action('init', 'aipromptzyra_register_post_types');
 get_header(); ?>
 
 <main id="primary" class="site-main">
-    <!-- 1. HERO SECTION with search and popular tags -->
+    <!-- 1. HERO SECTION with search -->
     <section class="hero-section">...</section>
 
     <!-- 2. HORIZONTAL SLIDING PROMPT CATEGORY CAROUSEL -->

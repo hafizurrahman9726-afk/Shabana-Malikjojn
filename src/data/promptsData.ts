@@ -1097,22 +1097,22 @@ export const AUTHORS_DATA: AuthorProfile[] = [
     articleCount: 11,
     featuredArticles: [
       {
-        title: 'Romantic Couple Golden Hour Photography Prompts',
-        slug: 'romantic-couple-golden-hour',
-        category: 'Couple Prompts',
-        date: 'Dec 5, 2025',
-      },
-      {
         title: 'Indian Traditional Wedding Prompt for Gemini AI (2026)',
         slug: 'indian-wedding-photo-prompt-for-gemini',
         category: 'Couple Prompts',
         date: 'Jan 12, 2026',
       },
       {
-        title: 'Golden Hour Wildflower Meadow Candid Couples Guide',
-        slug: 'golden-hour-wildflower-meadow-candid-couples',
+        title: 'Romantic Couple Golden Hour Photography Prompts',
+        slug: 'romantic-couple-golden-hour-prompts',
         category: 'Couple Prompts',
-        date: 'Aug 5, 2025',
+        date: 'Dec 5, 2025',
+      },
+      {
+        title: 'Traditional Royal Silk Saree AI Portrait Formulas',
+        slug: 'traditional-royal-silk-saree-formulas',
+        category: 'Couple Prompts',
+        date: 'Nov 20, 2025',
       },
     ],
   },
@@ -1127,28 +1127,22 @@ export const AUTHORS_DATA: AuthorProfile[] = [
     articleCount: 10,
     featuredArticles: [
       {
-        title: 'Viral Neon Urban Portrait Prompt Formula',
-        slug: 'viral-neon-urban-portrait',
-        category: 'Trending Prompts',
-        date: 'Oct 18, 2026',
-      },
-      {
         title: 'AI Video Prompts Guide: Runway Gen-3 and Luma Tips',
         slug: 'ai-video-prompts-guide',
         category: 'Trending Prompts',
         date: 'Dec 15, 2025',
       },
       {
-        title: 'Vintage 1970s 35mm Analog Film Aesthetic Prompts',
-        slug: 'vintage-35mm-film',
-        category: 'Trending Prompts',
-        date: 'Nov 10, 2025',
-      },
-      {
         title: 'Cyberpunk Tokyo Neon Rain Alley AI Concept Art',
-        slug: 'cyberpunk-neon-portrait',
+        slug: 'cyberpunk-tokyo-neon-rain-alley',
         category: 'Trending Prompts',
         date: 'Nov 15, 2025',
+      },
+      {
+        title: 'Vintage 1970s 35mm Analog Film Aesthetic Prompts',
+        slug: 'vintage-1970s-35mm-analog-film-aesthetic',
+        category: 'Trending Prompts',
+        date: 'Nov 10, 2025',
       },
     ],
   },

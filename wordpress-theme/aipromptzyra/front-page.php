@@ -43,21 +43,6 @@ get_header(); ?>
                         </button>
                     </div>
                 </form>
-
-                <!-- Popular Search Pills -->
-                <div class="popular-tags-wrapper">
-                    <span class="popular-label"><?php esc_html_e('Popular:', 'aipromptzyra'); ?></span>
-                    <div class="popular-pills">
-                        <?php
-                        $popular_tags = array('Girl Portrait', 'Couple Photo', 'Festival', 'Saree', 'Cinematic', 'Family', 'AI Art');
-                        foreach ($popular_tags as $tag) :
-                        ?>
-                            <a href="<?php echo esc_url(home_url('/?s=' . urlencode($tag))); ?>" class="tag-pill">
-                                <?php echo esc_html($tag); ?>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
             </div>
 
             <!-- Hero Image Collage -->
