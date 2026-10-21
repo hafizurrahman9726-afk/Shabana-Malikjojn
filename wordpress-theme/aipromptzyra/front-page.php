@@ -147,6 +147,34 @@ get_header(); ?>
     <?php endif; ?>
 
     <!-- 3. LATEST GUIDES & TUTORIALS (30 published articles per page + functional pagination + horizontal filter bar) -->
+    <?php
+    // Calculate current page safely for front page and subpages
+    $paged = 1;
+    if (get_query_var('paged')) {
+        $paged = absint(get_query_var('paged'));
+    } elseif (get_query_var('page')) {
+        $paged = absint(get_query_var('page'));
+    } elseif (isset($_GET['paged'])) {
+        $paged = absint($_GET['paged']);
+    } elseif (isset($_GET['page'])) {
+        $paged = absint($_GET['page']);
+    }
+    $paged = max(1, $paged);
+
+    $guides_args = array(
+        'post_type'           => array('post', 'prompt'),
+        'post_status'         => 'publish',
+        'posts_per_page'      => 30,
+        'paged'               => $paged,
+        'orderby'             => 'date',
+        'order'               => 'DESC',
+        'ignore_sticky_posts' => 1,
+    );
+
+    $guides_query = new WP_Query($guides_args);
+
+    if ($guides_query->have_posts()) :
+    ?>
     <section id="guides-section" class="section guides-section">
         <div class="container">
             <div class="section-header-row">
@@ -191,103 +219,76 @@ get_header(); ?>
                 </div>
             </div>
 
-            <?php
-            // Calculate current page safely for front page and subpages
-            $paged = 1;
-            if (get_query_var('paged')) {
-                $paged = absint(get_query_var('paged'));
-            } elseif (get_query_var('page')) {
-                $paged = absint(get_query_var('page'));
-            } elseif (isset($_GET['paged'])) {
-                $paged = absint($_GET['paged']);
-            } elseif (isset($_GET['page'])) {
-                $paged = absint($_GET['page']);
-            }
-            $paged = max(1, $paged);
-
-            $guides_args = array(
-                'post_type'           => array('post', 'prompt'),
-                'post_status'         => 'publish',
-                'posts_per_page'      => 30,
-                'paged'               => $paged,
-                'orderby'             => 'date',
-                'order'               => 'DESC',
-                'ignore_sticky_posts' => 1,
-            );
-
-            $guides_query = new WP_Query($guides_args);
-
-            if ($guides_query->have_posts()) :
-            ?>
-                <div class="guides-grid" id="guides-grid">
-                    <?php
-                    while ($guides_query->have_posts()) :
-                        $guides_query->the_post();
-                        get_template_part('template-parts/content', 'guide-card');
-                    endwhile;
-                    ?>
-                </div>
-
-                <div id="guides-filter-empty" class="guides-filter-empty" style="display: none;">
-                    <div class="empty-filter-box">
-                        <p class="empty-filter-title"><?php esc_html_e('No articles found in this category.', 'aipromptzyra'); ?></p>
-                        <p class="empty-filter-desc"><?php esc_html_e('Try selecting another category or view all prompt guides.', 'aipromptzyra'); ?></p>
-                        <button type="button" class="guides-filter-reset-btn" id="guides-filter-reset-btn">
-                            <?php esc_html_e('View All Prompts', 'aipromptzyra'); ?>
-                        </button>
-                    </div>
-                </div>
-
+            <div class="guides-grid" id="guides-grid">
                 <?php
-                $total_pages = $guides_query->max_num_pages;
-                if ($total_pages > 1) :
-                    $current_page = $paged;
+                while ($guides_query->have_posts()) :
+                    $guides_query->the_post();
+                    get_template_part('template-parts/content', 'guide-card');
+                endwhile;
                 ?>
-                    <nav class="pagination-wrapper" aria-label="<?php esc_attr_e('Guides Pagination', 'aipromptzyra'); ?>">
-                        <ul class="page-numbers-list">
-                            <?php if ($current_page > 1) :
-                                $prev_link = ($current_page - 1 === 1) ? home_url('/#guides-section') : add_query_arg('paged', $current_page - 1, home_url('/#guides-section'));
-                            ?>
-                                <li>
-                                    <a href="<?php echo esc_url($prev_link); ?>" class="page-number page-number-prev" aria-label="<?php esc_attr_e('Previous page', 'aipromptzyra'); ?>">
-                                        &larr; <?php esc_html_e('Previous', 'aipromptzyra'); ?>
-                                    </a>
-                                </li>
-                            <?php endif; ?>
+            </div>
 
-                            <?php
-                            for ($i = 1; $i <= $total_pages; $i++) :
-                                $page_link = ($i === 1) ? home_url('/#guides-section') : add_query_arg('paged', $i, home_url('/#guides-section'));
-                                $is_active = ($i === (int)$current_page);
-                            ?>
-                                <li>
-                                    <?php if ($is_active) : ?>
-                                        <span class="page-number page-number-current" aria-current="page"><?php echo $i; ?></span>
-                                    <?php else : ?>
-                                        <a href="<?php echo esc_url($page_link); ?>" class="page-number" aria-label="<?php printf(esc_attr__('Page %d', 'aipromptzyra'), $i); ?>">
-                                            <?php echo $i; ?>
-                                        </a>
-                                    <?php endif; ?>
-                                </li>
-                            <?php endfor; ?>
+            <div id="guides-filter-empty" class="guides-filter-empty" style="display: none;">
+                <div class="empty-filter-box">
+                    <p class="empty-filter-title"><?php esc_html_e('No articles found in this category.', 'aipromptzyra'); ?></p>
+                    <p class="empty-filter-desc"><?php esc_html_e('Try selecting another category or view all prompt guides.', 'aipromptzyra'); ?></p>
+                    <button type="button" class="guides-filter-reset-btn" id="guides-filter-reset-btn">
+                        <?php esc_html_e('View All Prompts', 'aipromptzyra'); ?>
+                    </button>
+                </div>
+            </div>
 
-                            <?php if ($current_page < $total_pages) :
-                                $next_link = add_query_arg('paged', $current_page + 1, home_url('/#guides-section'));
-                            ?>
-                                <li>
-                                    <a href="<?php echo esc_url($next_link); ?>" class="page-number page-number-next" aria-label="<?php esc_attr_e('Next page', 'aipromptzyra'); ?>">
-                                        <?php esc_html_e('Next', 'aipromptzyra'); ?> &rarr;
+            <?php
+            $total_pages = $guides_query->max_num_pages;
+            if ($total_pages > 1) :
+                $current_page = $paged;
+            ?>
+                <nav class="pagination-wrapper" aria-label="<?php esc_attr_e('Guides Pagination', 'aipromptzyra'); ?>">
+                    <ul class="page-numbers-list">
+                        <?php if ($current_page > 1) :
+                            $prev_link = ($current_page - 1 === 1) ? home_url('/#guides-section') : add_query_arg('paged', $current_page - 1, home_url('/#guides-section'));
+                        ?>
+                            <li>
+                                <a href="<?php echo esc_url($prev_link); ?>" class="page-number page-number-prev" aria-label="<?php esc_attr_e('Previous page', 'aipromptzyra'); ?>">
+                                    &larr; <?php esc_html_e('Previous', 'aipromptzyra'); ?>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php
+                        for ($i = 1; $i <= $total_pages; $i++) :
+                            $page_link = ($i === 1) ? home_url('/#guides-section') : add_query_arg('paged', $i, home_url('/#guides-section'));
+                            $is_active = ($i === (int)$current_page);
+                        ?>
+                            <li>
+                                <?php if ($is_active) : ?>
+                                    <span class="page-number page-number-current" aria-current="page"><?php echo $i; ?></span>
+                                <?php else : ?>
+                                    <a href="<?php echo esc_url($page_link); ?>" class="page-number" aria-label="<?php printf(esc_attr__('Page %d', 'aipromptzyra'), $i); ?>">
+                                        <?php echo $i; ?>
                                     </a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </nav>
-                <?php
-                endif;
-                wp_reset_postdata();
+                                <?php endif; ?>
+                            </li>
+                        <?php endfor; ?>
+
+                        <?php if ($current_page < $total_pages) :
+                            $next_link = add_query_arg('paged', $current_page + 1, home_url('/#guides-section'));
+                        ?>
+                            <li>
+                                <a href="<?php echo esc_url($next_link); ?>" class="page-number page-number-next" aria-label="<?php esc_attr_e('Next page', 'aipromptzyra'); ?>">
+                                    <?php esc_html_e('Next', 'aipromptzyra'); ?> &rarr;
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
+            <?php
             endif;
+            wp_reset_postdata();
+            ?>
         </div>
     </section>
+    <?php endif; ?>
 
     <!-- 3. AI PROMPT BUILDER -->
     <section id="prompt-builder" class="section builder-section">

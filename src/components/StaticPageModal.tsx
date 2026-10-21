@@ -81,7 +81,7 @@ export const StaticPageModal: React.FC<StaticPageModalProps> = ({ pageSlug, onCl
 
                   <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                     <img
-                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80"
+                      src="https://aipromptzyra.com/wp-content/uploads/2026/10/Rhea-Sharma.jpg"
                       alt="Rhea Sharma"
                       className="w-10 h-10 rounded-full object-cover border border-rose-500 shrink-0"
                     />
@@ -93,7 +93,7 @@ export const StaticPageModal: React.FC<StaticPageModalProps> = ({ pageSlug, onCl
 
                   <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                     <img
-                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80"
+                      src="https://aipromptzyra.com/wp-content/uploads/2026/10/Aditya-Sen.jpg"
                       alt="Aditya Sen"
                       className="w-10 h-10 rounded-full object-cover border border-amber-500 shrink-0"
                     />

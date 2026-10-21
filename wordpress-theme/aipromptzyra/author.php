@@ -20,10 +20,29 @@ $author_id   = $curauth ? $curauth->ID : 0;
         <header class="author-header-card">
             <div class="author-header-avatar-wrap">
                 <?php
-                $is_zyra = (stripos($author_name, 'Zyra') !== false);
-                if ($is_zyra) :
+                $rhea_avatar_url   = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Rhea-Sharma.jpg';
+                $aditya_avatar_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Aditya-Sen.jpg';
+                $zyra_avatar_url   = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg';
+
+                $user_login = $author_obj ? $author_obj->user_login : '';
+                $is_rhea   = (stripos($author_name, 'Rhea') !== false) || ((int)$author_id === 4) || (stripos($user_login, 'rhea') !== false);
+                $is_aditya = (stripos($author_name, 'Aditya') !== false) || ((int)$author_id === 3) || (stripos($user_login, 'aditya') !== false);
+                $is_zyra   = (stripos($author_name, 'Zyra') !== false) || ($user_login === 'aipromptzyra') || ((int)$author_id === 1);
+
+                $custom_avatar = $author_id ? get_user_meta($author_id, 'author_profile_picture', true) : '';
+                if (empty($custom_avatar) && $author_id) {
+                    $custom_avatar = get_user_meta($author_id, 'user_avatar', true);
+                }
+
+                if (!empty($custom_avatar)) :
                 ?>
-                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg" alt="<?php echo esc_attr($author_name); ?>" width="96" height="96" class="author-header-avatar" />
+                    <img src="<?php echo esc_url($custom_avatar); ?>" alt="<?php echo esc_attr($author_name); ?>" width="96" height="96" class="author-header-avatar" />
+                <?php elseif ($is_rhea) : ?>
+                    <img src="<?php echo esc_url($rhea_avatar_url); ?>" alt="<?php echo esc_attr($author_name); ?>" width="96" height="96" class="author-header-avatar" />
+                <?php elseif ($is_aditya) : ?>
+                    <img src="<?php echo esc_url($aditya_avatar_url); ?>" alt="<?php echo esc_attr($author_name); ?>" width="96" height="96" class="author-header-avatar" />
+                <?php elseif ($is_zyra) : ?>
+                    <img src="<?php echo esc_url($zyra_avatar_url); ?>" alt="<?php echo esc_attr($author_name); ?>" width="96" height="96" class="author-header-avatar" />
                 <?php else : ?>
                     <?php echo get_avatar($author_id, 96, '', esc_attr($author_name), array('class' => 'author-header-avatar')); ?>
                 <?php endif; ?>

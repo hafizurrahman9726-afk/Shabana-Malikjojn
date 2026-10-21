@@ -48,27 +48,40 @@ if (empty($author_bio)) {
         <div class="az-author-card-content">
             <div class="az-author-avatar-wrap">
                 <?php
-                $zyra_avatar_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg';
-                $is_zyra = (stripos($author_name, 'Zyra') !== false) || (get_the_author_meta('user_login', $author_id) === 'aipromptzyra') || ($author_id == 1);
+                $zyra_avatar_url   = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg';
+                $rhea_avatar_url   = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Rhea-Sharma.jpg';
+                $aditya_avatar_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Aditya-Sen.jpg';
+
+                $user_login = $author_id ? get_the_author_meta('user_login', $author_id) : '';
+
+                $is_rhea   = (stripos($author_name, 'Rhea') !== false) || ((int)$author_id === 4) || (stripos($user_login, 'rhea') !== false);
+                $is_aditya = (stripos($author_name, 'Aditya') !== false) || ((int)$author_id === 3) || (stripos($user_login, 'aditya') !== false);
+                $is_zyra   = (stripos($author_name, 'Zyra') !== false) || ($user_login === 'aipromptzyra') || ((int)$author_id === 1);
 
                 // Check for custom avatar set via user profile meta
-                $custom_avatar = get_user_meta($author_id, 'author_profile_picture', true);
-                if (empty($custom_avatar)) {
+                $custom_avatar = $author_id ? get_user_meta($author_id, 'author_profile_picture', true) : '';
+                if (empty($custom_avatar) && $author_id) {
                     $custom_avatar = get_user_meta($author_id, 'user_avatar', true);
                 }
-                if (empty($custom_avatar)) {
+                if (empty($custom_avatar) && $author_id) {
                     $custom_avatar = get_user_meta($author_id, 'profile_picture', true);
                 }
 
-                if ($is_zyra) {
+                if (!empty($custom_avatar)) {
+                    // Custom profile field for author
+                    echo '<img src="' . esc_url($custom_avatar) . '" alt="' . esc_attr($author_name) . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
+                } elseif ($is_rhea) {
+                    // For Rhea Sharma: verified profile photo
+                    echo '<img src="' . esc_url($rhea_avatar_url) . '" alt="' . esc_attr__('Rhea Sharma', 'aipromptzyra') . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
+                } elseif ($is_aditya) {
+                    // For Aditya Sen: verified profile photo
+                    echo '<img src="' . esc_url($aditya_avatar_url) . '" alt="' . esc_attr__('Aditya Sen', 'aipromptzyra') . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
+                } elseif ($is_zyra) {
                     // For Zyra Ansari: display verified high-res profile photo
                     echo '<img src="' . esc_url($zyra_avatar_url) . '" alt="' . esc_attr__('Zyra Ansari', 'aipromptzyra') . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
-                } elseif (!empty($custom_avatar)) {
-                    // Custom profile field for other authors
-                    echo '<img src="' . esc_url($custom_avatar) . '" alt="' . esc_attr($author_name) . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
                 } else {
                     // Other authors standard avatar fallback
-                    $avatar_img = get_avatar($author_id, 80, '', esc_attr($author_name), array('class' => 'az-author-avatar-img'));
+                    $avatar_img = $author_id ? get_avatar($author_id, 80, '', esc_attr($author_name), array('class' => 'az-author-avatar-img')) : '';
                     if ($avatar_img) {
                         echo $avatar_img;
                     } else {

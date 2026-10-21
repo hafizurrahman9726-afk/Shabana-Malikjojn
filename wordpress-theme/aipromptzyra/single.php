@@ -49,9 +49,29 @@ get_header(); ?>
                     $author_name  = get_the_author();
                     $author_url   = $author_id ? get_author_posts_url($author_id) : '';
                     $author_bio   = get_the_author_meta('description');
-                    $author_avatar = $author_id ? get_avatar($author_id, 44, '', esc_attr($author_name), array('class' => 'author-avatar-img')) : '';
-                    if (stripos($author_name, 'Zyra') !== false) {
-                        $author_avatar = '<img src="https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg" alt="' . esc_attr($author_name) . '" width="44" height="44" class="author-avatar-img" />';
+                    $rhea_avatar_url   = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Rhea-Sharma.jpg';
+                    $aditya_avatar_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Aditya-Sen.jpg';
+                    $zyra_avatar_url   = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg';
+
+                    $user_login = $author_id ? get_the_author_meta('user_login', $author_id) : '';
+                    $custom_avatar = $author_id ? get_user_meta($author_id, 'author_profile_picture', true) : '';
+                    if (empty($custom_avatar) && $author_id) {
+                        $custom_avatar = get_user_meta($author_id, 'user_avatar', true);
+                    }
+                    if (empty($custom_avatar) && $author_id) {
+                        $custom_avatar = get_user_meta($author_id, 'profile_picture', true);
+                    }
+
+                    if (!empty($custom_avatar)) {
+                        $author_avatar = '<img src="' . esc_url($custom_avatar) . '" alt="' . esc_attr($author_name) . '" width="44" height="44" class="author-avatar-img" />';
+                    } elseif (stripos($author_name, 'Rhea') !== false || (int)$author_id === 4 || stripos($user_login, 'rhea') !== false) {
+                        $author_avatar = '<img src="' . esc_url($rhea_avatar_url) . '" alt="' . esc_attr($author_name) . '" width="44" height="44" class="author-avatar-img" />';
+                    } elseif (stripos($author_name, 'Aditya') !== false || (int)$author_id === 3 || stripos($user_login, 'aditya') !== false) {
+                        $author_avatar = '<img src="' . esc_url($aditya_avatar_url) . '" alt="' . esc_attr($author_name) . '" width="44" height="44" class="author-avatar-img" />';
+                    } elseif (stripos($author_name, 'Zyra') !== false || (int)$author_id === 1 || $user_login === 'aipromptzyra') {
+                        $author_avatar = '<img src="' . esc_url($zyra_avatar_url) . '" alt="' . esc_attr($author_name) . '" width="44" height="44" class="author-avatar-img" />';
+                    } else {
+                        $author_avatar = $author_id ? get_avatar($author_id, 44, '', esc_attr($author_name), array('class' => 'author-avatar-img')) : '';
                     }
 
                     // Fallback to neutral editorial team if author name is missing

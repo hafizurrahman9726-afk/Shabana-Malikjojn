@@ -112,7 +112,7 @@ function aipromptzyra_register_post_types() {
         'menu_name'         => __('Categories', 'aipromptzyra'),
     );
 
-    register_taxonomy('prompt_category', array('prompt'), array(
+    register_taxonomy('prompt_category', array('prompt', 'post'), array(
         'hierarchical'      => true,
         'labels'            => $cat_labels,
         'show_ui'           => true,
@@ -129,7 +129,7 @@ function aipromptzyra_register_post_types() {
         'menu_name'     => __('Styles', 'aipromptzyra'),
     );
 
-    register_taxonomy('prompt_style', array('prompt'), array(
+    register_taxonomy('prompt_style', array('prompt', 'post'), array(
         'hierarchical'      => false,
         'labels'            => $style_labels,
         'show_ui'           => true,
@@ -137,6 +137,9 @@ function aipromptzyra_register_post_types() {
         'rewrite'           => array('slug' => 'prompt-style', 'with_front' => false),
         'show_in_rest'      => true,
     ));
+
+    register_taxonomy_for_object_type('category', 'prompt');
+    register_taxonomy_for_object_type('prompt_category', 'post');
 }
 add_action('init', 'aipromptzyra_register_post_types');
 
@@ -394,10 +397,10 @@ function aipromptzyra_register_ai_prompt_box_block() {
 add_action('init', 'aipromptzyra_register_ai_prompt_box_block');
 
 /**
- * Ensure Zyra Ansari profile photo is returned consistently
- * for the author avatar across single posts and widgets
+ * Ensure Author profile photos are returned consistently
+ * for Rhea Sharma, Aditya Sen, and Zyra Ansari across single posts, widgets, and comments
  */
-function aipromptzyra_zyra_avatar_filter($avatar, $id_or_email, $args) {
+function aipromptzyra_author_avatar_filter($avatar, $id_or_email, $args) {
     $user = false;
     if (is_numeric($id_or_email)) {
         $user = get_user_by('id', (int) $id_or_email);
@@ -409,24 +412,69 @@ function aipromptzyra_zyra_avatar_filter($avatar, $id_or_email, $args) {
         $user = get_user_by('email', $id_or_email);
     }
 
-    if ($user && ((int) $user->ID === 1 || stripos($user->display_name, 'Zyra') !== false || $user->user_login === 'aipromptzyra')) {
-        $zyra_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg';
-        $size     = !empty($args['size']) ? (int) $args['size'] : 80;
-        $class    = !empty($args['class']) ? esc_attr($args['class']) : 'az-author-avatar-img';
+    if ($user) {
+        $size  = !empty($args['size']) ? (int) $args['size'] : 80;
+        $class = !empty($args['class']) ? esc_attr($args['class']) : 'az-author-avatar-img';
 
-        return sprintf(
-            '<img src="%s" alt="%s" class="%s" width="%d" height="%d" loading="lazy" decoding="async" />',
-            esc_url($zyra_url),
-            esc_attr__('Zyra Ansari', 'aipromptzyra'),
-            $class,
-            $size,
-            $size
-        );
+        // Check for custom avatar meta first
+        $custom = get_user_meta($user->ID, 'author_profile_picture', true);
+        if (empty($custom)) {
+            $custom = get_user_meta($user->ID, 'user_avatar', true);
+        }
+        if (!empty($custom)) {
+            return sprintf(
+                '<img src="%s" alt="%s" class="%s" width="%d" height="%d" loading="lazy" decoding="async" />',
+                esc_url($custom),
+                esc_attr($user->display_name),
+                $class,
+                $size,
+                $size
+            );
+        }
+
+        // Rhea Sharma
+        if (stripos($user->display_name, 'Rhea') !== false || stripos($user->user_login, 'rhea') !== false || (int)$user->ID === 4) {
+            $rhea_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Rhea-Sharma.jpg';
+            return sprintf(
+                '<img src="%s" alt="%s" class="%s" width="%d" height="%d" loading="lazy" decoding="async" />',
+                esc_url($rhea_url),
+                esc_attr__('Rhea Sharma', 'aipromptzyra'),
+                $class,
+                $size,
+                $size
+            );
+        }
+
+        // Aditya Sen
+        if (stripos($user->display_name, 'Aditya') !== false || stripos($user->user_login, 'aditya') !== false || (int)$user->ID === 3) {
+            $aditya_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Aditya-Sen.jpg';
+            return sprintf(
+                '<img src="%s" alt="%s" class="%s" width="%d" height="%d" loading="lazy" decoding="async" />',
+                esc_url($aditya_url),
+                esc_attr__('Aditya Sen', 'aipromptzyra'),
+                $class,
+                $size,
+                $size
+            );
+        }
+
+        // Zyra Ansari
+        if ((int)$user->ID === 1 || stripos($user->display_name, 'Zyra') !== false || $user->user_login === 'aipromptzyra') {
+            $zyra_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg';
+            return sprintf(
+                '<img src="%s" alt="%s" class="%s" width="%d" height="%d" loading="lazy" decoding="async" />',
+                esc_url($zyra_url),
+                esc_attr__('Zyra Ansari', 'aipromptzyra'),
+                $class,
+                $size,
+                $size
+            );
+        }
     }
 
     return $avatar;
 }
-add_filter('get_avatar', 'aipromptzyra_zyra_avatar_filter', 20, 3);
+add_filter('get_avatar', 'aipromptzyra_author_avatar_filter', 20, 3);
 
 /**
  * AJAX Handler for Prompt Builder
@@ -463,16 +511,327 @@ function aipromptzyra_generate_prompt_ajax() {
 add_action('wp_ajax_aipromptzyra_generate_prompt', 'aipromptzyra_generate_prompt_ajax');
 add_action('wp_ajax_nopriv_aipromptzyra_generate_prompt', 'aipromptzyra_generate_prompt_ajax');
 /**
- * Enforce 30 published articles per homepage page and archive queries
+ * Enforce 30 published articles per page and include both 'post' and 'prompt' post types in category and taxonomy archives.
  */
 function aipromptzyra_modify_queries($query) {
     if (!is_admin() && $query->is_main_query()) {
-        if (is_front_page() || is_home() || is_post_type_archive('prompt') || is_tax('prompt_category')) {
+        // Enforce query for all category, taxonomy, and prompt archives
+        if ($query->is_category() || $query->is_tax('prompt_category') || $query->is_tax('prompt_style') || $query->is_post_type_archive('prompt') || $query->is_home() || $query->is_archive()) {
+            $query->set('post_type', array('post', 'prompt'));
             $query->set('posts_per_page', 30);
+            $query->set('post_status', 'publish');
+            $query->set('ignore_sticky_posts', 1);
+        }
+
+        // When viewing prompt_category archive (e.g. /prompt-category/couple-prompts/),
+        // also include posts that have the matching standard category slug
+        if ($query->is_tax('prompt_category')) {
+            $term_slug = $query->get('prompt_category');
+            if (empty($term_slug)) {
+                $term_obj = get_queried_object();
+                if ($term_obj && isset($term_obj->slug)) {
+                    $term_slug = $term_obj->slug;
+                }
+            }
+            if (!empty($term_slug)) {
+                $query->set('tax_query', array(
+                    'relation' => 'OR',
+                    array(
+                        'taxonomy' => 'prompt_category',
+                        'field'    => 'slug',
+                        'terms'    => array($term_slug),
+                    ),
+                    array(
+                        'taxonomy' => 'category',
+                        'field'    => 'slug',
+                        'terms'    => array($term_slug),
+                    ),
+                ));
+            }
+        }
+
+        // When viewing standard category archive (e.g. /category/ai-photo-prompts/),
+        // also include posts that have the matching prompt_category slug
+        if ($query->is_category()) {
+            $cat_slug = $query->get('category_name');
+            if (empty($cat_slug)) {
+                $cat_obj = get_queried_object();
+                if ($cat_obj && isset($cat_obj->slug)) {
+                    $cat_slug = $cat_obj->slug;
+                }
+            }
+            if (!empty($cat_slug)) {
+                $query->set('tax_query', array(
+                    'relation' => 'OR',
+                    array(
+                        'taxonomy' => 'category',
+                        'field'    => 'slug',
+                        'terms'    => array($cat_slug),
+                    ),
+                    array(
+                        'taxonomy' => 'prompt_category',
+                        'field'    => 'slug',
+                        'terms'    => array($cat_slug),
+                    ),
+                ));
+            }
         }
     }
 }
 add_action('pre_get_posts', 'aipromptzyra_modify_queries');
+
+/**
+ * Synchronize terms between standard 'category' and custom 'prompt_category'
+ */
+function aipromptzyra_sync_categories($post_id, $post, $update) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    if (wp_is_post_revision($post_id) || !in_array($post->post_type, array('post', 'prompt'), true)) {
+        return;
+    }
+
+    // 1. Sync from standard category to prompt_category
+    $std_terms = wp_get_post_terms($post_id, 'category');
+    if (!empty($std_terms) && !is_wp_error($std_terms)) {
+        foreach ($std_terms as $st) {
+            $matching_prompt_cat = get_term_by('slug', $st->slug, 'prompt_category');
+            if ($matching_prompt_cat && !is_wp_error($matching_prompt_cat)) {
+                wp_set_post_terms($post_id, array($matching_prompt_cat->term_id), 'prompt_category', true);
+            }
+        }
+    }
+
+    // 2. Sync from prompt_category to standard category
+    $prompt_terms = wp_get_post_terms($post_id, 'prompt_category');
+    if (!empty($prompt_terms) && !is_wp_error($prompt_terms)) {
+        foreach ($prompt_terms as $pt) {
+            $matching_std_cat = get_term_by('slug', $pt->slug, 'category');
+            if ($matching_std_cat && !is_wp_error($matching_std_cat)) {
+                wp_set_post_terms($post_id, array($matching_std_cat->term_id), 'category', true);
+            }
+        }
+    }
+}
+add_action('save_post', 'aipromptzyra_sync_categories', 20, 3);
+
+/**
+ * Auto-sync terms on first run for all published posts and prompts
+ */
+function aipromptzyra_ensure_initial_term_sync() {
+    if (get_option('aipromptzyra_term_sync_v2')) {
+        return;
+    }
+    $all_posts = get_posts(array(
+        'post_type'      => array('post', 'prompt'),
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+    ));
+    foreach ($all_posts as $p) {
+        $std_terms = wp_get_post_terms($p->ID, 'category');
+        if (!empty($std_terms) && !is_wp_error($std_terms)) {
+            foreach ($std_terms as $st) {
+                $matching_prompt_cat = get_term_by('slug', $st->slug, 'prompt_category');
+                if ($matching_prompt_cat && !is_wp_error($matching_prompt_cat)) {
+                    wp_set_post_terms($p->ID, array($matching_prompt_cat->term_id), 'prompt_category', true);
+                }
+            }
+        }
+        $prompt_terms = wp_get_post_terms($p->ID, 'prompt_category');
+        if (!empty($prompt_terms) && !is_wp_error($prompt_terms)) {
+            foreach ($prompt_terms as $pt) {
+                $matching_std_cat = get_term_by('slug', $pt->slug, 'category');
+                if ($matching_std_cat && !is_wp_error($matching_std_cat)) {
+                    wp_set_post_terms($p->ID, array($matching_std_cat->term_id), 'category', true);
+                }
+            }
+        }
+    }
+    update_option('aipromptzyra_term_sync_v2', 1);
+}
+add_action('init', 'aipromptzyra_ensure_initial_term_sync', 30);
+
+/**
+ * Ensure archive templates and template-parts exist in theme directory
+ */
+function aipromptzyra_ensure_theme_templates() {
+    $theme_dir = get_template_directory();
+
+    // 1. Ensure category.php
+    $cat_file = $theme_dir . '/category.php';
+    if (!file_exists($cat_file) || get_option('aipromptzyra_tmpl_ver') !== '1.1.4') {
+        $cat_code = <<<'PHP'
+<?php
+/**
+ * The template for displaying Category archives
+ *
+ * @package AIPromptzyra
+ * @version 1.1.4
+ */
+
+get_header();
+$current_term = get_queried_object();
+?>
+
+<main id="primary" class="site-main container page-container">
+    <header class="page-header page-header-centered">
+        <span class="category-kicker"><?php esc_html_e('Category Archive', 'aipromptzyra'); ?></span>
+        <h1 class="page-title"><?php single_term_title(); ?></h1>
+        <?php if (!empty($current_term->description)) : ?>
+            <p class="page-subtitle"><?php echo esc_html($current_term->description); ?></p>
+        <?php else : ?>
+            <p class="page-subtitle"><?php printf(esc_html__('Handpicked, verified AI prompts and articles for %s.', 'aipromptzyra'), esc_html(single_term_title('', false))); ?></p>
+        <?php endif; ?>
+    </header>
+
+    <?php if (have_posts()) : ?>
+        <div class="prompts-grid">
+            <?php
+            while (have_posts()) :
+                the_post();
+                if (get_post_type() === 'prompt') {
+                    get_template_part('template-parts/content', 'prompt-card');
+                } else {
+                    get_template_part('template-parts/content', 'guide-card');
+                }
+            endwhile;
+            ?>
+        </div>
+
+        <div class="pagination-wrapper">
+            <?php
+            the_posts_pagination(array(
+                'mid_size'  => 2,
+                'prev_text' => __('&larr; Previous', 'aipromptzyra'),
+                'next_text' => __('Next &rarr;', 'aipromptzyra'),
+            ));
+            ?>
+        </div>
+    <?php else : ?>
+        <div class="empty-state-card">
+            <h2><?php esc_html_e('No Articles in this Category Yet', 'aipromptzyra'); ?></h2>
+            <p><?php esc_html_e('Check back soon for new guides or craft your own custom prompt using our builder.', 'aipromptzyra'); ?></p>
+            <a href="<?php echo esc_url(home_url('/prompt-builder/')); ?>" class="btn-primary-purple">
+                <?php esc_html_e('Open Prompt Builder', 'aipromptzyra'); ?>
+            </a>
+        </div>
+    <?php endif; ?>
+</main>
+
+<?php get_footer(); ?>
+PHP;
+        @file_put_contents($cat_file, $cat_code);
+    }
+
+    // 2. Ensure archive.php
+    $arch_file = $theme_dir . '/archive.php';
+    if (!file_exists($arch_file) || get_option('aipromptzyra_tmpl_ver') !== '1.1.4') {
+        $arch_code = <<<'PHP'
+<?php
+/**
+ * The template for displaying general archives
+ *
+ * @package AIPromptzyra
+ * @version 1.1.4
+ */
+
+get_header();
+?>
+
+<main id="primary" class="site-main container page-container">
+    <header class="page-header page-header-centered">
+        <span class="category-kicker"><?php esc_html_e('Archive', 'aipromptzyra'); ?></span>
+        <h1 class="page-title"><?php the_archive_title(); ?></h1>
+        <?php the_archive_description('<p class="page-subtitle">', '</p>'); ?>
+    </header>
+
+    <?php if (have_posts()) : ?>
+        <div class="prompts-grid">
+            <?php
+            while (have_posts()) :
+                the_post();
+                if (get_post_type() === 'prompt') {
+                    get_template_part('template-parts/content', 'prompt-card');
+                } else {
+                    get_template_part('template-parts/content', 'guide-card');
+                }
+            endwhile;
+            ?>
+        </div>
+
+        <div class="pagination-wrapper">
+            <?php
+            the_posts_pagination(array(
+                'mid_size'  => 2,
+                'prev_text' => __('&larr; Previous', 'aipromptzyra'),
+                'next_text' => __('Next &rarr;', 'aipromptzyra'),
+            ));
+            ?>
+        </div>
+    <?php else : ?>
+        <div class="empty-state-card">
+            <h2><?php esc_html_e('No Articles Found', 'aipromptzyra'); ?></h2>
+            <p><?php esc_html_e('Check back soon for new guides or craft your own custom prompt using our builder.', 'aipromptzyra'); ?></p>
+            <a href="<?php echo esc_url(home_url('/prompt-builder/')); ?>" class="btn-primary-purple">
+                <?php esc_html_e('Open Prompt Builder', 'aipromptzyra'); ?>
+            </a>
+        </div>
+    <?php endif; ?>
+</main>
+
+<?php get_footer(); ?>
+PHP;
+        @file_put_contents($arch_file, $arch_code);
+    }
+
+    // 3. Ensure template-parts/content-post.php and content.php
+    $parts_dir = $theme_dir . '/template-parts';
+    if (is_dir($parts_dir)) {
+        $content_post_file = $parts_dir . '/content-post.php';
+        $content_file = $parts_dir . '/content.php';
+        $part_code = "<?php\nget_template_part('template-parts/content', 'guide-card');\n";
+        if (!file_exists($content_post_file) || get_option('aipromptzyra_tmpl_ver') !== '1.1.4') {
+            @file_put_contents($content_post_file, $part_code);
+        }
+        if (!file_exists($content_file) || get_option('aipromptzyra_tmpl_ver') !== '1.1.4') {
+            @file_put_contents($content_file, $part_code);
+        }
+    }
+
+    // 4. Update taxonomy-prompt_category.php to render guide-card for post
+    $tax_file = $theme_dir . '/taxonomy-prompt_category.php';
+    if (file_exists($tax_file) && get_option('aipromptzyra_tmpl_ver') !== '1.1.4') {
+        $tax_content = @file_get_contents($tax_file);
+        if ($tax_content && strpos($tax_content, "get_post_type() === 'prompt'") === false) {
+            $tax_content = str_replace(
+                "get_template_part('template-parts/content', 'prompt-card');",
+                "if (get_post_type() === 'prompt') {\n                    get_template_part('template-parts/content', 'prompt-card');\n                } else {\n                    get_template_part('template-parts/content', 'guide-card');\n                }",
+                $tax_content
+            );
+            @file_put_contents($tax_file, $tax_content);
+        }
+    }
+
+    // 5. Update index.php loop to render guide-card for post
+    $idx_file = $theme_dir . '/index.php';
+    if (file_exists($idx_file) && get_option('aipromptzyra_tmpl_ver') !== '1.1.4') {
+        $idx_content = @file_get_contents($idx_file);
+        if ($idx_content && strpos($idx_content, "get_post_type() === 'prompt'") === false) {
+            $idx_content = str_replace(
+                "get_template_part('template-parts/content', get_post_type());",
+                "if (get_post_type() === 'prompt') {\n                    get_template_part('template-parts/content', 'prompt-card');\n                } else {\n                    get_template_part('template-parts/content', 'guide-card');\n                }",
+                $idx_content
+            );
+            @file_put_contents($idx_file, $idx_content);
+        }
+    }
+
+    if (get_option('aipromptzyra_tmpl_ver') !== '1.1.4') {
+        flush_rewrite_rules(false);
+        update_option('aipromptzyra_tmpl_ver', '1.1.4');
+    }
+}
+add_action('init', 'aipromptzyra_ensure_theme_templates', 25);
 
 require_once AIPROMPTZYRA_DIR . '/inc/customizer.php';
 require_once AIPROMPTZYRA_DIR . '/inc/template-tags.php';

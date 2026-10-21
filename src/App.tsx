@@ -276,25 +276,23 @@ export default function App() {
             <CategoryCarousel
               onSelectTag={handleSelectTag}
               onSelectCategory={handleSelectCategory}
-              onSelectGuideBySlug={(slug) => {
-                const g = GUIDES_DATA.find((item) => item.slug === slug);
-                if (g) setSelectedGuide(g);
-              }}
             />
 
-            {/* 4. Latest Guides & Tutorials (30 published articles per page + functional pagination) */}
-            <GuidesSection
-              guides={filteredGuides}
-              savedGuides={savedGuides}
-              onToggleSaveGuide={handleToggleSaveGuide}
-              onSelectGuide={(g) => {
-                setSelectedGuide(g);
-              }}
-              onViewAllGuides={() => {
-                const el = document.getElementById('guides-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-            />
+            {/* 4. Latest Guides & Tutorials (Only rendered when published articles exist) */}
+            {filteredGuides.length > 0 && (
+              <GuidesSection
+                guides={filteredGuides}
+                savedGuides={savedGuides}
+                onToggleSaveGuide={handleToggleSaveGuide}
+                onSelectGuide={(g) => {
+                  setSelectedGuide(g);
+                }}
+                onViewAllGuides={() => {
+                  const el = document.getElementById('guides-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+              />
+            )}
 
             {/* 5. AI Prompt Builder */}
             <PromptBuilder />

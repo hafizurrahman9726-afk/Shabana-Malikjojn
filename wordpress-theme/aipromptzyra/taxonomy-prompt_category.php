@@ -26,7 +26,11 @@ $current_term = get_queried_object();
             <?php
             while (have_posts()) :
                 the_post();
-                get_template_part('template-parts/content', 'prompt-card');
+                if (get_post_type() === 'prompt') {
+                    get_template_part('template-parts/content', 'prompt-card');
+                } else {
+                    get_template_part('template-parts/content', 'guide-card');
+                }
             endwhile;
             ?>
         </div>
