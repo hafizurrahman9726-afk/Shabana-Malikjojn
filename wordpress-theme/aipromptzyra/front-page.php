@@ -84,68 +84,110 @@ get_header(); ?>
         </div>
     </section>
 
-    <!-- 2. EXPLORE PROMPTS BY CATEGORY -->
-    <section id="categories-section" class="section categories-section">
-        <div class="container">
-            <div class="section-header-row">
-                <div>
-                    <h2 class="section-title"><?php esc_html_e('Explore Prompts by Category', 'aipromptzyra'); ?></h2>
-                    <p class="section-subtitle"><?php esc_html_e('Find the perfect prompt for every occasion, style and idea.', 'aipromptzyra'); ?></p>
-                </div>
-                <a href="#categories-section" class="section-link">
-                    <?php esc_html_e('View All Categories', 'aipromptzyra'); ?> &rarr;
-                </a>
+    <!-- 2. HORIZONTAL SLIDING PROMPT ARTICLE CAROUSEL (DYNAMIC FROM PUBLISHED ARTICLES) -->
+    <section id="prompt-carousel-section" class="prompt-carousel-section" aria-label="<?php esc_attr_e('Featured Prompt Articles Carousel', 'aipromptzyra'); ?>">
+        <div class="carousel-container-outer">
+            <div class="carousel-nav-wrapper" aria-hidden="true">
+                <button type="button" class="carousel-arrow carousel-arrow-prev" id="carousel-prev-btn" aria-label="<?php esc_attr_e('Scroll left', 'aipromptzyra'); ?>">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button type="button" class="carousel-arrow carousel-arrow-next" id="carousel-next-btn" aria-label="<?php esc_attr_e('Scroll right', 'aipromptzyra'); ?>">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
             </div>
 
-            <div class="category-grid category-grid-3col">
+            <div class="carousel-track-wrapper" id="carousel-track" role="region" aria-label="<?php esc_attr_e('Published articles track', 'aipromptzyra'); ?>" tabindex="0">
                 <?php
-                $categories_data = array(
-                    array(
-                        'slug'     => 'trending-prompts',
-                        'name'     => 'Trending Prompts',
-                        'subtitle' => 'Viral & Popular Now',
-                        'img'      => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80',
-                        'count'    => '46 Prompts',
-                    ),
-                    array(
-                        'slug'     => 'couple-prompts',
-                        'name'     => 'Couple Prompts',
-                        'subtitle' => 'Romantic & Creative',
-                        'img'      => 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=500&auto=format&fit=crop&q=80',
-                        'count'    => '38 Prompts',
-                    ),
-                    array(
-                        'slug'     => 'ai-photo-prompts',
-                        'name'     => 'AI Photo Prompts',
-                        'subtitle' => 'Realistic Portraits & Edits',
-                        'img'      => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80',
-                        'count'    => '52 Prompts',
-                    ),
+                // Dynamically fetch all published WordPress articles & prompts
+                $carousel_query_args = array(
+                    'post_type'           => array('post', 'prompt'),
+                    'post_status'         => 'publish',
+                    'posts_per_page'      => 50,
+                    'orderby'             => 'date',
+                    'order'               => 'DESC',
+                    'ignore_sticky_posts' => 1,
+                    'no_found_rows'       => true,
                 );
 
-                foreach ($categories_data as $cat) :
-                    $term_link = get_term_link($cat['slug'], 'prompt_category');
-                    $cat_url = (!is_wp_error($term_link)) ? $term_link : home_url('/?category=' . urlencode($cat['slug']) . '#featured-prompts');
+                $carousel_query = new WP_Query($carousel_query_args);
+                $rendered_post_ids = array();
+
+                if ($carousel_query->have_posts()) :
+                    while ($carousel_query->have_posts()) :
+                        $carousel_query->the_post();
+                        $post_id = get_the_ID();
+
+                        // Avoid duplicate slides
+                        if (in_array($post_id, $rendered_post_ids, true)) {
+                            continue;
+                        }
+                        $rendered_post_ids[] = $post_id;
+
+                        // Retrieve featured image or fallback
+                        $thumb_url = '';
+                        if (has_post_thumbnail($post_id)) {
+                            $thumb_url = get_the_post_thumbnail_url($post_id, 'medium_large');
+                        }
+                        if (empty($thumb_url)) {
+                            $thumb_url = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80';
+                        }
+
+                        // Category tag name
+                        $cat_name = __('Prompts', 'aipromptzyra');
+                        $prompt_terms = get_the_terms($post_id, 'prompt_category');
+                        if (!empty($prompt_terms) && !is_wp_error($prompt_terms)) {
+                            $cat_name = $prompt_terms[0]->name;
+                        } else {
+                            $cats = get_the_category($post_id);
+                            if (!empty($cats)) {
+                                $cat_name = $cats[0]->name;
+                            }
+                        }
                 ?>
-                    <a href="<?php echo esc_url($cat_url); ?>" class="category-card" data-category-slug="<?php echo esc_attr($cat['slug']); ?>">
-                        <div class="category-card-img-wrapper">
-                            <img src="<?php echo esc_url($cat['img']); ?>" alt="<?php echo esc_attr($cat['name']); ?>" loading="lazy" />
-                            <button type="button" class="bookmark-btn" aria-label="<?php esc_attr_e('Bookmark category', 'aipromptzyra'); ?>">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                            </button>
-                            <span class="card-arrow-circle" aria-hidden="true">&rarr;</span>
-                        </div>
-                        <div class="category-card-info">
-                            <h3 class="category-name"><?php echo esc_html($cat['name']); ?></h3>
-                            <p class="category-sub"><?php echo esc_html($cat['subtitle']); ?></p>
+                    <a href="<?php the_permalink(); ?>" class="carousel-card-item" title="<?php the_title_attribute(); ?>">
+                        <div class="carousel-card-media">
+                            <img src="<?php echo esc_url($thumb_url); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy" decoding="async" width="200" height="280" />
+                            <div class="carousel-card-overlay">
+                                <span class="carousel-card-tag"><?php echo esc_html($cat_name); ?></span>
+                                <h3 class="carousel-card-title"><?php the_title(); ?></h3>
+                            </div>
                         </div>
                     </a>
-                <?php endforeach; ?>
+                <?php
+                    endwhile;
+                    wp_reset_postdata();
+                endif;
+
+                // Fallback curated slides if no published posts yet
+                if (empty($rendered_post_ids)) :
+                    $fallback_slides = array(
+                        array('title' => 'Indian Traditional Wedding Prompt', 'url' => home_url('/indian-wedding-photo-prompt-for-gemini/'), 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'cat' => 'Couple Prompts'),
+                        array('title' => 'Festive Saree Diya Portraits', 'url' => home_url('/guides/festival-prompt-ideas/'), 'img' => 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop&q=80', 'cat' => 'Trending Prompts'),
+                        array('title' => 'Romantic Couple Golden Hour', 'url' => home_url('/prompts/romantic-couple-golden-hour/'), 'img' => 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80', 'cat' => 'Couple Prompts'),
+                        array('title' => 'Gala & Tuxedo Luxury Portrait', 'url' => home_url('/prompts/editorial-studio-portrait/'), 'img' => 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80', 'cat' => 'Trending Prompts'),
+                        array('title' => 'Traditional Kasavu Saree Pookalam', 'url' => home_url('/prompts/traditional-silk-saree/'), 'img' => 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&auto=format&fit=crop&q=80', 'cat' => 'AI Photo Prompts'),
+                        array('title' => 'Family Portraits in Courtyard', 'url' => home_url('/?s=Family'), 'img' => 'https://images.unsplash.com/photo-1609234656388-0ff363383899?w=600&auto=format&fit=crop&q=80', 'cat' => 'AI Photo Prompts'),
+                    );
+                    foreach ($fallback_slides as $fb) :
+                ?>
+                    <a href="<?php echo esc_url($fb['url']); ?>" class="carousel-card-item" title="<?php echo esc_attr($fb['title']); ?>">
+                        <div class="carousel-card-media">
+                            <img src="<?php echo esc_url($fb['img']); ?>" alt="<?php echo esc_attr($fb['title']); ?>" loading="lazy" decoding="async" width="200" height="280" />
+                            <div class="carousel-card-overlay">
+                                <span class="carousel-card-tag"><?php echo esc_html($fb['cat']); ?></span>
+                                <h3 class="carousel-card-title"><?php echo esc_html($fb['title']); ?></h3>
+                            </div>
+                        </div>
+                    </a>
+                <?php
+                    endforeach;
+                endif;
+                ?>
             </div>
         </div>
     </section>
 
-    <!-- 3. LATEST GUIDES & TUTORIALS (30 published articles per page + functional pagination) -->
+    <!-- 3. LATEST GUIDES & TUTORIALS (30 published articles per page + functional pagination + horizontal filter bar) -->
     <section id="guides-section" class="section guides-section">
         <div class="container">
             <div class="section-header-row">
@@ -156,6 +198,52 @@ get_header(); ?>
                 <a href="<?php echo esc_url(home_url('/guides/')); ?>" class="section-link">
                     <?php esc_html_e('View All Guides', 'aipromptzyra'); ?> &rarr;
                 </a>
+            </div>
+
+            <!-- Horizontal Category Filter Bar -->
+            <?php
+            // Build dynamic list of filter categories
+            // Primary categories matching requested pill buttons
+            $filter_tabs = array(
+                'all'              => __('All Prompts', 'aipromptzyra'),
+                'trending-prompts' => __('Trending Prompts', 'aipromptzyra'),
+                'festival-prompt'  => __('Festival Prompt', 'aipromptzyra'),
+                'couple-prompts'   => __('Couple Prompts Guide', 'aipromptzyra'),
+                'boys-prompts'     => __('Boys Prompts', 'aipromptzyra'),
+            );
+
+            // Fetch any additional dynamic categories and prompt terms existing in WordPress
+            $wp_categories = get_categories(array('hide_empty' => false));
+            if (!empty($wp_categories) && !is_wp_error($wp_categories)) {
+                foreach ($wp_categories as $wcat) {
+                    if ($wcat->slug !== 'uncategorized' && !isset($filter_tabs[$wcat->slug])) {
+                        $filter_tabs[$wcat->slug] = $wcat->name;
+                    }
+                }
+            }
+            $prompt_tax_terms = get_terms(array('taxonomy' => 'prompt_category', 'hide_empty' => false));
+            if (!empty($prompt_tax_terms) && !is_wp_error($prompt_tax_terms)) {
+                foreach ($prompt_tax_terms as $ptag) {
+                    if (!isset($filter_tabs[$ptag->slug])) {
+                        $filter_tabs[$ptag->slug] = $ptag->name;
+                    }
+                }
+            }
+            ?>
+            <div class="guides-filter-bar-wrapper" role="tablist" aria-label="<?php esc_attr_e('Filter Guides by Category', 'aipromptzyra'); ?>">
+                <div class="guides-filter-scroll-track" id="guides-filter-track">
+                    <?php foreach ($filter_tabs as $tab_slug => $tab_name) : ?>
+                        <button
+                            type="button"
+                            class="guides-filter-pill <?php echo ($tab_slug === 'all') ? 'active' : ''; ?>"
+                            data-filter="<?php echo esc_attr($tab_slug); ?>"
+                            role="tab"
+                            aria-selected="<?php echo ($tab_slug === 'all') ? 'true' : 'false'; ?>"
+                        >
+                            <span><?php echo esc_html($tab_name); ?></span>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
             </div>
 
             <?php
@@ -186,13 +274,23 @@ get_header(); ?>
 
             if ($guides_query->have_posts()) :
             ?>
-                <div class="guides-grid">
+                <div class="guides-grid" id="guides-grid">
                     <?php
                     while ($guides_query->have_posts()) :
                         $guides_query->the_post();
                         get_template_part('template-parts/content', 'guide-card');
                     endwhile;
                     ?>
+                </div>
+
+                <div id="guides-filter-empty" class="guides-filter-empty" style="display: none;">
+                    <div class="empty-filter-box">
+                        <p class="empty-filter-title"><?php esc_html_e('No articles found in this category.', 'aipromptzyra'); ?></p>
+                        <p class="empty-filter-desc"><?php esc_html_e('Try selecting another category or view all prompt guides.', 'aipromptzyra'); ?></p>
+                        <button type="button" class="guides-filter-reset-btn" id="guides-filter-reset-btn">
+                            <?php esc_html_e('View All Prompts', 'aipromptzyra'); ?>
+                        </button>
+                    </div>
                 </div>
 
                 <?php
@@ -245,41 +343,41 @@ get_header(); ?>
             else :
                 // Curated library of distinct published articles & tutorials
                 $curated_articles = array(
-                    array('title' => 'Gemini Imagen 3 Prompting Masterclass: Photorealistic Portraits', 'desc' => 'Deep-dive into aperture settings, natural skin texture prompts, and lighting keywords for Google Gemini.', 'date' => 'Jan 15, 2026', 'img' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/gemini-imagen-3-prompting-masterclass/')),
-                    array('title' => 'Indian Traditional Wedding Prompt for Gemini AI (2026)', 'desc' => 'Royal groom sherwani and bridal crimson lehenga portraits in ornate mandap palace courtyards.', 'date' => 'Jan 12, 2026', 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/indian-wedding-photo-prompt-for-gemini/')),
-                    array('title' => 'How to Write Better AI Prompts: Beginner to Pro Guide', 'desc' => 'Step-by-step framework to engineer concise, high-converting prompts for image generators.', 'date' => 'Jan 10, 2026', 'img' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/how-to-write-better-ai-prompts/')),
-                    array('title' => 'Gemini vs ChatGPT for Image Prompts: Comprehensive Comparison', 'desc' => 'A practical side-by-side comparison of prompt adherence, rendering fidelity, and facial symmetry.', 'date' => 'Jan 6, 2026', 'img' => 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/gemini-vs-chatgpt-image-prompts/')),
-                    array('title' => 'Best Camera Angles for Natural AI Portraits', 'desc' => 'Master low angle hero shots, 3/4 profiles, and eye-level framing to enhance visual depth.', 'date' => 'Jan 3, 2026', 'img' => 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/camera-angles-ai-portraits/')),
-                    array('title' => 'Festival Prompt Ideas: Indian & Global Celebrations', 'desc' => 'Creative prompt concepts for Diwali, Eid, Christmas, and Holi featuring atmospheric bokeh and diyas.', 'date' => 'Dec 28, 2025', 'img' => 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/festival-prompt-ideas/')),
-                    array('title' => 'Practical Tips to Make AI Images Look Truly Photorealistic', 'desc' => 'Avoid the plastic skin look with optical lens specifications, raw sensor ISO, and micro-texture keywords.', 'date' => 'Dec 20, 2025', 'img' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/tips-for-realistic-ai-images/')),
-                    array('title' => 'AI Video Prompts Guide: Runway Gen-3 and Luma Tips', 'desc' => 'Translate still photographic prompt recipes into fluid camera movements and cinematic 24fps motion.', 'date' => 'Dec 15, 2025', 'img' => 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/ai-video-prompts-guide/')),
-                    array('title' => '8K Editorial Studio Portrait Prompts & Lighting Recipes', 'desc' => 'Studio fashion lighting setups with dual diffused softboxes and true-to-life skin tones.', 'date' => 'Dec 10, 2025', 'img' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/editorial-studio-portrait/')),
-                    array('title' => 'Romantic Couple Golden Hour Photography Prompts', 'desc' => 'Heartwarming couple photoshoots in wildflower mountain meadows bathed in golden sunset light.', 'date' => 'Dec 5, 2025', 'img' => 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/romantic-couple-golden-hour/')),
-                    array('title' => 'Natural Sunlight Window Portraits in Midjourney & Gemini', 'desc' => 'Soft morning window illumination casting gentle diagonal shadows with authentic expressions.', 'date' => 'Dec 1, 2025', 'img' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sunlight-window-portrait/')),
-                    array('title' => 'Cinematic Rainy Twilight Street Photography Prompts', 'desc' => 'Atmospheric teal-orange color grading on rain-slicked city streets with realistic reflections.', 'date' => 'Nov 26, 2025', 'img' => 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/rainy-street-portrait/')),
-                    array('title' => 'Traditional Royal Silk Saree AI Portrait Formulas', 'desc' => 'Intricate gold zari embroidery, heritage temple architecture, and warm morning ambient light.', 'date' => 'Nov 20, 2025', 'img' => 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/traditional-silk-saree/')),
-                    array('title' => 'Cyberpunk Tokyo Neon Rain Alley AI Concept Art', 'desc' => 'Hyper-detailed futuristic aesthetic with glowing neon kanji billboards and reflective wet asphalt.', 'date' => 'Nov 15, 2025', 'img' => 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/cyberpunk-neon-portrait/')),
-                    array('title' => 'Vintage 1970s 35mm Analog Film Aesthetic Prompts', 'desc' => 'Warm Kodachrome color science, nostalgic film grain, and retro flared sunlight compositions.', 'date' => 'Nov 10, 2025', 'img' => 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/vintage-35mm-film/')),
-                    array('title' => 'Black and White Monochromatic Fine Art Studio Portraits', 'desc' => 'Dramatic chiaroscuro shadow control, sculpted rim lighting, and emotional black-and-white tonality.', 'date' => 'Nov 5, 2025', 'img' => 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/monochrome-fine-art/')),
-                    array('title' => 'Futuristic Sci-Fi Space Explorer Conceptual Art', 'desc' => 'High-tech pressurized spacesuit with holographic visor displays against martian landscape.', 'date' => 'Oct 30, 2025', 'img' => 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sci-fi-explorer/')),
-                    array('title' => 'Nordic Minimalist Cozy Coffee Shop Lifestyle Prompts', 'desc' => 'Scandinavian clean interior design, ceramic mug steam, wool sweaters, and calm natural light.', 'date' => 'Oct 25, 2025', 'img' => 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/nordic-coffee-shop/')),
-                    array('title' => 'Ethereal Forest Fantasy Dreamscape Masterclass', 'desc' => 'Sunlight rays piercing ancient moss-draped redwoods with whimsical bioluminescent flora.', 'date' => 'Oct 20, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/fantasy-dreamscape/')),
-                    array('title' => 'Moody Moonlight Misty Mountain Solitude Portraits', 'desc' => 'Silhouetted wanderer beneath vast starry skies and cascading alpine mist at high elevation.', 'date' => 'Oct 15, 2025', 'img' => 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/misty-mountain-solitude/')),
-                    array('title' => 'Classic Vintage European Street Cafe Aesthetic', 'desc' => 'Cobblestone streets, wrought iron outdoor cafe seating, and warm afternoon Parisian glow.', 'date' => 'Oct 10, 2025', 'img' => 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/vintage-european-cafe/')),
-                    array('title' => 'High-Fashion Avant-Garde Runway Studio Prompts', 'desc' => 'Sculptural architectural silhouettes, bold monochromatic palettes, and dynamic editorial poses.', 'date' => 'Oct 5, 2025', 'img' => 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/avant-garde-fashion/')),
-                    array('title' => 'Macro Eye Portrait Photography in Imagen 3', 'desc' => 'Stunning macro iris reflections, distinct eyelashes, and fine skin details rendered with 100mm optics.', 'date' => 'Sep 30, 2025', 'img' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/macro-eye-portrait/')),
-                    array('title' => 'Diwali Festive Golden Diya Portraits for Couples', 'desc' => 'Sparkling traditional diyas, marigold garlands, and authentic festive warmth between loved ones.', 'date' => 'Sep 25, 2025', 'img' => 'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/diwali-festive-couple/')),
-                    array('title' => 'Sunset Beach Silhouette Couple Portrait Formulas', 'desc' => 'Backlit couple walking hand-in-hand along the tide line with golden sunset water reflections.', 'date' => 'Sep 20, 2025', 'img' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sunset-beach-silhouette/')),
-                    array('title' => 'Corporate Professional Executive Headshot Prompts', 'desc' => 'Clean corporate studio lighting, tailored navy suits, confident posture, and modern blur background.', 'date' => 'Sep 15, 2025', 'img' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/corporate-headshot/')),
-                    array('title' => 'Retro 1990s Japanese City Pop Film Photography', 'desc' => 'Nostalgic film tones, neon evening signage, retro cassette players, and lo-fi aesthetic warmth.', 'date' => 'Sep 10, 2025', 'img' => 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/retro-city-pop/')),
-                    array('title' => 'Autumn Warm Foliage Scenic Park Portraits', 'desc' => 'Crisp amber and crimson fall foliage, cozy wool scarves, and golden late-afternoon sun rays.', 'date' => 'Sep 5, 2025', 'img' => 'https://images.unsplash.com/photo-1477414348463-c0eb7f1359b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/autumn-foliage-portrait/')),
-                    array('title' => 'Architectural Drone Perspective AI Cityscape Prompts', 'desc' => 'Sweeping bird-eye aerial photography of futuristic sustainable metropolis with lush rooftop gardens.', 'date' => 'Aug 30, 2025', 'img' => 'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/aerial-cityscape/')),
-                    array('title' => 'Neon Cybernetic Samurai Character Concept Guide', 'desc' => 'Katana reflections, glowing crest accents, and cinematic rain lighting formulas for character designers.', 'date' => 'Aug 25, 2025', 'img' => 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/cyberpunk-samurai/')),
-                    array('title' => 'Bohemian Desert Sunset Festival Aesthetic Prompts', 'desc' => 'Golden dune sunset, flowing bohemian lace, and dramatic sun flares captured with warm prime optics.', 'date' => 'Aug 20, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/desert-sunset-festival/')),
-                    array('title' => 'Vintage Royal Indian Palace Courtyard Portraits', 'desc' => 'Carved sandstone arches, water fountains, and opulent velvet sherwanis in heritage Rajasthan palaces.', 'date' => 'Aug 15, 2025', 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/royal-palace-courtyard/')),
-                    array('title' => 'Minimalist Architectural Concrete & Glass Interior Guides', 'desc' => 'Brutalist polished concrete, floor-to-ceiling glass pavilions, and sculptural shadow plays in modern architecture.', 'date' => 'Aug 10, 2025', 'img' => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/minimalist-architecture/')),
-                    array('title' => 'Golden Hour Wildflower Meadow Candid Couples Guide', 'desc' => 'Soft backlight catching golden hair, organic laughter, and natural intimacy in blossoming alpine meadows.', 'date' => 'Aug 5, 2025', 'img' => 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/wildflower-meadow-couples/')),
-                    array('title' => 'Deep Underwater Bioluminescent Marine Fantasy Guide', 'desc' => 'Crystalline blue water depths, caustic sun reflections, and glowing jellyfish light trails around divers.', 'date' => 'Jul 30, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/underwater-bioluminescent/')),
+                    array('title' => 'Gemini Imagen 3 Prompting Masterclass: Photorealistic Portraits', 'desc' => 'Deep-dive into aperture settings, natural skin texture prompts, and lighting keywords for Google Gemini.', 'date' => 'Jan 15, 2026', 'img' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/gemini-imagen-3-prompting-masterclass/'), 'cat_slug' => 'trending-prompts ai-photo-prompts'),
+                    array('title' => 'Indian Traditional Wedding Prompt for Gemini AI (2026)', 'desc' => 'Royal groom sherwani and bridal crimson lehenga portraits in ornate mandap palace courtyards.', 'date' => 'Jan 12, 2026', 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/indian-wedding-photo-prompt-for-gemini/'), 'cat_slug' => 'couple-prompts festival-prompt'),
+                    array('title' => 'How to Write Better AI Prompts: Beginner to Pro Guide', 'desc' => 'Step-by-step framework to engineer concise, high-converting prompts for image generators.', 'date' => 'Jan 10, 2026', 'img' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/how-to-write-better-ai-prompts/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => 'Gemini vs ChatGPT for Image Prompts: Comprehensive Comparison', 'desc' => 'A practical side-by-side comparison of prompt adherence, rendering fidelity, and facial symmetry.', 'date' => 'Jan 6, 2026', 'img' => 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/gemini-vs-chatgpt-image-prompts/'), 'cat_slug' => 'ai-photo-prompts trending-prompts'),
+                    array('title' => 'Best Camera Angles for Natural AI Portraits', 'desc' => 'Master low angle hero shots, 3/4 profiles, and eye-level framing to enhance visual depth.', 'date' => 'Jan 3, 2026', 'img' => 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/camera-angles-ai-portraits/'), 'cat_slug' => 'ai-photo-prompts'),
+                    array('title' => 'Festival Prompt Ideas: Indian & Global Celebrations', 'desc' => 'Creative prompt concepts for Diwali, Eid, Christmas, and Holi featuring atmospheric bokeh and diyas.', 'date' => 'Dec 28, 2025', 'img' => 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/festival-prompt-ideas/'), 'cat_slug' => 'festival-prompt trending-prompts'),
+                    array('title' => 'Practical Tips to Make AI Images Look Truly Photorealistic', 'desc' => 'Avoid the plastic skin look with optical lens specifications, raw sensor ISO, and micro-texture keywords.', 'date' => 'Dec 20, 2025', 'img' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/tips-for-realistic-ai-images/'), 'cat_slug' => 'ai-photo-prompts'),
+                    array('title' => 'AI Video Prompts Guide: Runway Gen-3 and Luma Tips', 'desc' => 'Translate still photographic prompt recipes into fluid camera movements and cinematic 24fps motion.', 'date' => 'Dec 15, 2025', 'img' => 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/ai-video-prompts-guide/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => '8K Editorial Studio Portrait Prompts & Lighting Recipes', 'desc' => 'Studio fashion lighting setups with dual diffused softboxes and true-to-life skin tones.', 'date' => 'Dec 10, 2025', 'img' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/editorial-studio-portrait/'), 'cat_slug' => 'boys-prompts ai-photo-prompts'),
+                    array('title' => 'Romantic Couple Golden Hour Photography Prompts', 'desc' => 'Heartwarming couple photoshoots in wildflower mountain meadows bathed in golden sunset light.', 'date' => 'Dec 5, 2025', 'img' => 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/romantic-couple-golden-hour/'), 'cat_slug' => 'couple-prompts'),
+                    array('title' => 'Natural Sunlight Window Portraits in Midjourney & Gemini', 'desc' => 'Soft morning window illumination casting gentle diagonal shadows with authentic expressions.', 'date' => 'Dec 1, 2025', 'img' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sunlight-window-portrait/'), 'cat_slug' => 'ai-photo-prompts'),
+                    array('title' => 'Cinematic Rainy Twilight Street Photography Prompts', 'desc' => 'Atmospheric teal-orange color grading on rain-slicked city streets with realistic reflections.', 'date' => 'Nov 26, 2025', 'img' => 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/rainy-street-portrait/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => 'Traditional Royal Silk Saree AI Portrait Formulas', 'desc' => 'Intricate gold zari embroidery, heritage temple architecture, and warm morning ambient light.', 'date' => 'Nov 20, 2025', 'img' => 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/traditional-silk-saree/'), 'cat_slug' => 'festival-prompt ai-photo-prompts'),
+                    array('title' => 'Cyberpunk Tokyo Neon Rain Alley AI Concept Art', 'desc' => 'Hyper-detailed futuristic aesthetic with glowing neon kanji billboards and reflective wet asphalt.', 'date' => 'Nov 15, 2025', 'img' => 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/cyberpunk-neon-portrait/'), 'cat_slug' => 'trending-prompts boys-prompts'),
+                    array('title' => 'Vintage 1970s 35mm Analog Film Aesthetic Prompts', 'desc' => 'Warm Kodachrome color science, nostalgic film grain, and retro flared sunlight compositions.', 'date' => 'Nov 10, 2025', 'img' => 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/vintage-35mm-film/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => 'Black and White Monochromatic Fine Art Studio Portraits', 'desc' => 'Dramatic chiaroscuro shadow control, sculpted rim lighting, and emotional black-and-white tonality.', 'date' => 'Nov 5, 2025', 'img' => 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/monochrome-fine-art/'), 'cat_slug' => 'boys-prompts ai-photo-prompts'),
+                    array('title' => 'Futuristic Sci-Fi Space Explorer Conceptual Art', 'desc' => 'High-tech pressurized spacesuit with holographic visor displays against martian landscape.', 'date' => 'Oct 30, 2025', 'img' => 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sci-fi-explorer/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => 'Nordic Minimalist Cozy Coffee Shop Lifestyle Prompts', 'desc' => 'Scandinavian clean interior design, ceramic mug steam, wool sweaters, and calm natural light.', 'date' => 'Oct 25, 2025', 'img' => 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/nordic-coffee-shop/'), 'cat_slug' => 'ai-photo-prompts'),
+                    array('title' => 'Ethereal Forest Fantasy Dreamscape Masterclass', 'desc' => 'Sunlight rays piercing ancient moss-draped redwoods with whimsical bioluminescent flora.', 'date' => 'Oct 20, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/fantasy-dreamscape/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => 'Moody Moonlight Misty Mountain Solitude Portraits', 'desc' => 'Silhouetted wanderer beneath vast starry skies and cascading alpine mist at high elevation.', 'date' => 'Oct 15, 2025', 'img' => 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/misty-mountain-solitude/'), 'cat_slug' => 'boys-prompts ai-photo-prompts'),
+                    array('title' => 'Classic Vintage European Street Cafe Aesthetic', 'desc' => 'Cobblestone streets, wrought iron outdoor cafe seating, and warm afternoon Parisian glow.', 'date' => 'Oct 10, 2025', 'img' => 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/vintage-european-cafe/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => 'High-Fashion Avant-Garde Runway Studio Prompts', 'desc' => 'Sculptural architectural silhouettes, bold monochromatic palettes, and dynamic editorial poses.', 'date' => 'Oct 5, 2025', 'img' => 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/avant-garde-fashion/'), 'cat_slug' => 'ai-photo-prompts'),
+                    array('title' => 'Macro Eye Portrait Photography in Imagen 3', 'desc' => 'Stunning macro iris reflections, distinct eyelashes, and fine skin details rendered with 100mm optics.', 'date' => 'Sep 30, 2025', 'img' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/macro-eye-portrait/'), 'cat_slug' => 'ai-photo-prompts'),
+                    array('title' => 'Diwali Festive Golden Diya Portraits for Couples', 'desc' => 'Sparkling traditional diyas, marigold garlands, and authentic festive warmth between loved ones.', 'date' => 'Sep 25, 2025', 'img' => 'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/diwali-festive-couple/'), 'cat_slug' => 'festival-prompt couple-prompts'),
+                    array('title' => 'Sunset Beach Silhouette Couple Portrait Formulas', 'desc' => 'Backlit couple walking hand-in-hand along the tide line with golden sunset water reflections.', 'date' => 'Sep 20, 2025', 'img' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sunset-beach-silhouette/'), 'cat_slug' => 'couple-prompts'),
+                    array('title' => 'Corporate Professional Executive Headshot Prompts', 'desc' => 'Clean corporate studio lighting, tailored navy suits, confident posture, and modern blur background.', 'date' => 'Sep 15, 2025', 'img' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/corporate-headshot/'), 'cat_slug' => 'boys-prompts ai-photo-prompts'),
+                    array('title' => 'Retro 1990s Japanese City Pop Film Photography', 'desc' => 'Nostalgic film tones, neon evening signage, retro cassette players, and lo-fi aesthetic warmth.', 'date' => 'Sep 10, 2025', 'img' => 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/retro-city-pop/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => 'Autumn Warm Foliage Scenic Park Portraits', 'desc' => 'Crisp amber and crimson fall foliage, cozy wool scarves, and golden late-afternoon sun rays.', 'date' => 'Sep 5, 2025', 'img' => 'https://images.unsplash.com/photo-1477414348463-c0eb7f1359b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/autumn-foliage-portrait/'), 'cat_slug' => 'ai-photo-prompts'),
+                    array('title' => 'Architectural Drone Perspective AI Cityscape Prompts', 'desc' => 'Sweeping bird-eye aerial photography of futuristic sustainable metropolis with lush rooftop gardens.', 'date' => 'Aug 30, 2025', 'img' => 'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/aerial-cityscape/'), 'cat_slug' => 'trending-prompts'),
+                    array('title' => 'Neon Cybernetic Samurai Character Concept Guide', 'desc' => 'Katana reflections, glowing crest accents, and cinematic rain lighting formulas for character designers.', 'date' => 'Aug 25, 2025', 'img' => 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/cyberpunk-samurai/'), 'cat_slug' => 'boys-prompts trending-prompts'),
+                    array('title' => 'Bohemian Desert Sunset Festival Aesthetic Prompts', 'desc' => 'Golden dune sunset, flowing bohemian lace, and dramatic sun flares captured with warm prime optics.', 'date' => 'Aug 20, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/desert-sunset-festival/'), 'cat_slug' => 'festival-prompt couple-prompts'),
+                    array('title' => 'Vintage Royal Indian Palace Courtyard Portraits', 'desc' => 'Carved sandstone arches, water fountains, and opulent velvet sherwanis in heritage Rajasthan palaces.', 'date' => 'Aug 15, 2025', 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/royal-palace-courtyard/'), 'cat_slug' => 'couple-prompts festival-prompt'),
+                    array('title' => 'Minimalist Architectural Concrete & Glass Interior Guides', 'desc' => 'Brutalist polished concrete, floor-to-ceiling glass pavilions, and sculptural shadow plays in modern architecture.', 'date' => 'Aug 10, 2025', 'img' => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/minimalist-architecture/'), 'cat_slug' => 'ai-photo-prompts'),
+                    array('title' => 'Golden Hour Wildflower Meadow Candid Couples Guide', 'desc' => 'Soft backlight catching golden hair, organic laughter, and natural intimacy in blossoming alpine meadows.', 'date' => 'Aug 5, 2025', 'img' => 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/wildflower-meadow-couples/'), 'cat_slug' => 'couple-prompts'),
+                    array('title' => 'Deep Underwater Bioluminescent Marine Fantasy Guide', 'desc' => 'Crystalline blue water depths, caustic sun reflections, and glowing jellyfish light trails around divers.', 'date' => 'Jul 30, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/underwater-bioluminescent/'), 'cat_slug' => 'ai-photo-prompts'),
                 );
 
                 // Paginate the curated articles list (30 per page)
@@ -291,7 +389,7 @@ get_header(); ?>
                 ?>
                 <div class="guides-grid">
                     <?php foreach ($page_articles as $g) : ?>
-                        <article class="guide-card">
+                        <article class="guide-card" data-categories="<?php echo esc_attr(isset($g['cat_slug']) ? $g['cat_slug'] : 'all'); ?>">
                             <div class="guide-card-media">
                                 <a href="<?php echo esc_url($g['url']); ?>">
                                     <img src="<?php echo esc_url($g['img']); ?>" alt="<?php echo esc_attr($g['title']); ?>" loading="lazy" />

@@ -63,7 +63,7 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section id="faq-section" className="py-16 sm:py-20 bg-slate-50/60 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 transition-colors">
+    <section id="faq-section" className="py-16 sm:py-20 bg-white dark:bg-[#0B0F19] transition-colors">
       {/* FAQ Schema Script */}
       <script
         type="application/ld+json"

@@ -189,4 +189,138 @@ document.addEventListener('DOMContentLoaded', function () {
       box.classList.add('az-prompt-text-clean');
     });
   }
+
+  // 6. Horizontal Sliding Prompt Carousel Controls
+  const carouselTrack = document.getElementById('carousel-track');
+  const carouselPrevBtn = document.getElementById('carousel-prev-btn');
+  const carouselNextBtn = document.getElementById('carousel-next-btn');
+
+  if (carouselTrack) {
+    const getScrollDistance = () => {
+      const firstCard = carouselTrack.querySelector('.carousel-card-item');
+      return firstCard ? firstCard.offsetWidth + 16 : 220;
+    };
+
+    if (carouselPrevBtn) {
+      carouselPrevBtn.addEventListener('click', () => {
+        carouselTrack.scrollBy({ left: -getScrollDistance() * 2, behavior: 'smooth' });
+      });
+    }
+
+    if (carouselNextBtn) {
+      carouselNextBtn.addEventListener('click', () => {
+        carouselTrack.scrollBy({ left: getScrollDistance() * 2, behavior: 'smooth' });
+      });
+    }
+
+    // Auto-scroll loop with pause-on-hover & touch support
+    let autoScrollInterval = null;
+    let isPaused = false;
+
+    const startAutoScroll = () => {
+      if (autoScrollInterval) return;
+      autoScrollInterval = setInterval(() => {
+        if (isPaused) return;
+        const maxScroll = carouselTrack.scrollWidth - carouselTrack.clientWidth;
+        if (carouselTrack.scrollLeft >= maxScroll - 15) {
+          carouselTrack.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          carouselTrack.scrollBy({ left: getScrollDistance(), behavior: 'smooth' });
+        }
+      }, 3500);
+    };
+
+    const stopAutoScroll = () => {
+      if (autoScrollInterval) {
+        clearInterval(autoScrollInterval);
+        autoScrollInterval = null;
+      }
+    };
+
+    carouselTrack.addEventListener('mouseenter', () => { isPaused = true; });
+    carouselTrack.addEventListener('mouseleave', () => { isPaused = false; });
+    carouselTrack.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
+    carouselTrack.addEventListener('touchend', () => {
+      setTimeout(() => { isPaused = false; }, 2000);
+    }, { passive: true });
+    carouselTrack.addEventListener('focusin', () => { isPaused = true; });
+    carouselTrack.addEventListener('focusout', () => { isPaused = false; });
+
+    startAutoScroll();
+  }
+
+  // 7. Dynamic Category Filter for Latest Guides & Tutorials
+  const filterPills = document.querySelectorAll('.guides-filter-pill');
+  const guidesGrid = document.getElementById('guides-grid');
+  const emptyFilterState = document.getElementById('guides-filter-empty');
+  const resetFilterBtn = document.getElementById('guides-filter-reset-btn');
+  const paginationWrapper = document.querySelector('.pagination-wrapper');
+
+  if (filterPills.length > 0 && guidesGrid) {
+    const guideCards = Array.from(guidesGrid.querySelectorAll('.guide-card'));
+
+    const applyFilter = (filterSlug) => {
+      // Update active state on pill buttons
+      filterPills.forEach(pill => {
+        const isActive = pill.getAttribute('data-filter') === filterSlug;
+        pill.classList.toggle('active', isActive);
+        pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      let visibleCount = 0;
+
+      guideCards.forEach(card => {
+        if (filterSlug === 'all') {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          const cardCats = (card.getAttribute('data-categories') || '').toLowerCase();
+          const cardTitle = (card.getAttribute('data-title') || '').toLowerCase();
+
+          // Normalized matching: support exact slug, words in category, or keywords in title
+          const normalizedFilter = filterSlug.toLowerCase().replace(/-/g, ' ');
+          const slugVariants = [
+            filterSlug.toLowerCase(),
+            filterSlug.toLowerCase().replace(/-/g, ''),
+            ...normalizedFilter.split(' ').filter(w => w.length > 2 && w !== 'prompts' && w !== 'prompt' && w !== 'guide')
+          ];
+
+          const isMatch =
+            cardCats.includes(filterSlug.toLowerCase()) ||
+            slugVariants.some(v => cardCats.includes(v) || cardTitle.includes(v));
+
+          if (isMatch) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+
+      // Handle empty state visibility
+      if (emptyFilterState) {
+        emptyFilterState.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+
+      // Hide standard pagination when filtering a subcategory so user isn't confused by page numbers
+      if (paginationWrapper) {
+        paginationWrapper.style.display = filterSlug === 'all' ? '' : 'none';
+      }
+    };
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', function () {
+        const filterSlug = this.getAttribute('data-filter') || 'all';
+        applyFilter(filterSlug);
+      });
+    });
+
+    if (resetFilterBtn) {
+      resetFilterBtn.addEventListener('click', function () {
+        applyFilter('all');
+      });
+    }
+  }
 });
+

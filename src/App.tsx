@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { CategorySection } from './components/CategorySection';
+import { CategoryCarousel } from './components/CategoryCarousel';
 import { GuidesSection } from './components/GuidesSection';
 import { PromptBuilder } from './components/PromptBuilder';
 import { HowToUseSection } from './components/HowToUseSection';
@@ -153,14 +153,14 @@ export default function App() {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const el = document.getElementById('categories-section');
+    const el = document.getElementById('guides-section') || document.getElementById('prompt-carousel-section');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleSelectTag = (tag: string) => {
     setSearchQuery(tag);
     setSelectedCategory(null);
-    const el = document.getElementById('categories-section');
+    const el = document.getElementById('guides-section') || document.getElementById('prompt-carousel-section');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -169,19 +169,20 @@ export default function App() {
       setSelectedCategory(null);
     } else {
       setSelectedCategory(slug);
-      const el = document.getElementById('categories-section');
+      const el = document.getElementById('guides-section') || document.getElementById('prompt-carousel-section');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handleNavClick = (sectionId: string, navName: string) => {
     setActiveNav(navName);
-    const el = document.getElementById(sectionId);
+    const targetId = sectionId === 'categories-section' ? 'prompt-carousel-section' : sectionId;
+    const el = document.getElementById(targetId);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0B0F19] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-[#0B0F19] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       {/* 1. Header & Navigation */}
       <Header
         searchQuery={searchQuery}
@@ -197,7 +198,7 @@ export default function App() {
         onSelectCategory={handleSelectCategory}
       />
 
-      <main className="flex-1">
+      <main className="flex-1 bg-white dark:bg-[#0B0F19]">
         {currentView === '404' ? (
           <div className="max-w-3xl mx-auto px-4 py-24 text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 mb-6">
@@ -270,16 +271,13 @@ export default function App() {
               onSelectTag={handleSelectTag}
             />
 
-            {/* 3. Explore Prompts by Category (3 Main Categories) */}
-            <CategorySection
-              categories={CATEGORIES_DATA}
-              selectedCategory={selectedCategory}
+            {/* 3. Horizontal Sliding Prompt Categories Carousel */}
+            <CategoryCarousel
+              onSelectTag={handleSelectTag}
               onSelectCategory={handleSelectCategory}
-              savedCategories={savedCategories}
-              onToggleSaveCategory={handleToggleSaveCategory}
-              onViewAllCategories={() => {
-                const el = document.getElementById('guides-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              onSelectGuideBySlug={(slug) => {
+                const g = GUIDES_DATA.find((item) => item.slug === slug);
+                if (g) setSelectedGuide(g);
               }}
             />
 

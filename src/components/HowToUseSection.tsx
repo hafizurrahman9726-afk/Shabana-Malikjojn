@@ -3,7 +3,7 @@ import { BookOpen, Copy, Sparkles, ArrowRight } from 'lucide-react';
 
 export const HowToUseSection: React.FC = () => {
   return (
-    <section className="py-16 bg-slate-50/60 dark:bg-slate-900/40 border-y border-slate-200/60 dark:border-slate-800/60">
+    <section className="py-16 bg-white dark:bg-[#0B0F19]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">

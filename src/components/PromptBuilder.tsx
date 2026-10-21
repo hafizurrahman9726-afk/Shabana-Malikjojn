@@ -68,7 +68,7 @@ export const PromptBuilder: React.FC = () => {
 
 
   return (
-    <section id="prompt-builder" className="py-16 bg-slate-50/70 dark:bg-slate-900/30">
+    <section id="prompt-builder" className="py-16 bg-white dark:bg-[#0B0F19]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 p-6 sm:p-10 shadow-xl shadow-purple-900/5">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">

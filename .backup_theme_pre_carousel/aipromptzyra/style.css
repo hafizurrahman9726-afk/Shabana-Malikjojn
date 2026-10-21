@@ -1,0 +1,269 @@
+/*
+Theme Name: AIPromptzyra
+Theme URI: https://aipromptzyra.com/
+Author: AIPromptzyra Team
+Author URI: https://aipromptzyra.com/about/
+Description: A premium, ultra-fast WordPress theme crafted for AI prompt discovery, visual prompt categorization, dynamic prompt builders, and creative tutorials. Designed for Gemini, ChatGPT, and Midjourney creators.
+Version: 1.0.5
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: aipromptzyra
+Tags: custom-background, custom-logo, custom-menu, featured-images, flexible-header, full-width-template, theme-options, threaded-comments, translation-ready, accessibility-ready, blog
+
+(C) 2025 AIPromptzyra. All rights reserved.
+*/
+
+/* Reset & Base Variables */
+:root {
+  --az-primary: #7c3aed;
+  --az-primary-hover: #6d28d9;
+  --az-primary-light: #ede9fe;
+  --az-primary-dark: #5b21b6;
+  --az-accent: #8b5cf6;
+  --az-bg: #fafafa;
+  --az-surface: #ffffff;
+  --az-surface-alt: #f8fafc;
+  --az-border: #e2e8f0;
+  --az-text: #1e293b;
+  --az-text-muted: #64748b;
+  --az-footer-bg: #0b0f19;
+  --az-footer-surface: #111827;
+  --az-footer-border: #1f2937;
+  --az-radius-sm: 8px;
+  --az-radius-md: 12px;
+  --az-radius-lg: 16px;
+  --az-radius-xl: 24px;
+  --az-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --az-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --az-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --az-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --az-font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}
+
+[data-theme="dark"] {
+  --az-bg: #090d16;
+  --az-surface: #111726;
+  --az-surface-alt: #1a2236;
+  --az-border: #232f48;
+  --az-text: #f8fafc;
+  --az-text-muted: #94a3b8;
+  --az-primary-light: rgba(124, 58, 237, 0.2);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--az-font-sans);
+  background-color: var(--az-bg);
+  color: var(--az-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.screen-reader-text {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  clip: auto !important;
+  clip-path: none;
+  color: #21759b;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  height: auto;
+  left: 5px;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  width: auto;
+  z-index: 100000;
+}
+
+/* ==========================================================================
+   Clean Single Article Layout & Unboxed Prompts (v1.0.4 Update)
+   - Removes outer card borders, rounded containers, and card shadows
+   - Removes dedicated 'Prompt:' labels and blue/purple prompt boxes
+   - Removes bottom 'WRITTEN BY' author card across all single posts
+   - Fixes mobile header brand text wrapping & search bar responsive width
+   ========================================================================== */
+
+/* 1. Full White Background on Single Posts (#FFFFFF) & Remove Outer Rounded Border */
+body.single,
+body.single-post,
+body.single-prompt,
+body.single #page,
+body.single #content,
+body.single .site-content,
+body.single .single-article-layout,
+body.single-post #page,
+body.single-post #content,
+body.single-post .site-content,
+body.single-post .single-article-layout,
+body.single-prompt #page,
+body.single-prompt #content,
+body.single-prompt .site-content,
+body.single-prompt .single-prompt-container {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+.article-single {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 24px 0 !important;
+}
+
+@media (max-width: 768px) {
+  .article-single {
+    padding: 0 0 16px 0 !important;
+  }
+  .single-article-layout {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-top: 14px !important;
+  }
+}
+
+/* 2. Remove dedicated Prompt: Labels and Unbox Prompt Text */
+.az-prompt-label,
+.article-single .entry-content .az-prompt-label,
+.entry-content .az-prompt-label {
+  display: none !important;
+}
+
+.article-single .entry-content .az-prompt-box,
+.entry-content .az-prompt-box,
+.az-prompt-text-clean {
+  background: transparent !important;
+  border: none !important;
+  border-left: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-top: 0.35rem !important;
+  margin-bottom: 1.75rem !important;
+  line-height: 1.75 !important;
+}
+
+.az-prompt-action-bar {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.az-copy-prompt-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  background: var(--az-surface, #ffffff);
+  border: 1px solid var(--az-border, #e2e8f0);
+  color: var(--az-text-muted, #64748b);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.az-copy-prompt-btn:hover {
+  color: #7c3aed;
+  border-color: #7c3aed;
+  background: #faf5ff;
+}
+
+.az-copy-prompt-btn.copied {
+  background: #10b981 !important;
+  border-color: #10b981 !important;
+  color: #ffffff !important;
+}
+
+/* 3. Remove "WRITTEN BY" author card */
+.author-bio-card {
+  display: none !important;
+}
+
+/* 4. Mobile Header & Responsive Brand Fix */
+.site-branding .brand-link,
+.brand-title {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .site-header-inner {
+    height: 60px !important;
+    gap: 8px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  .brand-title {
+    font-size: 1.15rem !important;
+  }
+  .brand-icon {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .header-actions {
+    gap: 8px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+    justify-content: flex-end !important;
+  }
+  .header-search-form {
+    flex: 1 !important;
+    min-width: 0 !important;
+    max-width: 170px !important;
+  }
+  .header-search-input {
+    width: 100% !important;
+    min-width: 80px !important;
+    max-width: 170px !important;
+    padding: 6px 12px 6px 32px !important;
+    font-size: 0.8125rem !important;
+  }
+  .theme-toggle-btn,
+  .mobile-toggle-btn {
+    width: 34px !important;
+    height: 34px !important;
+    flex-shrink: 0 !important;
+  }
+}

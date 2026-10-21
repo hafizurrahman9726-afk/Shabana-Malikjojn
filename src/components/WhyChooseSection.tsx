@@ -6,7 +6,7 @@ interface WhyChooseSectionProps {
 
 export const WhyChooseSection: React.FC<WhyChooseSectionProps> = ({ onLearnMore }) => {
   return (
-    <section id="why-choose-section" className="py-16 sm:py-20 bg-slate-50/70 dark:bg-slate-900/40 border-y border-slate-200/70 dark:border-slate-800/70 transition-colors">
+    <section id="why-choose-section" className="py-16 sm:py-20 bg-white dark:bg-[#0B0F19] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Editorial Section Header */}
         <div className="max-w-3xl mb-10 sm:mb-12">

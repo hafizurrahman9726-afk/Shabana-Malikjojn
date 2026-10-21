@@ -3,10 +3,26 @@
  * Template part for displaying a guide card in grids
  *
  * @package AIPromptzyra
- * @version 1.0.0
+ * @version 1.0.7
  */
+
+$post_id = get_the_ID();
+$terms_slugs = array();
+$terms_cat = get_the_terms($post_id, 'category');
+if (!empty($terms_cat) && !is_wp_error($terms_cat)) {
+    foreach ($terms_cat as $t) {
+        $terms_slugs[] = sanitize_title($t->slug);
+    }
+}
+$terms_pc = get_the_terms($post_id, 'prompt_category');
+if (!empty($terms_pc) && !is_wp_error($terms_pc)) {
+    foreach ($terms_pc as $t) {
+        $terms_slugs[] = sanitize_title($t->slug);
+    }
+}
+$cat_attr = implode(' ', array_unique($terms_slugs));
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class('guide-card'); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('guide-card'); ?> data-categories="<?php echo esc_attr($cat_attr); ?>" data-title="<?php echo esc_attr(strtolower(get_the_title())); ?>">
     <div class="guide-card-media">
         <a href="<?php the_permalink(); ?>">
             <?php if (has_post_thumbnail()) : ?>

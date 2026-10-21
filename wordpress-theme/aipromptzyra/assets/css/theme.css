@@ -471,6 +471,404 @@ html {
   text-decoration: underline;
 }
 
+/* ==========================================================================
+   Horizontal Sliding Prompt Categories Carousel (Matching Screenshot)
+   ========================================================================== */
+.prompt-carousel-section {
+  position: relative;
+  width: 100%;
+  padding: 16px 0 40px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.carousel-container-outer {
+  position: relative;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.carousel-nav-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+  padding: 0 4px;
+}
+
+.carousel-arrow {
+  pointer-events: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  color: #7c3aed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+}
+
+.carousel-arrow:hover {
+  background: #7c3aed;
+  color: #ffffff;
+  border-color: #7c3aed;
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.35);
+}
+
+.carousel-arrow:active {
+  transform: scale(0.96);
+}
+
+.carousel-track-wrapper {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 10px 4px 20px;
+}
+
+.carousel-track-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-card-item {
+  flex: 0 0 195px;
+  height: 285px;
+  scroll-snap-align: start;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  display: block;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  background-color: #f1f5f9;
+}
+
+.carousel-card-item:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 16px 30px -6px rgba(124, 58, 237, 0.3);
+}
+
+.carousel-card-media {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.carousel-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;
+  transition: transform 0.5s ease;
+}
+
+.carousel-card-item:hover .carousel-card-media img {
+  transform: scale(1.05);
+}
+
+.carousel-card-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 16px 12px 14px;
+  background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.4) 40%, rgba(15, 23, 42, 0.88) 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.carousel-card-tag {
+  align-self: flex-start;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ede9fe;
+  background: rgba(124, 58, 237, 0.65);
+  backdrop-filter: blur(4px);
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.carousel-card-title {
+  font-family: var(--az-font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .carousel-card-item {
+    flex: 0 0 155px;
+    height: 230px;
+    border-radius: 16px;
+  }
+  .carousel-card-media img,
+  .carousel-card-overlay {
+    border-radius: 16px;
+  }
+  .carousel-card-title {
+    font-size: 0.85rem;
+  }
+  .carousel-arrow {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ==========================================================================
+   Horizontal Category Filter Bar (Pill-shaped Filter Buttons)
+   ========================================================================== */
+.guides-filter-bar-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 18px 0 28px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.guides-filter-bar-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.guides-filter-scroll-track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 2px 8px 2px;
+  flex-wrap: nowrap;
+}
+
+.guides-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 20px;
+  border-radius: 9999px;
+  font-family: var(--az-font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #475569;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.guides-filter-pill:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.guides-filter-pill:focus-visible {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+/* Selected Category Pill (Dark Navy Background + Crisp White Text) */
+.guides-filter-pill.active {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2) !important;
+  transform: translateY(-1px);
+}
+
+/* Dark Mode Support for Filter Pills */
+[data-theme="dark"] .guides-filter-pill {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .guides-filter-pill:hover {
+  background-color: #334155;
+  border-color: #475569;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .guides-filter-pill.active {
+  background-color: #7c3aed !important;
+  border-color: #7c3aed !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35) !important;
+}
+
+/* Empty State when category filter matches 0 cards */
+.guides-filter-empty {
+  width: 100%;
+  padding: 48px 24px;
+  margin: 16px 0;
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 20px;
+  text-align: center;
+}
+
+[data-theme="dark"] .guides-filter-empty {
+  background-color: #111827;
+  border-color: #374151;
+}
+
+.empty-filter-box {
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.empty-filter-title {
+  font-family: var(--az-font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+[data-theme="dark"] .empty-filter-title {
+  color: #ffffff;
+}
+
+.empty-filter-desc {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0 0 12px 0;
+}
+
+[data-theme="dark"] .empty-filter-desc {
+  color: #94a3b8;
+}
+
+.guides-filter-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  background-color: #7c3aed;
+  color: #ffffff;
+  font-family: var(--az-font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+  transition: all 0.2s ease;
+}
+
+.guides-filter-reset-btn:hover {
+  background-color: #6d28d9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+}
+
+@media (max-width: 640px) {
+  .guides-filter-pill {
+    padding: 7px 16px;
+    font-size: 0.8125rem;
+  }
+}
+
+/* ==========================================================================
+   Homepage Pure White Background Specification (#FFFFFF)
+   Scoped strictly to homepage content area (body.home)
+   Preserves header and footer designs and backgrounds intact
+   ========================================================================== */
+body.home {
+  background-color: #ffffff !important;
+}
+
+body.home #primary,
+body.home #primary.site-main,
+body.home .site-main {
+  background-color: #ffffff !important;
+}
+
+body.home .hero-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .prompt-carousel-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .guides-section,
+body.home #guides-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .builder-section,
+body.home #prompt-builder {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .how-to-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .why-choose-editorial,
+body.home .why-choose-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .community-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .faq-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .author-profile-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+body.home .section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
 /* Category Grid (8 items) */
 .category-grid {
   display: grid;

@@ -14,12 +14,10 @@ export const AuthorProfileCard: React.FC<AuthorProfileCardProps> = ({ onViewAllG
   };
 
   return (
-    <section id="author-card-section" className="py-12 sm:py-16 bg-transparent transition-colors">
+    <section id="author-card-section" className="py-12 sm:py-16 bg-white dark:bg-[#0B0F19] transition-colors">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered White Card with rounded corners, subtle border, and shadow */}
         <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 sm:p-10 md:p-12 border border-slate-200/90 dark:border-slate-700/80 shadow-md sm:shadow-xl text-center flex flex-col items-center relative overflow-hidden transition-all">
-          {/* Subtle Ambient Decorative Glow */}
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-40 bg-amber-500/10 dark:bg-amber-500/5 blur-3xl pointer-events-none rounded-full" />
 
           {/* Circular Author Photo with Orange Accent Border */}
           <div className="relative mb-5">

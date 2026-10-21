@@ -25,10 +25,7 @@ export const Hero: React.FC<HeroProps> = ({
   ];
 
   return (
-    <section id="hero" className="relative pt-10 pb-16 lg:pt-14 lg:pb-24 overflow-hidden">
-      {/* Background radial glow */}
-      <div className="absolute top-0 left-1/4 -translate-x-1/2 w-96 h-96 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-10 w-80 h-80 bg-indigo-500/10 dark:bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+    <section id="hero" className="relative pt-8 pb-12 lg:pt-12 lg:pb-16 overflow-hidden bg-white dark:bg-[#0B0F19]">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
