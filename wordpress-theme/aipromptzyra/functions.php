@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-define('AIPROMPTZYRA_VERSION', '1.0.8');
+define('AIPROMPTZYRA_VERSION', '1.1.0');
 define('AIPROMPTZYRA_DIR', get_template_directory());
 define('AIPROMPTZYRA_URI', get_template_directory_uri());
 
@@ -258,11 +258,6 @@ function aipromptzyra_after_switch_theme() {
         'disclaimer' => array(
             'title'    => 'Disclaimer',
             'content'  => 'AIPromptzyra is an independent platform. All product and company names (Gemini, ChatGPT, Midjourney) are trademarks of their respective holders.',
-            'template' => 'page.php',
-        ),
-        'editorial-policy' => array(
-            'title'    => 'Editorial Policy',
-            'content'  => 'Our team rigorously tests prompts for quality, accuracy, and photorealism before publication.',
             'template' => 'page.php',
         ),
     );

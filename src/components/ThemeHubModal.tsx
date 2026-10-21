@@ -206,6 +206,55 @@ get_header(); ?>
 </main>
 <?php get_footer(); ?>`,
     },
+    'page.php': {
+      desc: 'Shared page template with unified metadata row and horizontal related pages row for legal pages.',
+      code: `<?php
+/**
+ * The template for displaying all pages
+ * Includes dedicated shared legal layout for Contact, Privacy, Terms, and Disclaimer
+ */
+get_header(); ?>
+<main id="primary" class="site-main container page-container">
+    <?php while (have_posts()) : the_post();
+        $slug = get_post_field('post_name', get_the_ID());
+        if (in_array($slug, array('contact', 'privacy-policy', 'terms-and-conditions', 'disclaimer'))) : ?>
+            <article class="page-entry legal-page-entry">
+                <!-- 1. Top Metadata Row (clean label & verified info) -->
+                <div class="page-meta-badge-bar">
+                    <span class="page-meta-label">Data Policy</span>
+                    <span class="page-meta-item">Effective Date: October 21, 2026</span>
+                    <span class="page-meta-dot">•</span>
+                    <span class="page-meta-item">Editor: Zyra Ansari</span>
+                </div>
+                <!-- 2. Clean Page Body -->
+                <div class="entry-content">
+                    <?php the_content(); ?>
+                </div>
+                <!-- 3. Standardized Bottom Related Pages Row -->
+                <div class="page-nav-bar">
+                    <div class="page-nav-links-group">
+                        <span class="page-nav-heading">Related Pages</span>
+                        <div class="page-nav-links">
+                            <!-- Clean flex row without unwanted bullets, current page excluded -->
+                        </div>
+                    </div>
+                    <div class="page-nav-attribution">
+                        <span>AIPromptZyra • Published by Zyra Ansari</span>
+                    </div>
+                </div>
+            </article>
+        <?php else : ?>
+            <article class="page-entry">
+                <header class="entry-header page-header-centered">
+                    <h1 class="entry-title"><?php the_title(); ?></h1>
+                </header>
+                <div class="entry-content"><?php the_content(); ?></div>
+            </article>
+        <?php endif; ?>
+    <?php endwhile; ?>
+</main>
+<?php get_footer(); ?>`,
+    },
     'single-prompt.php': {
       desc: 'Dedicated single prompt template with artwork display, one-click copy box, and parameters.',
       code: `<?php

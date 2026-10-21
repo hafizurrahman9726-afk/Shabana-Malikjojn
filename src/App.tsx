@@ -350,6 +350,7 @@ export default function App() {
       <StaticPageModal
         pageSlug={activePageSlug}
         onClose={() => setActivePageSlug(null)}
+        onSelectPage={(slug) => setActivePageSlug(slug)}
       />
     </div>
   );
