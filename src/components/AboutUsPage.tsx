@@ -14,7 +14,8 @@ import {
   Cpu,
   Mail,
   ExternalLink,
-  MessageSquare
+  MessageSquare,
+  Instagram
 } from 'lucide-react';
 import { AUTHORS_DATA } from '../data/promptsData';
 import { AuthorProfile, GuideItem } from '../types';
@@ -176,22 +177,113 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           </div>
         </section>
 
-        {/* 4. MEET OUR WRITERS (3 Verified Author Profiles) */}
+        {/* 4. OWNER PROFILE — ZYRA ANSARI */}
+        <section className="space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 shadow-xs">
+              <span>Leadership &amp; Ownership</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
+              Website Owner
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
+              Guiding AIPromptZyra&apos;s editorial vision, prompt curation standards, and community resources.
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 sm:p-10 border border-slate-200/90 dark:border-slate-700/80 shadow-md relative overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+              {/* Owner Avatar */}
+              <div className="relative shrink-0">
+                <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border-4 border-amber-500 p-0.5 bg-white dark:bg-slate-800 shadow-lg overflow-hidden flex items-center justify-center">
+                  <img
+                    src="https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg"
+                    alt="Zyra Ansari"
+                    className="w-full h-full object-cover rounded-full"
+                    loading="lazy"
+                  />
+                </div>
+                <div
+                  className="absolute bottom-1 right-2 w-7 h-7 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-md border-2 border-white dark:border-slate-800"
+                  title="Verified Owner"
+                >
+                  <CheckCircle2 className="w-4 h-4 fill-white text-amber-500" />
+                </div>
+              </div>
+
+              {/* Owner Details */}
+              <div className="space-y-4 text-center md:text-left flex-1">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 mb-2">
+                    <span>Owner</span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
+                    Zyra Ansari
+                  </h3>
+                  <p className="text-sm font-semibold text-purple-600 dark:text-purple-400 mt-0.5">
+                    Owner, AIPromptZyra
+                  </p>
+                </div>
+
+                <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+                  Zyra Ansari is the Owner of AIPromptZyra. She oversees the platform&apos;s vision, editorial direction, and community resources for visual AI prompt discovery and creative tutorials across Google Gemini, ChatGPT, and Midjourney.
+                </p>
+
+                {/* Official Social Links */}
+                <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+                  <a
+                    href="https://www.instagram.com/aipromptzyra"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-gradient-to-r hover:from-amber-500 hover:via-rose-500 hover:to-purple-600 dark:bg-slate-700/80 text-slate-700 dark:text-slate-200 hover:text-white text-xs font-bold transition-all shadow-xs hover:scale-105"
+                  >
+                    <Instagram className="w-3.5 h-3.5" />
+                    <span>Instagram</span>
+                  </a>
+                  <a
+                    href="https://t.me/aipromptzyra"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-[#229ED9] dark:bg-slate-700/80 text-slate-700 dark:text-slate-200 hover:text-white text-xs font-bold transition-all shadow-xs hover:scale-105"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                    </svg>
+                    <span>Telegram</span>
+                  </a>
+                  <a
+                    href="https://whatsapp.com/channel/0029VbDrtskISTkDafKarY0u"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-[#25D366] dark:bg-slate-700/80 text-slate-700 dark:text-slate-200 hover:text-white text-xs font-bold transition-all shadow-xs hover:scale-105"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12.031 2C6.5 2 2 6.5 2 12.031c0 1.95.562 3.82 1.633 5.438L2.062 22l4.672-1.547a9.97 9.97 0 0 0 5.297 1.547h.008c5.523 0 10.023-4.5 10.023-10.031C22.062 6.5 17.554 2 12.031 2zm0 18.36a8.31 8.31 0 0 1-4.242-1.164l-.305-.18-3.148 1.043 1.062-3.07-.2-.313a8.344 8.344 0 0 1-1.281-4.645c0-4.602 3.75-8.352 8.36-8.352 4.601 0 8.351 3.75 8.351 8.352 0 4.602-3.75 8.329-8.352 8.329zm4.586-6.242c-.25-.125-1.484-.734-1.71-.82-.235-.086-.407-.125-.579.125-.172.25-.664.82-.813.984-.148.172-.305.188-.555.063-.25-.125-1.054-.39-2.015-1.242-.743-.664-1.243-1.485-1.391-1.735-.149-.25-.016-.39.11-.515.11-.11.25-.282.375-.422.125-.141.172-.235.25-.407.086-.172.047-.328-.023-.453-.07-.125-.578-1.39-.797-1.906-.21-.5-.43-.43-.594-.438h-.508c-.172 0-.453.063-.687.32-.235.25-.899.883-.899 2.149 0 1.265.922 2.492 1.055 2.664.133.172 1.812 2.766 4.39 3.875.61.266 1.094.422 1.469.54.618.195 1.18.164 1.625.101.492-.07 1.484-.609 1.695-1.195.21-.586.21-1.086.149-1.195-.063-.11-.235-.172-.485-.297z" />
+                    </svg>
+                    <span>WhatsApp Channel</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. MEET OUR EDITORIAL WRITERS */}
         <section className="space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300">
               <span>Editorial Team</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
-              Meet Our Writers
+              Editorial Writers &amp; Curators
             </h2>
             <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
               Each writer brings hands-on prompt research and focused domain expertise across our core categories.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-            {AUTHORS_DATA.map((author) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-7 max-w-4xl mx-auto">
+            {AUTHORS_DATA.filter((author) => author.id !== 'author-zyra').map((author) => (
               <div
                 key={author.id}
                 className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-7 border border-slate-200/90 dark:border-slate-700/80 shadow-md hover:shadow-xl transition-all flex flex-col justify-between"
@@ -287,7 +379,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           </div>
         </section>
 
-        {/* 5. OUR EVERYDAY PROMISE TO YOU (4-Card Editorial Section) */}
+        {/* 6. OUR EVERYDAY PROMISE TO YOU (4-Card Editorial Section) */}
         <section className="space-y-8">
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800/60 shadow-xs">
@@ -406,6 +498,102 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
               </button>
               .
             </p>
+          </div>
+        </section>
+
+        {/* 7. OFFICIAL SOCIAL MEDIA CHANNELS */}
+        <section className="space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60 shadow-xs">
+              <span>Official Channels</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
+              Join Our Official Communities
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">
+              Connect with our official Instagram, Telegram, and WhatsApp channels for prompt updates and inspiration.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Instagram */}
+            <a
+              href="https://www.instagram.com/aipromptzyra"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-7 border border-slate-200/90 dark:border-slate-700/80 shadow-md hover:shadow-xl hover:border-pink-400 dark:hover:border-pink-500 transition-all flex flex-col justify-between group"
+            >
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center shadow-md">
+                  <Instagram className="w-6 h-6" />
+                </div>
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white font-['Outfit'] flex items-center justify-between">
+                  <span>Instagram</span>
+                  <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-rose-500 transition-colors" />
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Follow @aipromptzyra on Instagram for visual side-by-side prompt comparisons, creative showcases, and new prompt releases.
+                </p>
+              </div>
+              <div className="pt-4 mt-2 border-t border-slate-100 dark:border-slate-700/80 text-xs font-bold text-rose-600 dark:text-rose-400 flex items-center gap-1 group-hover:underline">
+                <span>Open @aipromptzyra</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </div>
+            </a>
+
+            {/* Telegram */}
+            <a
+              href="https://t.me/aipromptzyra"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-7 border border-slate-200/90 dark:border-slate-700/80 shadow-md hover:shadow-xl hover:border-sky-400 dark:hover:border-sky-500 transition-all flex flex-col justify-between group"
+            >
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-[#229ED9] text-white flex items-center justify-center shadow-md">
+                  <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                  </svg>
+                </div>
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white font-['Outfit'] flex items-center justify-between">
+                  <span>Telegram Channel</span>
+                  <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-sky-500 transition-colors" />
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Join our official Telegram channel for instant alerts, copy-ready prompt drops, and prompt crafting tips directly in your feed.
+                </p>
+              </div>
+              <div className="pt-4 mt-2 border-t border-slate-100 dark:border-slate-700/80 text-xs font-bold text-sky-600 dark:text-sky-400 flex items-center gap-1 group-hover:underline">
+                <span>Join Telegram Channel</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </div>
+            </a>
+
+            {/* WhatsApp Channel */}
+            <a
+              href="https://whatsapp.com/channel/0029VbDrtskISTkDafKarY0u"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-7 border border-slate-200/90 dark:border-slate-700/80 shadow-md hover:shadow-xl hover:border-emerald-400 dark:hover:border-emerald-500 transition-all flex flex-col justify-between group"
+            >
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-[#25D366] text-white flex items-center justify-center shadow-md">
+                  <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12.031 2C6.5 2 2 6.5 2 12.031c0 1.95.562 3.82 1.633 5.438L2.062 22l4.672-1.547a9.97 9.97 0 0 0 5.297 1.547h.008c5.523 0 10.023-4.5 10.023-10.031C22.062 6.5 17.554 2 12.031 2zm0 18.36a8.31 8.31 0 0 1-4.242-1.164l-.305-.18-3.148 1.043 1.062-3.07-.2-.313a8.344 8.344 0 0 1-1.281-4.645c0-4.602 3.75-8.352 8.36-8.352 4.601 0 8.351 3.75 8.351 8.352 0 4.602-3.75 8.329-8.352 8.329zm4.586-6.242c-.25-.125-1.484-.734-1.71-.82-.235-.086-.407-.125-.579.125-.172.25-.664.82-.813.984-.148.172-.305.188-.555.063-.25-.125-1.054-.39-2.015-1.242-.743-.664-1.243-1.485-1.391-1.735-.149-.25-.016-.39.11-.515.11-.11.25-.282.375-.422.125-.141.172-.235.25-.407.086-.172.047-.328-.023-.453-.07-.125-.578-1.39-.797-1.906-.21-.5-.43-.43-.594-.438h-.508c-.172 0-.453.063-.687.32-.235.25-.899.883-.899 2.149 0 1.265.922 2.492 1.055 2.664.133.172 1.812 2.766 4.39 3.875.61.266 1.094.422 1.469.54.618.195 1.18.164 1.625.101.492-.07 1.484-.609 1.695-1.195.21-.586.21-1.086.149-1.195-.063-.11-.235-.172-.485-.297z" />
+                  </svg>
+                </div>
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white font-['Outfit'] flex items-center justify-between">
+                  <span>WhatsApp Channel</span>
+                  <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-emerald-500 transition-colors" />
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Subscribe to the official WhatsApp Channel for curated AI prompt notifications, guides, and creative workflows.
+                </p>
+              </div>
+              <div className="pt-4 mt-2 border-t border-slate-100 dark:border-slate-700/80 text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 group-hover:underline">
+                <span>Subscribe on WhatsApp</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </div>
+            </a>
           </div>
         </section>
 

@@ -93,7 +93,7 @@ get_header(); ?>
     <!-- 9. FREQUENTLY ASKED QUESTIONS -->
     <section class="section faq-section">...</section>
 
-    <!-- 10. AUTHOR PROFILE CARD (Hafizur Rahman) -->
+    <!-- 10. OWNER PROFILE CARD (Zyra Ansari) -->
     <section class="section author-card-section">...</section>
 
     <!-- 11. NEWSLETTER BANNER -->

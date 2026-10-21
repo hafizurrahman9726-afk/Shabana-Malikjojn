@@ -50,6 +50,9 @@ get_header(); ?>
                     $author_url   = $author_id ? get_author_posts_url($author_id) : '';
                     $author_bio   = get_the_author_meta('description');
                     $author_avatar = $author_id ? get_avatar($author_id, 44, '', esc_attr($author_name), array('class' => 'author-avatar-img')) : '';
+                    if (stripos($author_name, 'Zyra') !== false) {
+                        $author_avatar = '<img src="https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg" alt="' . esc_attr($author_name) . '" width="44" height="44" class="author-avatar-img" />';
+                    }
 
                     // Fallback to neutral editorial team if author name is missing
                     if (empty($author_name)) {

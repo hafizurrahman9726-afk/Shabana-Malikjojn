@@ -107,26 +107,65 @@ get_header(); ?>
         </section>
 
         <!-- 4. MEET OUR WRITERS (3 Verified Author Profiles) -->
+        <!-- 4. OWNER PROFILE — ZYRA ANSARI -->
+        <section class="about-section owner-section">
+            <div class="section-heading-centered">
+                <div class="about-kicker-pill" style="background:#fef3c7; color:#92400e; border:1px solid #fde68a;">
+                    <span><?php esc_html_e('LEADERSHIP & OWNERSHIP', 'aipromptzyra'); ?></span>
+                </div>
+                <h2 class="section-title"><?php esc_html_e('Website Owner', 'aipromptzyra'); ?></h2>
+                <p class="section-subtitle"><?php esc_html_e('Guiding AIPromptZyra\'s editorial vision, prompt curation standards, and community resources.', 'aipromptzyra'); ?></p>
+            </div>
+
+            <div class="owner-profile-card" style="max-w: 800px; margin: 0 auto; background: var(--az-surface, #ffffff); border-radius: 24px; padding: 36px; border: 1px solid rgba(148, 163, 184, 0.2); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap; align-items: center; gap: 32px;">
+                <div class="owner-avatar-wrap" style="position: relative; width: 130px; height: 130px; border-radius: 50%; border: 4px solid #f59e0b; padding: 2px; overflow: hidden; shrink: 0; margin: 0 auto;">
+                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg" alt="Zyra Ansari" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" loading="lazy" />
+                    <span class="owner-check-badge" title="<?php esc_attr_e('Verified Owner', 'aipromptzyra'); ?>" style="position: absolute; bottom: 2px; right: 6px; width: 26px; height: 26px; background: #f59e0b; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; border: 2px solid white;">✓</span>
+                </div>
+                <div class="owner-info" style="flex: 1; min-width: 260px; text-align: left;">
+                    <span style="display: inline-block; padding: 3px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: #fef3c7; color: #92400e; margin-bottom: 8px;">
+                        <?php esc_html_e('Owner', 'aipromptzyra'); ?>
+                    </span>
+                    <h3 style="font-size: 26px; font-weight: 800; margin: 0 0 4px; font-family: var(--font-heading, sans-serif); color: var(--az-text, #0f172a);">
+                        <?php esc_html_e('Zyra Ansari', 'aipromptzyra'); ?>
+                    </h3>
+                    <p style="font-size: 13px; font-weight: 600; color: #7c3aed; margin: 0 0 12px;">
+                        <?php esc_html_e('Owner, AIPromptZyra', 'aipromptzyra'); ?>
+                    </p>
+                    <p style="font-size: 14px; line-height: 1.6; color: var(--az-muted, #475569); margin: 0 0 16px;">
+                        <?php esc_html_e('Zyra Ansari is the Owner of AIPromptZyra. She oversees the platform\'s vision, editorial direction, and community resources for visual AI prompt discovery and creative tutorials across Google Gemini, ChatGPT, and Midjourney.', 'aipromptzyra'); ?>
+                    </p>
+                    <div class="owner-social-row" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a href="https://www.instagram.com/aipromptzyra" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 12px; background: #f1f5f9; color: #1e293b; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://t.me/aipromptzyra" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 12px; background: #f1f5f9; color: #1e293b; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <span>Telegram</span>
+                        </a>
+                        <a href="https://whatsapp.com/channel/0029VbDrtskISTkDafKarY0u" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 12px; background: #f1f5f9; color: #1e293b; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2C6.5 2 2 6.5 2 12.031c0 1.95.562 3.82 1.633 5.438L2.062 22l4.672-1.547a9.97 9.97 0 0 0 5.297 1.547h.008c5.523 0 10.023-4.5 10.023-10.031C22.062 6.5 17.554 2 12.031 2zm0 18.36a8.31 8.31 0 0 1-4.242-1.164l-.305-.18-3.148 1.043 1.062-3.07-.2-.313a8.344 8.344 0 0 1-1.281-4.645c0-4.602 3.75-8.352 8.36-8.352 4.601 0 8.351 3.75 8.351 8.352 0 4.602-3.75 8.329-8.352 8.329zm4.586-6.242c-.25-.125-1.484-.734-1.71-.82-.235-.086-.407-.125-.579.125-.172.25-.664.82-.813.984-.148.172-.305.188-.555.063-.25-.125-1.054-.39-2.015-1.242-.743-.664-1.243-1.485-1.391-1.735-.149-.25-.016-.39.11-.515.11-.11.25-.282.375-.422.125-.141.172-.235.25-.407.086-.172.047-.328-.023-.453-.07-.125-.578-1.39-.797-1.906-.21-.5-.43-.43-.594-.438h-.508c-.172 0-.453.063-.687.32-.235.25-.899.883-.899 2.149 0 1.265.922 2.492 1.055 2.664.133.172 1.812 2.766 4.39 3.875.61.266 1.094.422 1.469.54.618.195 1.18.164 1.625.101.492-.07 1.484-.609 1.695-1.195.21-.586.21-1.086.149-1.195-.063-.11-.235-.172-.485-.297z"/></svg>
+                            <span>WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. EDITORIAL TEAM & WRITERS -->
         <section class="about-section team-section">
             <div class="section-heading-centered">
                 <div class="about-kicker-pill">
                     <span><?php esc_html_e('EDITORIAL TEAM', 'aipromptzyra'); ?></span>
                 </div>
-                <h2 class="section-title"><?php esc_html_e('Meet Our Writers', 'aipromptzyra'); ?></h2>
+                <h2 class="section-title"><?php esc_html_e('Editorial Writers &amp; Curators', 'aipromptzyra'); ?></h2>
                 <p class="section-subtitle"><?php esc_html_e('Each writer brings hands-on prompt research and focused domain expertise across our core categories.', 'aipromptzyra'); ?></p>
             </div>
 
             <div class="about-authors-grid">
                 <?php
                 $authors_list = array(
-                    array(
-                        'name'       => 'Hafizur Rahman',
-                        'slug'       => 'hafizur-rahman',
-                        'role'       => 'Founder & Lead AI Prompt Curator',
-                        'avatar'     => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=320&auto=format&fit=crop&q=80',
-                        'categories' => array('AI Photo Prompts', 'Trending Prompts'),
-                        'bio'        => 'Founder of AIPromptZyra and visual prompt researcher. Specializes in realistic camera optics, lighting formulas, and technical prompt frameworks across Google Gemini, ChatGPT, and Midjourney.',
-                    ),
                     array(
                         'name'       => 'Rhea Sharma',
                         'slug'       => 'rhea-sharma',
@@ -311,6 +350,67 @@ get_header(); ?>
                     <?php esc_html_e('AIPromptZyra operates as an open, freely accessible educational resource supported by ethical, non-intrusive digital advertising. We never place core tutorials behind paywalls, subscription fees, or hidden reader costs. We hold reader trust and privacy in the highest regard: we do not track personal identifying data or sell visitor information to third parties. For complete details on our data protection commitments, please review our', 'aipromptzyra'); ?>
                     <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>" class="accessibility-privacy-link"><?php esc_html_e('Privacy Policy', 'aipromptzyra'); ?></a>.
                 </p>
+            </div>
+        </section>
+
+        <!-- 7. OFFICIAL SOCIAL MEDIA CHANNELS -->
+        <section class="about-section social-section" style="margin-top: 48px;">
+            <div class="section-heading-centered">
+                <div class="about-kicker-pill">
+                    <span><?php esc_html_e('OFFICIAL CHANNELS', 'aipromptzyra'); ?></span>
+                </div>
+                <h2 class="section-title"><?php esc_html_e('Join Our Official Communities', 'aipromptzyra'); ?></h2>
+                <p class="section-subtitle"><?php esc_html_e('Connect with our official Instagram, Telegram, and WhatsApp channels for prompt updates and inspiration.', 'aipromptzyra'); ?></p>
+            </div>
+
+            <div class="about-pillars-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+                <!-- Instagram -->
+                <div class="pillar-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div class="pillar-icon-box" style="background: linear-gradient(135deg, #f59e0b, #ec4899, #8b5cf6); color: white;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </div>
+                        <h3 class="pillar-title"><?php esc_html_e('Instagram', 'aipromptzyra'); ?></h3>
+                        <p class="pillar-desc">
+                            <?php esc_html_e('Follow @aipromptzyra on Instagram for visual side-by-side prompt comparisons, creative showcases, and new prompt releases.', 'aipromptzyra'); ?>
+                        </p>
+                    </div>
+                    <a href="https://www.instagram.com/aipromptzyra" target="_blank" rel="noopener noreferrer" class="pillar-link" style="margin-top: 16px;">
+                        <?php esc_html_e('Open @aipromptzyra', 'aipromptzyra'); ?> &rarr;
+                    </a>
+                </div>
+
+                <!-- Telegram -->
+                <div class="pillar-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div class="pillar-icon-box" style="background: #229ED9; color: white;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        </div>
+                        <h3 class="pillar-title"><?php esc_html_e('Telegram Channel', 'aipromptzyra'); ?></h3>
+                        <p class="pillar-desc">
+                            <?php esc_html_e('Join our official Telegram channel for instant alerts, copy-ready prompt drops, and prompt crafting tips directly in your feed.', 'aipromptzyra'); ?>
+                        </p>
+                    </div>
+                    <a href="https://t.me/aipromptzyra" target="_blank" rel="noopener noreferrer" class="pillar-link" style="margin-top: 16px;">
+                        <?php esc_html_e('Join Telegram Channel', 'aipromptzyra'); ?> &rarr;
+                    </a>
+                </div>
+
+                <!-- WhatsApp Channel -->
+                <div class="pillar-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div class="pillar-icon-box" style="background: #25D366; color: white;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2C6.5 2 2 6.5 2 12.031c0 1.95.562 3.82 1.633 5.438L2.062 22l4.672-1.547a9.97 9.97 0 0 0 5.297 1.547h.008c5.523 0 10.023-4.5 10.023-10.031C22.062 6.5 17.554 2 12.031 2zm0 18.36a8.31 8.31 0 0 1-4.242-1.164l-.305-.18-3.148 1.043 1.062-3.07-.2-.313a8.344 8.344 0 0 1-1.281-4.645c0-4.602 3.75-8.352 8.36-8.352 4.601 0 8.351 3.75 8.351 8.352 0 4.602-3.75 8.329-8.352 8.329zm4.586-6.242c-.25-.125-1.484-.734-1.71-.82-.235-.086-.407-.125-.579.125-.172.25-.664.82-.813.984-.148.172-.305.188-.555.063-.25-.125-1.054-.39-2.015-1.242-.743-.664-1.243-1.485-1.391-1.735-.149-.25-.016-.39.11-.515.11-.11.25-.282.375-.422.125-.141.172-.235.25-.407.086-.172.047-.328-.023-.453-.07-.125-.578-1.39-.797-1.906-.21-.5-.43-.43-.594-.438h-.508c-.172 0-.453.063-.687.32-.235.25-.899.883-.899 2.149 0 1.265.922 2.492 1.055 2.664.133.172 1.812 2.766 4.39 3.875.61.266 1.094.422 1.469.54.618.195 1.18.164 1.625.101.492-.07 1.484-.609 1.695-1.195.21-.586.21-1.086.149-1.195-.063-.11-.235-.172-.485-.297z"/></svg>
+                        </div>
+                        <h3 class="pillar-title"><?php esc_html_e('WhatsApp Channel', 'aipromptzyra'); ?></h3>
+                        <p class="pillar-desc">
+                            <?php esc_html_e('Subscribe to the official WhatsApp Channel for curated AI prompt notifications, guides, and creative workflows.', 'aipromptzyra'); ?>
+                        </p>
+                    </div>
+                    <a href="https://whatsapp.com/channel/0029VbDrtskISTkDafKarY0u" target="_blank" rel="noopener noreferrer" class="pillar-link" style="margin-top: 16px;">
+                        <?php esc_html_e('Subscribe on WhatsApp', 'aipromptzyra'); ?> &rarr;
+                    </a>
+                </div>
             </div>
         </section>
 

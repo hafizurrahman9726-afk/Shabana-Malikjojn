@@ -58,52 +58,37 @@ export const Footer: React.FC<FooterProps> = ({
               Discover, create and explore the best AI prompts for your creative journey.
             </p>
 
-            {/* Social Icons Row */}
+            {/* Official Social Icons Row */}
             <div className="flex items-center gap-2.5 pt-2">
               <a
-                href="https://www.facebook.com/profile.php?id=61594710183320"
+                href="https://www.instagram.com/aipromptzyra"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-purple-600 hover:border-purple-600 flex items-center justify-center transition-all"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-3.5 h-3.5" />
-              </a>
-              <a
-                href="https://t.me/+19kPqGdfFAI4Y2Vl"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-purple-600 hover:border-purple-600 flex items-center justify-center transition-all"
-                aria-label="Telegram"
-              >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.43 7.82l-2.07 9.77c-.15.68-.56.84-1.12.52l-3.15-2.32-1.52 1.46c-.17.17-.31.31-.63.31l.23-3.21 5.84-5.28c.25-.23-.06-.35-.38-.14l-7.22 4.54-3.11-.97c-.68-.21-.69-.68.14-1.01l12.16-4.69c.56-.21 1.06.13.86 1.02z"/></svg>
-              </a>
-              <a
-                href="https://www.instagram.com/aipromptzyra/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-purple-600 hover:border-purple-600 flex items-center justify-center transition-all"
+                className="w-8 h-8 rounded-full bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-gradient-to-tr hover:from-amber-500 hover:via-rose-500 hover:to-purple-600 hover:border-transparent flex items-center justify-center transition-all shadow-xs"
                 aria-label="Instagram"
+                title="Instagram"
               >
                 <Instagram className="w-3.5 h-3.5" />
               </a>
               <a
-                href="https://x.com"
+                href="https://t.me/aipromptzyra"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-purple-600 hover:border-purple-600 flex items-center justify-center transition-all"
-                aria-label="X (Twitter)"
+                className="w-8 h-8 rounded-full bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-[#229ED9] hover:border-[#229ED9] flex items-center justify-center transition-all shadow-xs"
+                aria-label="Telegram"
+                title="Telegram"
               >
-                <Twitter className="w-3.5 h-3.5" />
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
               </a>
               <a
-                href="https://youtube.com"
+                href="https://whatsapp.com/channel/0029VbDrtskISTkDafKarY0u"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-purple-600 hover:border-purple-600 flex items-center justify-center transition-all"
-                aria-label="YouTube"
+                className="w-8 h-8 rounded-full bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-[#25D366] hover:border-[#25D366] flex items-center justify-center transition-all shadow-xs"
+                aria-label="WhatsApp Channel"
+                title="WhatsApp Channel"
               >
-                <Youtube className="w-3.5 h-3.5" />
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 2C6.5 2 2 6.5 2 12.031c0 1.95.562 3.82 1.633 5.438L2.062 22l4.672-1.547a9.97 9.97 0 0 0 5.297 1.547h.008c5.523 0 10.023-4.5 10.023-10.031C22.062 6.5 17.554 2 12.031 2zm0 18.36a8.31 8.31 0 0 1-4.242-1.164l-.305-.18-3.148 1.043 1.062-3.07-.2-.313a8.344 8.344 0 0 1-1.281-4.645c0-4.602 3.75-8.352 8.36-8.352 4.601 0 8.351 3.75 8.351 8.352 0 4.602-3.75 8.329-8.352 8.329zm4.586-6.242c-.25-.125-1.484-.734-1.71-.82-.235-.086-.407-.125-.579.125-.172.25-.664.82-.813.984-.148.172-.305.188-.555.063-.25-.125-1.054-.39-2.015-1.242-.743-.664-1.243-1.485-1.391-1.735-.149-.25-.016-.39.11-.515.11-.11.25-.282.375-.422.125-.141.172-.235.25-.407.086-.172.047-.328-.023-.453-.07-.125-.578-1.39-.797-1.906-.21-.5-.43-.43-.594-.438h-.508c-.172 0-.453.063-.687.32-.235.25-.899.883-.899 2.149 0 1.265.922 2.492 1.055 2.664.133.172 1.812 2.766 4.39 3.875.61.266 1.094.422 1.469.54.618.195 1.18.164 1.625.101.492-.07 1.484-.609 1.695-1.195.21-.586.21-1.086.149-1.195-.063-.11-.235-.172-.485-.297z"/></svg>
               </a>
             </div>
           </div>
@@ -233,31 +218,34 @@ export const Footer: React.FC<FooterProps> = ({
 
             <div className="flex items-center gap-2 pt-1">
               <a
-                href="https://www.facebook.com/profile.php?id=61594710183320"
+                href="https://www.instagram.com/aipromptzyra"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-7 h-7 rounded-full bg-slate-900 border border-slate-700/80 text-slate-400 hover:text-white hover:bg-purple-600 flex items-center justify-center transition-all"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-3 h-3" />
-              </a>
-              <a
-                href="https://t.me/+19kPqGdfFAI4Y2Vl"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-7 h-7 rounded-full bg-slate-900 border border-slate-700/80 text-slate-400 hover:text-white hover:bg-purple-600 flex items-center justify-center transition-all"
-                aria-label="Telegram"
-              >
-                <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.43 7.82l-2.07 9.77c-.15.68-.56.84-1.12.52l-3.15-2.32-1.52 1.46c-.17.17-.31.31-.63.31l.23-3.21 5.84-5.28c.25-.23-.06-.35-.38-.14l-7.22 4.54-3.11-.97c-.68-.21-.69-.68.14-1.01l12.16-4.69c.56-.21 1.06.13.86 1.02z"/></svg>
-              </a>
-              <a
-                href="https://www.instagram.com/aipromptzyra/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-7 h-7 rounded-full bg-slate-900 border border-slate-700/80 text-slate-400 hover:text-white hover:bg-purple-600 flex items-center justify-center transition-all"
+                className="w-7 h-7 rounded-full bg-slate-900 border border-slate-700/80 text-slate-400 hover:text-white hover:bg-gradient-to-tr hover:from-amber-500 hover:via-rose-500 hover:to-purple-600 hover:border-transparent flex items-center justify-center transition-all shadow-xs"
                 aria-label="Instagram"
+                title="Instagram"
               >
                 <Instagram className="w-3 h-3" />
+              </a>
+              <a
+                href="https://t.me/aipromptzyra"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-7 h-7 rounded-full bg-slate-900 border border-slate-700/80 text-slate-400 hover:text-white hover:bg-[#229ED9] hover:border-[#229ED9] flex items-center justify-center transition-all shadow-xs"
+                aria-label="Telegram"
+                title="Telegram"
+              >
+                <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              </a>
+              <a
+                href="https://whatsapp.com/channel/0029VbDrtskISTkDafKarY0u"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-7 h-7 rounded-full bg-slate-900 border border-slate-700/80 text-slate-400 hover:text-white hover:bg-[#25D366] hover:border-[#25D366] flex items-center justify-center transition-all shadow-xs"
+                aria-label="WhatsApp Channel"
+                title="WhatsApp Channel"
+              >
+                <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 2C6.5 2 2 6.5 2 12.031c0 1.95.562 3.82 1.633 5.438L2.062 22l4.672-1.547a9.97 9.97 0 0 0 5.297 1.547h.008c5.523 0 10.023-4.5 10.023-10.031C22.062 6.5 17.554 2 12.031 2zm0 18.36a8.31 8.31 0 0 1-4.242-1.164l-.305-.18-3.148 1.043 1.062-3.07-.2-.313a8.344 8.344 0 0 1-1.281-4.645c0-4.602 3.75-8.352 8.36-8.352 4.601 0 8.351 3.75 8.351 8.352 0 4.602-3.75 8.329-8.352 8.329zm4.586-6.242c-.25-.125-1.484-.734-1.71-.82-.235-.086-.407-.125-.579.125-.172.25-.664.82-.813.984-.148.172-.305.188-.555.063-.25-.125-1.054-.39-2.015-1.242-.743-.664-1.243-1.485-1.391-1.735-.149-.25-.016-.39.11-.515.11-.11.25-.282.375-.422.125-.141.172-.235.25-.407.086-.172.047-.328-.023-.453-.07-.125-.578-1.39-.797-1.906-.21-.5-.43-.43-.594-.438h-.508c-.172 0-.453.063-.687.32-.235.25-.899.883-.899 2.149 0 1.265.922 2.492 1.055 2.664.133.172 1.812 2.766 4.39 3.875.61.266 1.094.422 1.469.54.618.195 1.18.164 1.625.101.492-.07 1.484-.609 1.695-1.195.21-.586.21-1.086.149-1.195-.063-.11-.235-.172-.485-.297z"/></svg>
               </a>
             </div>
           </div>

@@ -311,7 +311,7 @@ export default function App() {
             {/* 10. Frequently Asked Questions About AIPromptZyra */}
             <FaqSection />
 
-            {/* 11. Author Profile Card (Verified Author Hafizur Rahman) */}
+            {/* 11. Owner Profile Card (Zyra Ansari) */}
             <AuthorProfileCard
               onViewAllGuides={() => {
                 const el = document.getElementById('guides-section');

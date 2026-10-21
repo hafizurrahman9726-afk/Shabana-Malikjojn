@@ -128,7 +128,7 @@ get_header(); ?>
 
         <div class="builder-output-col">
             <div class="builder-visual-preview">
-                <img id="builder-preview-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="Generated prompt visual preview" />
+                <img id="builder-preview-img" src="https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp" alt="Generated prompt visual preview" />
             </div>
 
             <div class="builder-result-card">

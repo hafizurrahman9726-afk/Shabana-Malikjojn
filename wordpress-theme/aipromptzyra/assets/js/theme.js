@@ -100,53 +100,140 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 3. AI Prompt Box View & Copy Handlers (Custom Gutenberg Block & Global Prompts)
   document.addEventListener('click', function (e) {
+    if (e._azHandled) return;
+
     // 3a. View Prompt Toggle (Expand / Collapse with gradient preview)
     const viewBtn = e.target.closest('.az-btn-view-prompt, [data-action="toggle-prompt"]');
     if (viewBtn) {
       e.preventDefault();
-      const promptBox = viewBtn.closest('.az-ai-prompt-box');
+      e._azHandled = true;
+      const promptBox = viewBtn.closest('.wp-block-aipromptzyra-ai-prompt-box, .az-ai-prompt-box');
       if (promptBox) {
         const wrapper = promptBox.querySelector('.az-prompt-content-wrapper');
         if (wrapper) {
-          const isExpanded = wrapper.classList.toggle('az-expanded');
-          viewBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-          const span = viewBtn.querySelector('span');
-          if (span) {
-            span.textContent = isExpanded ? 'Hide Prompt' : 'View Prompt';
+          const isCurrentlyExpanded = promptBox.classList.contains('az-expanded') || wrapper.classList.contains('az-expanded') || viewBtn.getAttribute('aria-expanded') === 'true';
+          const nextExpanded = !isCurrentlyExpanded;
+
+          if (nextExpanded) {
+            promptBox.classList.add('az-expanded');
+            wrapper.classList.add('az-expanded');
+            viewBtn.setAttribute('aria-expanded', 'true');
+            viewBtn.setAttribute('aria-label', 'Collapse prompt');
+            const span = viewBtn.querySelector('span');
+            if (span) span.textContent = 'Collapse Prompt';
+            const svg = viewBtn.querySelector('svg');
+            if (svg) {
+              svg.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+            }
+          } else {
+            promptBox.classList.remove('az-expanded');
+            wrapper.classList.remove('az-expanded');
+            viewBtn.setAttribute('aria-expanded', 'false');
+            viewBtn.setAttribute('aria-label', 'Expand full prompt');
+            const span = viewBtn.querySelector('span');
+            if (span) span.textContent = 'View Prompt';
+            const svg = viewBtn.querySelector('svg');
+            if (svg) {
+              svg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            }
           }
         }
       }
       return;
     }
 
-    // 3b. Copy Prompt
+    // 3b. Copy Prompt with fallback
     const copyBtn = e.target.closest('.copy-prompt-btn, .az-copy-prompt-btn, .az-btn-copy-prompt, [data-action="copy-prompt"]');
     if (!copyBtn) return;
+    e.preventDefault();
+    e._azHandled = true;
 
     let promptText = copyBtn.getAttribute('data-prompt');
+    const promptBox = copyBtn.closest('.wp-block-aipromptzyra-ai-prompt-box, .az-ai-prompt-box');
+    if (!promptText && promptBox) {
+      promptText = promptBox.getAttribute('data-prompt');
+    }
+    if (!promptText && promptBox) {
+      const textEl = promptBox.querySelector('.az-prompt-text-preview') || promptBox.querySelector('.az-prompt-text-clean');
+      if (textEl) {
+        promptText = textEl.innerText || textEl.textContent || '';
+      }
+    }
     if (!promptText) {
-      const promptBox = copyBtn.closest('.az-ai-prompt-box');
-      if (promptBox) {
-        promptText = promptBox.getAttribute('data-prompt') || promptBox.querySelector('.az-prompt-text-preview')?.textContent?.trim();
+      const nextEl = copyBtn.closest('.az-prompt-action-bar')?.nextElementSibling;
+      if (nextEl) {
+        promptText = nextEl.innerText || nextEl.textContent || '';
       }
     }
 
-    if (!promptText) return;
+    promptText = (promptText || '').trim();
+    const span = copyBtn.querySelector('span');
+    const svg = copyBtn.querySelector('svg');
+    const origText = copyBtn.getAttribute('data-orig-text') || (span ? span.textContent : 'Copy Prompt');
+    if (!copyBtn.getAttribute('data-orig-text') && span) {
+      copyBtn.setAttribute('data-orig-text', origText);
+    }
 
-    navigator.clipboard.writeText(promptText).then(() => {
-      const span = copyBtn.querySelector('span');
-      const originalText = span ? span.textContent : 'Copy Prompt';
-      if (span) span.textContent = 'Copied! ✨';
+    if (!promptText) {
+      if (span) span.textContent = 'No prompt found';
+      setTimeout(() => { if (span) span.textContent = origText; }, 2000);
+      return;
+    }
+
+    const doSuccess = () => {
+      if (span) span.textContent = 'Copied!';
       copyBtn.classList.add('copied');
-
+      copyBtn.classList.remove('copy-failed');
+      if (svg) svg.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
       setTimeout(() => {
-        if (span) span.textContent = originalText;
+        if (span) span.textContent = origText;
         copyBtn.classList.remove('copied');
-      }, 2000);
-    }).catch(err => {
-      console.error('Failed to copy: ', err);
-    });
+        if (svg) svg.innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+      }, 2500);
+    };
+
+    const doError = (err) => {
+      console.warn('Copy prompt error:', err);
+      if (span) span.textContent = 'Copy failed';
+      copyBtn.classList.add('copy-failed');
+      setTimeout(() => {
+        if (span) span.textContent = origText;
+        copyBtn.classList.remove('copy-failed');
+      }, 3000);
+    };
+
+    if (navigator.clipboard && window.isSecureContext && typeof navigator.clipboard.writeText === 'function') {
+      navigator.clipboard.writeText(promptText).then(doSuccess).catch(() => {
+        execFallbackCopy(promptText, doSuccess, doError);
+      });
+    } else {
+      execFallbackCopy(promptText, doSuccess, doError);
+    }
   });
+
+  function execFallbackCopy(text, onSuccess, onError) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.fontSize = '16px';
+      ta.style.position = 'fixed';
+      ta.style.top = '-9999px';
+      ta.style.left = '-9999px';
+      ta.style.width = '2em';
+      ta.style.height = '2em';
+      ta.setAttribute('readonly', '');
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      const res = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (res) onSuccess();
+      else onError(new Error('execCommand returned false'));
+    } catch (e) {
+      onError(e);
+    }
+  }
 
   // 4. Smooth Anchor Link Navigation
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

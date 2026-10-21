@@ -48,19 +48,19 @@ get_header(); ?>
             <!-- Hero Image Collage -->
             <div class="hero-collage" aria-hidden="true">
                 <div class="collage-card card-boy">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80" alt="Stylish boy AI portrait" loading="eager" />
+                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/indian-traditional-wedding-prompt-for-gemini-banner-2026-thumb-800x450-1.webp" alt="AI portrait prompt" loading="eager" />
                 </div>
                 <div class="collage-card card-saree">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&auto=format&fit=crop&q=80" alt="Saree ethnic AI portrait" loading="eager" />
+                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/couple-maternity-photoshoot-prompt-ideas-indian-saree-banner-2026-thumb-800x450-1.webp" alt="AI ethnic portrait" loading="eager" />
                 </div>
                 <div class="collage-card card-main-girl">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=85" alt="AIPromptzyra featured AI portrait" loading="eager" />
+                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp" alt="AIPromptzyra featured prompt portrait" loading="eager" />
                 </div>
                 <div class="collage-card card-couple">
-                    <img src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=400&auto=format&fit=crop&q=80" alt="Romantic couple AI portrait" loading="lazy" />
+                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/Couple-Eyes-Prompt-ChatGPT.jpg" alt="Couple AI prompt portrait" loading="lazy" />
                 </div>
                 <div class="collage-card card-landscape">
-                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&auto=format&fit=crop&q=80" alt="Fantasy landscape AI art" loading="lazy" />
+                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/eyes-prompt-for-girl-banner-2026-thumb-800x450-1.webp" alt="AI photo prompt" loading="lazy" />
                 </div>
                 <div class="collage-badge-sticker">
                     <span><?php esc_html_e('Turn Ideas into Amazing AI Images', 'aipromptzyra'); ?></span>
@@ -70,6 +70,22 @@ get_header(); ?>
     </section>
 
     <!-- 2. HORIZONTAL SLIDING PROMPT ARTICLE CAROUSEL (DYNAMIC FROM PUBLISHED ARTICLES) -->
+    <?php
+    // Dynamically fetch published WordPress articles & prompts
+    $carousel_query_args = array(
+        'post_type'           => array('post', 'prompt'),
+        'post_status'         => 'publish',
+        'posts_per_page'      => 50,
+        'orderby'             => 'date',
+        'order'               => 'DESC',
+        'ignore_sticky_posts' => 1,
+        'no_found_rows'       => true,
+    );
+
+    $carousel_query = new WP_Query($carousel_query_args);
+
+    if ($carousel_query->have_posts()) :
+    ?>
     <section id="prompt-carousel-section" class="prompt-carousel-section" aria-label="<?php esc_attr_e('Featured Prompt Articles Carousel', 'aipromptzyra'); ?>">
         <div class="carousel-container-outer">
             <div class="carousel-nav-wrapper" aria-hidden="true">
@@ -83,51 +99,34 @@ get_header(); ?>
 
             <div class="carousel-track-wrapper" id="carousel-track" role="region" aria-label="<?php esc_attr_e('Published articles track', 'aipromptzyra'); ?>" tabindex="0">
                 <?php
-                // Dynamically fetch all published WordPress articles & prompts
-                $carousel_query_args = array(
-                    'post_type'           => array('post', 'prompt'),
-                    'post_status'         => 'publish',
-                    'posts_per_page'      => 50,
-                    'orderby'             => 'date',
-                    'order'               => 'DESC',
-                    'ignore_sticky_posts' => 1,
-                    'no_found_rows'       => true,
-                );
-
-                $carousel_query = new WP_Query($carousel_query_args);
                 $rendered_post_ids = array();
+                while ($carousel_query->have_posts()) :
+                    $carousel_query->the_post();
+                    $post_id = get_the_ID();
 
-                if ($carousel_query->have_posts()) :
-                    while ($carousel_query->have_posts()) :
-                        $carousel_query->the_post();
-                        $post_id = get_the_ID();
+                    if (in_array($post_id, $rendered_post_ids, true)) {
+                        continue;
+                    }
+                    $rendered_post_ids[] = $post_id;
 
-                        // Avoid duplicate slides
-                        if (in_array($post_id, $rendered_post_ids, true)) {
-                            continue;
-                        }
-                        $rendered_post_ids[] = $post_id;
+                    $thumb_url = '';
+                    if (has_post_thumbnail($post_id)) {
+                        $thumb_url = get_the_post_thumbnail_url($post_id, 'medium_large');
+                    }
+                    if (empty($thumb_url)) {
+                        $thumb_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp';
+                    }
 
-                        // Retrieve featured image or fallback
-                        $thumb_url = '';
-                        if (has_post_thumbnail($post_id)) {
-                            $thumb_url = get_the_post_thumbnail_url($post_id, 'medium_large');
+                    $cat_name = __('Prompts', 'aipromptzyra');
+                    $prompt_terms = get_the_terms($post_id, 'prompt_category');
+                    if (!empty($prompt_terms) && !is_wp_error($prompt_terms)) {
+                        $cat_name = $prompt_terms[0]->name;
+                    } else {
+                        $cats = get_the_category($post_id);
+                        if (!empty($cats)) {
+                            $cat_name = $cats[0]->name;
                         }
-                        if (empty($thumb_url)) {
-                            $thumb_url = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80';
-                        }
-
-                        // Category tag name
-                        $cat_name = __('Prompts', 'aipromptzyra');
-                        $prompt_terms = get_the_terms($post_id, 'prompt_category');
-                        if (!empty($prompt_terms) && !is_wp_error($prompt_terms)) {
-                            $cat_name = $prompt_terms[0]->name;
-                        } else {
-                            $cats = get_the_category($post_id);
-                            if (!empty($cats)) {
-                                $cat_name = $cats[0]->name;
-                            }
-                        }
+                    }
                 ?>
                     <a href="<?php the_permalink(); ?>" class="carousel-card-item" title="<?php the_title_attribute(); ?>">
                         <div class="carousel-card-media">
@@ -139,38 +138,13 @@ get_header(); ?>
                         </div>
                     </a>
                 <?php
-                    endwhile;
-                    wp_reset_postdata();
-                endif;
-
-                // Fallback curated slides if no published posts yet
-                if (empty($rendered_post_ids)) :
-                    $fallback_slides = array(
-                        array('title' => 'Indian Traditional Wedding Prompt', 'url' => home_url('/indian-wedding-photo-prompt-for-gemini/'), 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'cat' => 'Couple Prompts'),
-                        array('title' => 'Festive Saree Diya Portraits', 'url' => home_url('/guides/festival-prompt-ideas/'), 'img' => 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop&q=80', 'cat' => 'Trending Prompts'),
-                        array('title' => 'Romantic Couple Golden Hour', 'url' => home_url('/prompts/romantic-couple-golden-hour/'), 'img' => 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80', 'cat' => 'Couple Prompts'),
-                        array('title' => 'Gala & Tuxedo Luxury Portrait', 'url' => home_url('/prompts/editorial-studio-portrait/'), 'img' => 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80', 'cat' => 'Trending Prompts'),
-                        array('title' => 'Traditional Kasavu Saree Pookalam', 'url' => home_url('/prompts/traditional-silk-saree/'), 'img' => 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&auto=format&fit=crop&q=80', 'cat' => 'AI Photo Prompts'),
-                        array('title' => 'Family Portraits in Courtyard', 'url' => home_url('/?s=Family'), 'img' => 'https://images.unsplash.com/photo-1609234656388-0ff363383899?w=600&auto=format&fit=crop&q=80', 'cat' => 'AI Photo Prompts'),
-                    );
-                    foreach ($fallback_slides as $fb) :
-                ?>
-                    <a href="<?php echo esc_url($fb['url']); ?>" class="carousel-card-item" title="<?php echo esc_attr($fb['title']); ?>">
-                        <div class="carousel-card-media">
-                            <img src="<?php echo esc_url($fb['img']); ?>" alt="<?php echo esc_attr($fb['title']); ?>" loading="lazy" decoding="async" width="200" height="280" />
-                            <div class="carousel-card-overlay">
-                                <span class="carousel-card-tag"><?php echo esc_html($fb['cat']); ?></span>
-                                <h3 class="carousel-card-title"><?php echo esc_html($fb['title']); ?></h3>
-                            </div>
-                        </div>
-                    </a>
-                <?php
-                    endforeach;
-                endif;
+                endwhile;
+                wp_reset_postdata();
                 ?>
             </div>
         </div>
     </section>
+    <?php endif; ?>
 
     <!-- 3. LATEST GUIDES & TUTORIALS (30 published articles per page + functional pagination + horizontal filter bar) -->
     <section id="guides-section" class="section guides-section">
@@ -311,119 +285,7 @@ get_header(); ?>
                 <?php
                 endif;
                 wp_reset_postdata();
-            else :
-                // Curated library of distinct published articles & tutorials
-                $curated_articles = array(
-                    array('title' => 'Gemini Imagen 3 Prompting Masterclass: Photorealistic Portraits', 'desc' => 'Deep-dive into aperture settings, natural skin texture prompts, and lighting keywords for Google Gemini.', 'date' => 'Jan 15, 2026', 'img' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/gemini-imagen-3-prompting-masterclass/'), 'cat_slug' => 'trending-prompts ai-photo-prompts'),
-                    array('title' => 'Indian Traditional Wedding Prompt for Gemini AI (2026)', 'desc' => 'Royal groom sherwani and bridal crimson lehenga portraits in ornate mandap palace courtyards.', 'date' => 'Jan 12, 2026', 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/indian-wedding-photo-prompt-for-gemini/'), 'cat_slug' => 'couple-prompts festival-prompt'),
-                    array('title' => 'How to Write Better AI Prompts: Beginner to Pro Guide', 'desc' => 'Step-by-step framework to engineer concise, high-converting prompts for image generators.', 'date' => 'Jan 10, 2026', 'img' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/how-to-write-better-ai-prompts/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => 'Gemini vs ChatGPT for Image Prompts: Comprehensive Comparison', 'desc' => 'A practical side-by-side comparison of prompt adherence, rendering fidelity, and facial symmetry.', 'date' => 'Jan 6, 2026', 'img' => 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/gemini-vs-chatgpt-image-prompts/'), 'cat_slug' => 'ai-photo-prompts trending-prompts'),
-                    array('title' => 'Best Camera Angles for Natural AI Portraits', 'desc' => 'Master low angle hero shots, 3/4 profiles, and eye-level framing to enhance visual depth.', 'date' => 'Jan 3, 2026', 'img' => 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/camera-angles-ai-portraits/'), 'cat_slug' => 'ai-photo-prompts'),
-                    array('title' => 'Festival Prompt Ideas: Indian & Global Celebrations', 'desc' => 'Creative prompt concepts for Diwali, Eid, Christmas, and Holi featuring atmospheric bokeh and diyas.', 'date' => 'Dec 28, 2025', 'img' => 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/festival-prompt-ideas/'), 'cat_slug' => 'festival-prompt trending-prompts'),
-                    array('title' => 'Practical Tips to Make AI Images Look Truly Photorealistic', 'desc' => 'Avoid the plastic skin look with optical lens specifications, raw sensor ISO, and micro-texture keywords.', 'date' => 'Dec 20, 2025', 'img' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/tips-for-realistic-ai-images/'), 'cat_slug' => 'ai-photo-prompts'),
-                    array('title' => 'AI Video Prompts Guide: Runway Gen-3 and Luma Tips', 'desc' => 'Translate still photographic prompt recipes into fluid camera movements and cinematic 24fps motion.', 'date' => 'Dec 15, 2025', 'img' => 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/guides/ai-video-prompts-guide/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => '8K Editorial Studio Portrait Prompts & Lighting Recipes', 'desc' => 'Studio fashion lighting setups with dual diffused softboxes and true-to-life skin tones.', 'date' => 'Dec 10, 2025', 'img' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/editorial-studio-portrait/'), 'cat_slug' => 'boys-prompts ai-photo-prompts'),
-                    array('title' => 'Romantic Couple Golden Hour Photography Prompts', 'desc' => 'Heartwarming couple photoshoots in wildflower mountain meadows bathed in golden sunset light.', 'date' => 'Dec 5, 2025', 'img' => 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/romantic-couple-golden-hour/'), 'cat_slug' => 'couple-prompts'),
-                    array('title' => 'Natural Sunlight Window Portraits in Midjourney & Gemini', 'desc' => 'Soft morning window illumination casting gentle diagonal shadows with authentic expressions.', 'date' => 'Dec 1, 2025', 'img' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sunlight-window-portrait/'), 'cat_slug' => 'ai-photo-prompts'),
-                    array('title' => 'Cinematic Rainy Twilight Street Photography Prompts', 'desc' => 'Atmospheric teal-orange color grading on rain-slicked city streets with realistic reflections.', 'date' => 'Nov 26, 2025', 'img' => 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/rainy-street-portrait/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => 'Traditional Royal Silk Saree AI Portrait Formulas', 'desc' => 'Intricate gold zari embroidery, heritage temple architecture, and warm morning ambient light.', 'date' => 'Nov 20, 2025', 'img' => 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/traditional-silk-saree/'), 'cat_slug' => 'festival-prompt ai-photo-prompts'),
-                    array('title' => 'Cyberpunk Tokyo Neon Rain Alley AI Concept Art', 'desc' => 'Hyper-detailed futuristic aesthetic with glowing neon kanji billboards and reflective wet asphalt.', 'date' => 'Nov 15, 2025', 'img' => 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/cyberpunk-neon-portrait/'), 'cat_slug' => 'trending-prompts boys-prompts'),
-                    array('title' => 'Vintage 1970s 35mm Analog Film Aesthetic Prompts', 'desc' => 'Warm Kodachrome color science, nostalgic film grain, and retro flared sunlight compositions.', 'date' => 'Nov 10, 2025', 'img' => 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/vintage-35mm-film/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => 'Black and White Monochromatic Fine Art Studio Portraits', 'desc' => 'Dramatic chiaroscuro shadow control, sculpted rim lighting, and emotional black-and-white tonality.', 'date' => 'Nov 5, 2025', 'img' => 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/monochrome-fine-art/'), 'cat_slug' => 'boys-prompts ai-photo-prompts'),
-                    array('title' => 'Futuristic Sci-Fi Space Explorer Conceptual Art', 'desc' => 'High-tech pressurized spacesuit with holographic visor displays against martian landscape.', 'date' => 'Oct 30, 2025', 'img' => 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sci-fi-explorer/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => 'Nordic Minimalist Cozy Coffee Shop Lifestyle Prompts', 'desc' => 'Scandinavian clean interior design, ceramic mug steam, wool sweaters, and calm natural light.', 'date' => 'Oct 25, 2025', 'img' => 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/nordic-coffee-shop/'), 'cat_slug' => 'ai-photo-prompts'),
-                    array('title' => 'Ethereal Forest Fantasy Dreamscape Masterclass', 'desc' => 'Sunlight rays piercing ancient moss-draped redwoods with whimsical bioluminescent flora.', 'date' => 'Oct 20, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/fantasy-dreamscape/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => 'Moody Moonlight Misty Mountain Solitude Portraits', 'desc' => 'Silhouetted wanderer beneath vast starry skies and cascading alpine mist at high elevation.', 'date' => 'Oct 15, 2025', 'img' => 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/misty-mountain-solitude/'), 'cat_slug' => 'boys-prompts ai-photo-prompts'),
-                    array('title' => 'Classic Vintage European Street Cafe Aesthetic', 'desc' => 'Cobblestone streets, wrought iron outdoor cafe seating, and warm afternoon Parisian glow.', 'date' => 'Oct 10, 2025', 'img' => 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/vintage-european-cafe/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => 'High-Fashion Avant-Garde Runway Studio Prompts', 'desc' => 'Sculptural architectural silhouettes, bold monochromatic palettes, and dynamic editorial poses.', 'date' => 'Oct 5, 2025', 'img' => 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/avant-garde-fashion/'), 'cat_slug' => 'ai-photo-prompts'),
-                    array('title' => 'Macro Eye Portrait Photography in Imagen 3', 'desc' => 'Stunning macro iris reflections, distinct eyelashes, and fine skin details rendered with 100mm optics.', 'date' => 'Sep 30, 2025', 'img' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/macro-eye-portrait/'), 'cat_slug' => 'ai-photo-prompts'),
-                    array('title' => 'Diwali Festive Golden Diya Portraits for Couples', 'desc' => 'Sparkling traditional diyas, marigold garlands, and authentic festive warmth between loved ones.', 'date' => 'Sep 25, 2025', 'img' => 'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/diwali-festive-couple/'), 'cat_slug' => 'festival-prompt couple-prompts'),
-                    array('title' => 'Sunset Beach Silhouette Couple Portrait Formulas', 'desc' => 'Backlit couple walking hand-in-hand along the tide line with golden sunset water reflections.', 'date' => 'Sep 20, 2025', 'img' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/sunset-beach-silhouette/'), 'cat_slug' => 'couple-prompts'),
-                    array('title' => 'Corporate Professional Executive Headshot Prompts', 'desc' => 'Clean corporate studio lighting, tailored navy suits, confident posture, and modern blur background.', 'date' => 'Sep 15, 2025', 'img' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/corporate-headshot/'), 'cat_slug' => 'boys-prompts ai-photo-prompts'),
-                    array('title' => 'Retro 1990s Japanese City Pop Film Photography', 'desc' => 'Nostalgic film tones, neon evening signage, retro cassette players, and lo-fi aesthetic warmth.', 'date' => 'Sep 10, 2025', 'img' => 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/retro-city-pop/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => 'Autumn Warm Foliage Scenic Park Portraits', 'desc' => 'Crisp amber and crimson fall foliage, cozy wool scarves, and golden late-afternoon sun rays.', 'date' => 'Sep 5, 2025', 'img' => 'https://images.unsplash.com/photo-1477414348463-c0eb7f1359b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/autumn-foliage-portrait/'), 'cat_slug' => 'ai-photo-prompts'),
-                    array('title' => 'Architectural Drone Perspective AI Cityscape Prompts', 'desc' => 'Sweeping bird-eye aerial photography of futuristic sustainable metropolis with lush rooftop gardens.', 'date' => 'Aug 30, 2025', 'img' => 'https://images.unsplash.com/photo-1477959858617-67f30bc75b82?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/aerial-cityscape/'), 'cat_slug' => 'trending-prompts'),
-                    array('title' => 'Neon Cybernetic Samurai Character Concept Guide', 'desc' => 'Katana reflections, glowing crest accents, and cinematic rain lighting formulas for character designers.', 'date' => 'Aug 25, 2025', 'img' => 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/cyberpunk-samurai/'), 'cat_slug' => 'boys-prompts trending-prompts'),
-                    array('title' => 'Bohemian Desert Sunset Festival Aesthetic Prompts', 'desc' => 'Golden dune sunset, flowing bohemian lace, and dramatic sun flares captured with warm prime optics.', 'date' => 'Aug 20, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/desert-sunset-festival/'), 'cat_slug' => 'festival-prompt couple-prompts'),
-                    array('title' => 'Vintage Royal Indian Palace Courtyard Portraits', 'desc' => 'Carved sandstone arches, water fountains, and opulent velvet sherwanis in heritage Rajasthan palaces.', 'date' => 'Aug 15, 2025', 'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/royal-palace-courtyard/'), 'cat_slug' => 'couple-prompts festival-prompt'),
-                    array('title' => 'Minimalist Architectural Concrete & Glass Interior Guides', 'desc' => 'Brutalist polished concrete, floor-to-ceiling glass pavilions, and sculptural shadow plays in modern architecture.', 'date' => 'Aug 10, 2025', 'img' => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/minimalist-architecture/'), 'cat_slug' => 'ai-photo-prompts'),
-                    array('title' => 'Golden Hour Wildflower Meadow Candid Couples Guide', 'desc' => 'Soft backlight catching golden hair, organic laughter, and natural intimacy in blossoming alpine meadows.', 'date' => 'Aug 5, 2025', 'img' => 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/wildflower-meadow-couples/'), 'cat_slug' => 'couple-prompts'),
-                    array('title' => 'Deep Underwater Bioluminescent Marine Fantasy Guide', 'desc' => 'Crystalline blue water depths, caustic sun reflections, and glowing jellyfish light trails around divers.', 'date' => 'Jul 30, 2025', 'img' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', 'url' => home_url('/prompts/underwater-bioluminescent/'), 'cat_slug' => 'ai-photo-prompts'),
-                );
-
-                // Paginate the curated articles list (30 per page)
-                $per_page = 30;
-                $total_items = count($curated_articles);
-                $total_pages = max(1, ceil($total_items / $per_page));
-                $start_index = ($paged - 1) * $per_page;
-                $page_articles = array_slice($curated_articles, $start_index, $per_page);
-                ?>
-                <div class="guides-grid">
-                    <?php foreach ($page_articles as $g) : ?>
-                        <article class="guide-card" data-categories="<?php echo esc_attr(isset($g['cat_slug']) ? $g['cat_slug'] : 'all'); ?>">
-                            <div class="guide-card-media">
-                                <a href="<?php echo esc_url($g['url']); ?>">
-                                    <img src="<?php echo esc_url($g['img']); ?>" alt="<?php echo esc_attr($g['title']); ?>" loading="lazy" />
-                                </a>
-                                <button type="button" class="bookmark-btn" aria-label="<?php esc_attr_e('Save guide', 'aipromptzyra'); ?>">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-                                </button>
-                            </div>
-                            <div class="guide-card-body">
-                                <h3 class="guide-card-title">
-                                    <a href="<?php echo esc_url($g['url']); ?>"><?php echo esc_html($g['title']); ?></a>
-                                </h3>
-                                <p class="guide-card-desc"><?php echo esc_html($g['desc']); ?></p>
-                                <div class="guide-card-footer">
-                                    <span class="guide-date"><?php echo esc_html($g['date']); ?></span>
-                                    <a href="<?php echo esc_url($g['url']); ?>" class="guide-read-link">
-                                        <?php esc_html_e('Read More', 'aipromptzyra'); ?> &rarr;
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-                    <?php endforeach; ?>
-                </div>
-
-                <?php if ($total_pages > 1) : ?>
-                    <nav class="pagination-wrapper" aria-label="<?php esc_attr_e('Guides Pagination', 'aipromptzyra'); ?>">
-                        <ul class="page-numbers-list">
-                            <?php if ($paged > 1) :
-                                $prev_link = ($paged - 1 === 1) ? home_url('/#guides-section') : add_query_arg('paged', $paged - 1, home_url('/#guides-section'));
-                            ?>
-                                <li>
-                                    <a href="<?php echo esc_url($prev_link); ?>" class="page-number page-number-prev">
-                                        &larr; <?php esc_html_e('Previous', 'aipromptzyra'); ?>
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-
-                            <?php for ($i = 1; $i <= $total_pages; $i++) :
-                                $page_link = ($i === 1) ? home_url('/#guides-section') : add_query_arg('paged', $i, home_url('/#guides-section'));
-                                $is_active = ($i === (int)$paged);
-                            ?>
-                                <li>
-                                    <?php if ($is_active) : ?>
-                                        <span class="page-number page-number-current"><?php echo $i; ?></span>
-                                    <?php else : ?>
-                                        <a href="<?php echo esc_url($page_link); ?>" class="page-number"><?php echo $i; ?></a>
-                                    <?php endif; ?>
-                                </li>
-                            <?php endfor; ?>
-
-                            <?php if ($paged < $total_pages) :
-                                $next_link = add_query_arg('paged', $paged + 1, home_url('/#guides-section'));
-                            ?>
-                                <li>
-                                    <a href="<?php echo esc_url($next_link); ?>" class="page-number page-number-next">
-                                        <?php esc_html_e('Next', 'aipromptzyra'); ?> &rarr;
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </nav>
-                <?php endif; ?>
-            <?php endif; ?>
+            endif;
         </div>
     </section>
 
@@ -566,7 +428,7 @@ get_header(); ?>
                 <!-- Right: Visual Preview & Generated Prompt -->
                 <div class="builder-output-col">
                     <div class="builder-visual-preview">
-                        <img id="builder-preview-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="Generated prompt visual preview" />
+                        <img id="builder-preview-img" src="https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp" alt="Generated prompt visual preview" />
                         <button type="button" class="bookmark-btn" aria-label="<?php esc_attr_e('Save generated idea', 'aipromptzyra'); ?>">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                         </button>
@@ -645,7 +507,7 @@ get_header(); ?>
 
                 <!-- Robot Visual Callout -->
                 <div class="how-to-visual" aria-hidden="true">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=450&auto=format&fit=crop&q=80" alt="Cute AI robot assistant" class="robot-img" />
+                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/baby-krishna-with-mother-yashoda-prompt-3frame-banner-480x270-1.webp" alt="Creative AI art preview" class="robot-img" />
                     <div class="robot-quote-banner">
                         <p class="quote-headline"><?php esc_html_e("It's that simple!", 'aipromptzyra'); ?></p>
                         <p class="quote-sub"><?php esc_html_e('Start creating your own amazing AI images today.', 'aipromptzyra'); ?></p>
@@ -713,26 +575,26 @@ get_header(); ?>
             </div>
 
             <div class="community-grid">
-                <!-- Facebook Card -->
-                <a href="https://www.facebook.com/profile.php?id=61594710183320" target="_blank" rel="noopener noreferrer" class="community-card card-facebook">
+                <!-- Instagram Card -->
+                <a href="https://www.instagram.com/aipromptzyra" target="_blank" rel="noopener noreferrer" class="community-card card-instagram">
                     <div class="community-card-top">
-                        <div class="community-icon-wrapper fb-icon-bg">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        <div class="community-icon-wrapper ig-icon-bg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </div>
-                        <span class="community-card-tag"><?php esc_html_e('Active Page', 'aipromptzyra'); ?></span>
+                        <span class="community-card-tag"><?php esc_html_e('Visual Gallery', 'aipromptzyra'); ?></span>
                     </div>
                     <div class="community-card-body">
-                        <h3 class="community-card-title"><?php esc_html_e('Facebook — Connect with us', 'aipromptzyra'); ?></h3>
-                        <p class="community-card-desc"><?php esc_html_e('Join our Facebook community for daily curated prompt inspiration, photo editing ideas, and updates.', 'aipromptzyra'); ?></p>
+                        <h3 class="community-card-title"><?php esc_html_e('Instagram — Follow us', 'aipromptzyra'); ?></h3>
+                        <p class="community-card-desc"><?php esc_html_e('Explore visual comparisons, side-by-side prompt results, and trending AI photography reels.', 'aipromptzyra'); ?></p>
                     </div>
                     <div class="community-card-footer">
-                        <span><?php esc_html_e('Connect with us', 'aipromptzyra'); ?></span>
+                        <span><?php esc_html_e('Follow us', 'aipromptzyra'); ?></span>
                         <span class="community-arrow">&nearr;</span>
                     </div>
                 </a>
 
                 <!-- Telegram Card -->
-                <a href="https://t.me/+19kPqGdfFAI4Y2Vl" target="_blank" rel="noopener noreferrer" class="community-card card-telegram">
+                <a href="https://t.me/aipromptzyra" target="_blank" rel="noopener noreferrer" class="community-card card-telegram">
                     <div class="community-card-top">
                         <div class="community-icon-wrapper tg-icon-bg">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
@@ -749,24 +611,25 @@ get_header(); ?>
                     </div>
                 </a>
 
-                <!-- Instagram Card -->
-                <a href="https://www.instagram.com/aipromptzyra/" target="_blank" rel="noopener noreferrer" class="community-card card-instagram">
+                <!-- WhatsApp Channel Card -->
+                <a href="https://whatsapp.com/channel/0029VbDrtskISTkDafKarY0u" target="_blank" rel="noopener noreferrer" class="community-card card-whatsapp">
                     <div class="community-card-top">
-                        <div class="community-icon-wrapper ig-icon-bg">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        <div class="community-icon-wrapper" style="background:#25D366; color:white;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2C6.5 2 2 6.5 2 12.031c0 1.95.562 3.82 1.633 5.438L2.062 22l4.672-1.547a9.97 9.97 0 0 0 5.297 1.547h.008c5.523 0 10.023-4.5 10.023-10.031C22.062 6.5 17.554 2 12.031 2zm0 18.36a8.31 8.31 0 0 1-4.242-1.164l-.305-.18-3.148 1.043 1.062-3.07-.2-.313a8.344 8.344 0 0 1-1.281-4.645c0-4.602 3.75-8.352 8.36-8.352 4.601 0 8.351 3.75 8.351 8.352 0 4.602-3.75 8.329-8.352 8.329zm4.586-6.242c-.25-.125-1.484-.734-1.71-.82-.235-.086-.407-.125-.579.125-.172.25-.664.82-.813.984-.148.172-.305.188-.555.063-.25-.125-1.054-.39-2.015-1.242-.743-.664-1.243-1.485-1.391-1.735-.149-.25-.016-.39.11-.515.11-.11.25-.282.375-.422.125-.141.172-.235.25-.407.086-.172.047-.328-.023-.453-.07-.125-.578-1.39-.797-1.906-.21-.5-.43-.43-.594-.438h-.508c-.172 0-.453.063-.687.32-.235.25-.899.883-.899 2.149 0 1.265.922 2.492 1.055 2.664.133.172 1.812 2.766 4.39 3.875.61.266 1.094.422 1.469.54.618.195 1.18.164 1.625.101.492-.07 1.484-.609 1.695-1.195.21-.586.21-1.086.149-1.195-.063-.11-.235-.172-.485-.297z"/></svg>
                         </div>
-                        <span class="community-card-tag"><?php esc_html_e('Visual Gallery', 'aipromptzyra'); ?></span>
+                        <span class="community-card-tag"><?php esc_html_e('Official Channel', 'aipromptzyra'); ?></span>
                     </div>
                     <div class="community-card-body">
-                        <h3 class="community-card-title"><?php esc_html_e('Instagram — Follow us', 'aipromptzyra'); ?></h3>
-                        <p class="community-card-desc"><?php esc_html_e('Explore visual comparisons, side-by-side prompt results, and trending AI photography reels.', 'aipromptzyra'); ?></p>
+                        <h3 class="community-card-title"><?php esc_html_e('WhatsApp — Subscribe channel', 'aipromptzyra'); ?></h3>
+                        <p class="community-card-desc"><?php esc_html_e('Subscribe to our official WhatsApp Channel for prompt tips, curated updates, and creative workflows.', 'aipromptzyra'); ?></p>
                     </div>
                     <div class="community-card-footer">
-                        <span><?php esc_html_e('Follow us', 'aipromptzyra'); ?></span>
+                        <span><?php esc_html_e('Subscribe channel', 'aipromptzyra'); ?></span>
                         <span class="community-arrow">&nearr;</span>
                     </div>
                 </a>
             </div>
+        </div>
         </div>
     </section>
 
@@ -908,33 +771,40 @@ get_header(); ?>
         </div>
     </section>
 
-    <!-- 10. AUTHOR PROFILE CARD SECTION (Immediately before footer) -->
+    <!-- 10. OWNER PROFILE CARD SECTION (Immediately before footer) -->
     <section id="author-card-section" class="section author-card-section">
         <div class="container">
             <div class="author-profile-card">
-                <!-- Circular Author Photo with Orange Accent Border -->
+                <!-- Circular Owner Photo with Orange Accent Border -->
                 <div class="author-photo-wrapper">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&auto=format&fit=crop&q=80" alt="Hafizur Rahman — Author at AIPromptZyra" class="author-photo" />
-                    <span class="author-verified-badge" title="<?php esc_attr_e('Verified Author', 'aipromptzyra'); ?>">
+                    <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg" alt="Zyra Ansari" class="author-photo" />
+                    <span class="author-verified-badge" title="<?php esc_attr_e('Verified Owner', 'aipromptzyra'); ?>">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                     </span>
                 </div>
 
-                <div class="author-badge-pill"><?php esc_html_e('Verified Author', 'aipromptzyra'); ?></div>
-                <h3 class="author-name"><?php esc_html_e('Hafizur Rahman', 'aipromptzyra'); ?></h3>
-                <p class="author-role"><?php esc_html_e('Founder & Lead AI Prompt Curator, AIPromptZyra', 'aipromptzyra'); ?></p>
+                <div class="author-badge-pill"><?php esc_html_e('Owner', 'aipromptzyra'); ?></div>
+                <h3 class="author-name"><?php esc_html_e('Zyra Ansari', 'aipromptzyra'); ?></h3>
+                <p class="author-role"><?php esc_html_e('Owner, AIPromptZyra', 'aipromptzyra'); ?></p>
 
                 <p class="author-bio">
-                    <?php esc_html_e('Hafizur Rahman is the creator of AIPromptZyra and a dedicated visual AI prompt researcher. He specializes in designing, testing, and refining photographic prompt formulas for Google Gemini, ChatGPT, and Midjourney, helping creators worldwide turn imaginative concepts into realistic, high-definition AI imagery.', 'aipromptzyra'); ?>
+                    <?php esc_html_e('Zyra Ansari is the Owner of AIPromptZyra. She oversees the platform\'s vision and creative prompt collections for Google Gemini, ChatGPT, and Midjourney, helping creators worldwide turn imaginative concepts into realistic, high-definition AI imagery.', 'aipromptzyra'); ?>
                 </p>
 
-                <?php
-                $author_archive_url = get_author_posts_url(1);
-                if (!$author_archive_url || is_wp_error($author_archive_url)) {
-                    $author_archive_url = home_url('/author/aipromptzyra/');
-                }
-                ?>
-                <a href="<?php echo esc_url($author_archive_url); ?>" class="btn-author-guides">
+                <!-- Official Social Links for Zyra Ansari -->
+                <div class="owner-social-links" style="display:flex; justify-content:center; align-items:center; gap:12px; margin: 16px 0 24px;">
+                    <a href="https://www.instagram.com/aipromptzyra" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Instagram" style="width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#f1f5f9; color:#475569; transition:all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="https://t.me/aipromptzyra" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Telegram" style="width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#f1f5f9; color:#475569; transition:all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    </a>
+                    <a href="https://whatsapp.com/channel/0029VbDrtskISTkDafKarY0u" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="WhatsApp Channel" style="width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#f1f5f9; color:#475569; transition:all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2C6.5 2 2 6.5 2 12.031c0 1.95.562 3.82 1.633 5.438L2.062 22l4.672-1.547a9.97 9.97 0 0 0 5.297 1.547h.008c5.523 0 10.023-4.5 10.023-10.031C22.062 6.5 17.554 2 12.031 2zm0 18.36a8.31 8.31 0 0 1-4.242-1.164l-.305-.18-3.148 1.043 1.062-3.07-.2-.313a8.344 8.344 0 0 1-1.281-4.645c0-4.602 3.75-8.352 8.36-8.352 4.601 0 8.351 3.75 8.351 8.352 0 4.602-3.75 8.329-8.352 8.329zm4.586-6.242c-.25-.125-1.484-.734-1.71-.82-.235-.086-.407-.125-.579.125-.172.25-.664.82-.813.984-.148.172-.305.188-.555.063-.25-.125-1.054-.39-2.015-1.242-.743-.664-1.243-1.485-1.391-1.735-.149-.25-.016-.39.11-.515.11-.11.25-.282.375-.422.125-.141.172-.235.25-.407.086-.172.047-.328-.023-.453-.07-.125-.578-1.39-.797-1.906-.21-.5-.43-.43-.594-.438h-.508c-.172 0-.453.063-.687.32-.235.25-.899.883-.899 2.149 0 1.265.922 2.492 1.055 2.664.133.172 1.812 2.766 4.39 3.875.61.266 1.094.422 1.469.54.618.195 1.18.164 1.625.101.492-.07 1.484-.609 1.695-1.195.21-.586.21-1.086.149-1.195-.063-.11-.235-.172-.485-.297z"/></svg>
+                    </a>
+                </div>
+
+                <a href="#guides-section" class="btn-author-guides">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                     <span><?php esc_html_e('View All Guides', 'aipromptzyra'); ?></span>
                     <span class="btn-arrow">&rarr;</span>

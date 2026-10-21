@@ -69,13 +69,13 @@ export const StaticPageModal: React.FC<StaticPageModalProps> = ({ pageSlug, onCl
                 <div className="space-y-3">
                   <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                     <img
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80"
-                      alt="Hafizur Rahman"
-                      className="w-10 h-10 rounded-full object-cover border border-purple-500 shrink-0"
+                      src="https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg"
+                      alt="Zyra Ansari"
+                      className="w-10 h-10 rounded-full object-cover border border-amber-500 shrink-0"
                     />
                     <div>
-                      <div className="font-bold text-slate-900 dark:text-white text-xs">Hafizur Rahman <span className="text-[10px] bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 px-1.5 py-0.5 rounded font-normal ml-1">Founder & Lead Curator</span></div>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Focuses on camera optics, lighting formulas, and technical evaluation across Gemini &amp; ChatGPT.</p>
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">Zyra Ansari <span className="text-[10px] bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 px-1.5 py-0.5 rounded font-normal ml-1">Owner</span></div>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Owner of AIPromptZyra. Guides the platform vision, creative prompt standards, and community resources.</p>
                     </div>
                   </div>
 

@@ -4,7 +4,7 @@ Theme URI: https://aipromptzyra.com/
 Author: AIPromptzyra Team
 Author URI: https://aipromptzyra.com/about/
 Description: A premium, ultra-fast WordPress theme crafted for AI prompt discovery, visual prompt categorization, dynamic prompt builders, and creative tutorials. Designed for Gemini, ChatGPT, and Midjourney creators.
-Version: 1.1.0
+Version: 1.1.3
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -188,32 +188,60 @@ body.single-prompt .single-prompt-container {
   margin-bottom: 0.35rem !important;
 }
 
-.az-copy-prompt-btn {
+.az-copy-prompt-btn,
+.az-btn-copy-prompt,
+.az-btn-view-prompt {
   display: inline-flex !important;
-  align-items: center;
-  gap: 6px;
-  background: var(--az-surface, #ffffff);
-  border: 1px solid var(--az-border, #e2e8f0);
-  color: var(--az-text-muted, #64748b);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  background-color: #FFD400 !important;
+  border: 1px solid #E0B800 !important;
+  color: #111111 !important;
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  padding: 8px 16px !important;
+  border-radius: 9999px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
 }
 
-.az-copy-prompt-btn:hover {
-  color: #7c3aed;
-  border-color: #7c3aed;
-  background: #faf5ff;
+.az-copy-prompt-btn svg,
+.az-btn-copy-prompt svg,
+.az-btn-view-prompt svg {
+  stroke: #111111 !important;
+  stroke-width: 2.2 !important;
 }
 
-.az-copy-prompt-btn.copied {
-  background: #10b981 !important;
+.az-copy-prompt-btn:hover,
+.az-btn-copy-prompt:hover,
+.az-btn-view-prompt:hover {
+  background-color: #E5BE00 !important;
+  border-color: #CCA300 !important;
+  color: #111111 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+}
+
+.az-copy-prompt-btn:focus-visible,
+.az-btn-copy-prompt:focus-visible,
+.az-btn-view-prompt:focus-visible {
+  outline: 2px solid #111111 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(255, 212, 0, 0.5) !important;
+}
+
+.az-copy-prompt-btn.copied,
+.az-btn-copy-prompt.copied {
+  background-color: #10b981 !important;
   border-color: #10b981 !important;
   color: #ffffff !important;
+}
+
+.az-copy-prompt-btn.copied svg,
+.az-btn-copy-prompt.copied svg {
+  stroke: #ffffff !important;
 }
 
 /* 3. Remove "WRITTEN BY" author card */

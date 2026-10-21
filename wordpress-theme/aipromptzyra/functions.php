@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
-define('AIPROMPTZYRA_VERSION', '1.1.0');
+define('AIPROMPTZYRA_VERSION', '1.1.3');
 define('AIPROMPTZYRA_DIR', get_template_directory());
 define('AIPROMPTZYRA_URI', get_template_directory_uri());
 
@@ -338,6 +338,14 @@ function aipromptzyra_scripts() {
         true
     );
 
+    wp_enqueue_script(
+        'aipromptzyra-ai-prompt-box-frontend-js',
+        AIPROMPTZYRA_URI . '/assets/js/ai-prompt-box-frontend.js',
+        array('aipromptzyra-theme-js'),
+        AIPROMPTZYRA_VERSION,
+        true
+    );
+
     wp_localize_script('aipromptzyra-theme-js', 'aipromptzyraData', array(
         'ajaxUrl'   => admin_url('admin-ajax.php'),
         'nonce'     => wp_create_nonce('aipromptzyra_nonce'),
@@ -360,6 +368,15 @@ function aipromptzyra_register_ai_prompt_box_block() {
         true
     );
 
+    // Register frontend script for Gutenberg block rendering
+    wp_register_script(
+        'aipromptzyra-ai-prompt-box-frontend-js',
+        AIPROMPTZYRA_URI . '/assets/js/ai-prompt-box-frontend.js',
+        array(),
+        AIPROMPTZYRA_VERSION,
+        true
+    );
+
     // Register block CSS (editor & frontend)
     wp_register_style(
         'aipromptzyra-ai-prompt-box-style',
@@ -370,10 +387,46 @@ function aipromptzyra_register_ai_prompt_box_block() {
 
     register_block_type('aipromptzyra/ai-prompt-box', array(
         'editor_script' => 'aipromptzyra-ai-prompt-box-editor-js',
+        'script'        => 'aipromptzyra-ai-prompt-box-frontend-js',
         'style'         => 'aipromptzyra-ai-prompt-box-style',
     ));
 }
 add_action('init', 'aipromptzyra_register_ai_prompt_box_block');
+
+/**
+ * Ensure Zyra Ansari profile photo is returned consistently
+ * for the author avatar across single posts and widgets
+ */
+function aipromptzyra_zyra_avatar_filter($avatar, $id_or_email, $args) {
+    $user = false;
+    if (is_numeric($id_or_email)) {
+        $user = get_user_by('id', (int) $id_or_email);
+    } elseif (is_object($id_or_email)) {
+        if (!empty($id_or_email->user_id)) {
+            $user = get_user_by('id', (int) $id_or_email->user_id);
+        }
+    } elseif (is_string($id_or_email)) {
+        $user = get_user_by('email', $id_or_email);
+    }
+
+    if ($user && ((int) $user->ID === 1 || stripos($user->display_name, 'Zyra') !== false || $user->user_login === 'aipromptzyra')) {
+        $zyra_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg';
+        $size     = !empty($args['size']) ? (int) $args['size'] : 80;
+        $class    = !empty($args['class']) ? esc_attr($args['class']) : 'az-author-avatar-img';
+
+        return sprintf(
+            '<img src="%s" alt="%s" class="%s" width="%d" height="%d" loading="lazy" decoding="async" />',
+            esc_url($zyra_url),
+            esc_attr__('Zyra Ansari', 'aipromptzyra'),
+            $class,
+            $size,
+            $size
+        );
+    }
+
+    return $avatar;
+}
+add_filter('get_avatar', 'aipromptzyra_zyra_avatar_filter', 20, 3);
 
 /**
  * AJAX Handler for Prompt Builder
@@ -408,6 +461,7 @@ function aipromptzyra_generate_prompt_ajax() {
     ));
 }
 add_action('wp_ajax_aipromptzyra_generate_prompt', 'aipromptzyra_generate_prompt_ajax');
+add_action('wp_ajax_nopriv_aipromptzyra_generate_prompt', 'aipromptzyra_generate_prompt_ajax');
 /**
  * Enforce 30 published articles per homepage page and archive queries
  */
@@ -422,3 +476,81 @@ add_action('pre_get_posts', 'aipromptzyra_modify_queries');
 
 require_once AIPROMPTZYRA_DIR . '/inc/customizer.php';
 require_once AIPROMPTZYRA_DIR . '/inc/template-tags.php';
+
+/**
+ * SEO & Title Enhancements - Prevent trailing hyphens and supply rich fallback metadata
+ */
+function aipromptzyra_clean_document_title_parts($parts) {
+    if (is_front_page() || is_home()) {
+        $site_name = get_bloginfo('name', 'display');
+        $tagline = get_bloginfo('description', 'display');
+        if (empty($tagline)) {
+            $tagline = 'Curated AI Prompts & Generators for Midjourney, ChatGPT & Gemini';
+        }
+        return array(
+            'title'   => $site_name,
+            'tagline' => $tagline,
+        );
+    }
+    return $parts;
+}
+add_filter('document_title_parts', 'aipromptzyra_clean_document_title_parts', 99);
+
+add_filter('pre_get_document_title', function($title) {
+    if (is_front_page() || is_home()) {
+        $site_name = get_bloginfo('name', 'display');
+        $tagline = get_bloginfo('description', 'display');
+        if (empty($tagline)) {
+            $tagline = 'Curated AI Prompts & Generators for Midjourney, ChatGPT & Gemini';
+        }
+        return $site_name . ' - ' . $tagline;
+    }
+    return $title;
+}, 99);
+
+// RankMath Title and Social Graph Filters
+add_filter('rank_math/frontend/title', function($title) {
+    if (is_front_page() || is_home()) {
+        $clean = rtrim(trim($title), '- ');
+        return $clean . ' - Best AI Prompts & Generators for Midjourney, ChatGPT & Gemini';
+    }
+    return $title;
+}, 99);
+
+add_filter('rank_math/opengraph/facebook/title', function($title) {
+    if (is_front_page() || is_home()) {
+        $clean = rtrim(trim($title), '- ');
+        return $clean . ' - Best AI Prompts & Generators for Midjourney, ChatGPT & Gemini';
+    }
+    return $title;
+}, 99);
+
+add_filter('rank_math/opengraph/facebook/image', function($image) {
+    if ((is_front_page() || is_home()) && empty($image)) {
+        return home_url('/wp-content/uploads/2026/10/Zyra-Ansari.jpg');
+    }
+    return $image;
+}, 99);
+
+add_filter('rank_math/opengraph/facebook/description', function($desc) {
+    if ((is_front_page() || is_home()) && empty($desc)) {
+        return 'Explore curated high-converting AI prompts, custom prompt builder tools, and prompt engineering tutorials by Zyra Ansari.';
+    }
+    return $desc;
+}, 99);
+
+add_filter('rank_math/opengraph/twitter/title', function($title) {
+    if (is_front_page() || is_home()) {
+        $clean = rtrim(trim($title), '- ');
+        return $clean . ' - Best AI Prompts & Generators for Midjourney, ChatGPT & Gemini';
+    }
+    return $title;
+}, 99);
+
+add_filter('rank_math/opengraph/twitter/image', function($image) {
+    if ((is_front_page() || is_home()) && empty($image)) {
+        return home_url('/wp-content/uploads/2026/10/Zyra-Ansari.jpg');
+    }
+    return $image;
+}, 99);
+

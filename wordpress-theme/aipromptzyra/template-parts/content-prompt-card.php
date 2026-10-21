@@ -15,7 +15,7 @@ $badge_text  = get_post_meta(get_the_ID(), '_aipromptzyra_badge', true) ?: 'Prom
             <?php if (has_post_thumbnail()) : ?>
                 <?php the_post_thumbnail('aipromptzyra-featured'); ?>
             <?php else : ?>
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="<?php the_title_attribute(); ?>" loading="lazy" />
+                <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp" alt="<?php the_title_attribute(); ?>" loading="lazy" />
             <?php endif; ?>
         </a>
         <span class="prompt-badge badge-popular"><?php echo esc_html($badge_text); ?></span>

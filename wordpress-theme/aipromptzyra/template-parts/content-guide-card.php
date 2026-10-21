@@ -28,7 +28,7 @@ $cat_attr = implode(' ', array_unique($terms_slugs));
             <?php if (has_post_thumbnail()) : ?>
                 <?php the_post_thumbnail('aipromptzyra-guide'); ?>
             <?php else : ?>
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=80" alt="<?php the_title_attribute(); ?>" loading="lazy" />
+                <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp" alt="<?php the_title_attribute(); ?>" loading="lazy" />
             <?php endif; ?>
         </a>
         <button type="button" class="bookmark-btn" aria-label="<?php esc_attr_e('Save guide', 'aipromptzyra'); ?>">

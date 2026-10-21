@@ -21,7 +21,7 @@ export const GuideReaderModal: React.FC<GuideReaderModalProps> = ({ guide, onClo
           (art) => art.slug === guide.slug || art.title.toLowerCase() === guide.title.toLowerCase()
         )
       ) ||
-      // Default to team lead Hafizur Rahman if not explicitly assigned
+      // Default to Zyra Ansari if not explicitly assigned
       AUTHORS_DATA[0]
     );
   }, [guide]);

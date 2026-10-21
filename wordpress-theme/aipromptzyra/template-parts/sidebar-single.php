@@ -48,11 +48,32 @@ if (empty($author_bio)) {
         <div class="az-author-card-content">
             <div class="az-author-avatar-wrap">
                 <?php
-                $avatar_img = get_avatar($author_id, 80, '', esc_attr($author_name), array('class' => 'az-author-avatar-img'));
-                if ($avatar_img) {
-                    echo $avatar_img;
+                $zyra_avatar_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg';
+                $is_zyra = (stripos($author_name, 'Zyra') !== false) || (get_the_author_meta('user_login', $author_id) === 'aipromptzyra') || ($author_id == 1);
+
+                // Check for custom avatar set via user profile meta
+                $custom_avatar = get_user_meta($author_id, 'author_profile_picture', true);
+                if (empty($custom_avatar)) {
+                    $custom_avatar = get_user_meta($author_id, 'user_avatar', true);
+                }
+                if (empty($custom_avatar)) {
+                    $custom_avatar = get_user_meta($author_id, 'profile_picture', true);
+                }
+
+                if ($is_zyra) {
+                    // For Zyra Ansari: display verified high-res profile photo
+                    echo '<img src="' . esc_url($zyra_avatar_url) . '" alt="' . esc_attr__('Zyra Ansari', 'aipromptzyra') . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
+                } elseif (!empty($custom_avatar)) {
+                    // Custom profile field for other authors
+                    echo '<img src="' . esc_url($custom_avatar) . '" alt="' . esc_attr($author_name) . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
                 } else {
-                    echo '<img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&h=160&q=80" alt="' . esc_attr($author_name) . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
+                    // Other authors standard avatar fallback
+                    $avatar_img = get_avatar($author_id, 80, '', esc_attr($author_name), array('class' => 'az-author-avatar-img'));
+                    if ($avatar_img) {
+                        echo $avatar_img;
+                    } else {
+                        echo '<img src="' . esc_url($zyra_avatar_url) . '" alt="' . esc_attr($author_name) . '" class="az-author-avatar-img" width="80" height="80" loading="lazy" />';
+                    }
                 }
                 ?>
             </div>
@@ -102,7 +123,7 @@ if (empty($author_bio)) {
                     $trending_query->the_post();
                     $thumb_url = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail');
                     if (!$thumb_url) {
-                        $thumb_url = 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=120&h=120&q=80';
+                        $thumb_url = 'https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp';
                     }
                     ?>
                     <article class="az-trending-item">
@@ -121,44 +142,6 @@ if (empty($author_bio)) {
                 <?php
                 endwhile;
                 wp_reset_postdata();
-            else :
-                // Curated fallback trending items if database has not yet been populated
-                $fallback_trending = array(
-                    array(
-                        'title' => 'Indian Traditional Wedding Prompt for Gemini AI (2026)',
-                        'url'   => home_url('/indian-wedding-photo-prompt-for-gemini/'),
-                        'date'  => 'October 3, 2026',
-                        'img'   => 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=120&h=120&q=80',
-                    ),
-                    array(
-                        'title' => 'Eyes Prompt for Girl Instagram & ChatGPT (2026)',
-                        'url'   => home_url('/prompts/eyes-prompt-for-girl/'),
-                        'date'  => 'October 3, 2026',
-                        'img'   => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&h=120&q=80',
-                    ),
-                    array(
-                        'title' => 'Couple Eyes Prompt ChatGPT Aesthetic (2026)',
-                        'url'   => home_url('/prompts/couple-eyes-prompt/'),
-                        'date'  => 'October 2, 2026',
-                        'img'   => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&h=120&q=80',
-                    ),
-                );
-
-                foreach ($fallback_trending as $item) :
-                    ?>
-                    <article class="az-trending-item">
-                        <a href="<?php echo esc_url($item['url']); ?>" class="az-trending-thumb-link" aria-hidden="true" tabindex="-1">
-                            <img src="<?php echo esc_url($item['img']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="az-trending-thumb" width="56" height="56" loading="lazy" />
-                        </a>
-                        <div class="az-trending-info">
-                            <h5 class="az-trending-item-title">
-                                <a href="<?php echo esc_url($item['url']); ?>"><?php echo esc_html($item['title']); ?></a>
-                            </h5>
-                            <span class="az-trending-date"><?php echo esc_html($item['date']); ?></span>
-                        </div>
-                    </article>
-                <?php
-                endforeach;
             endif;
             ?>
         </div>

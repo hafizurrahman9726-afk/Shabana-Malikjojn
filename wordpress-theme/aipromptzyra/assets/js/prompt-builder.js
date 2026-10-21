@@ -16,28 +16,28 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!form || !generatedTextEl) return;
 
   const styleImages = {
-    'Cinematic': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80',
-    'Editorial Studio': 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80',
-    'Vintage 35mm': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80',
-    'Fantasy Dreamscape': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80',
-    'Cyberpunk Neon': 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&auto=format&fit=crop&q=80',
-    'Oil Painting Artwork': 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80'
+    'Cinematic': 'https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp',
+    'Editorial Studio': 'https://aipromptzyra.com/wp-content/uploads/2026/10/indian-traditional-wedding-prompt-for-gemini-banner-2026-thumb-800x450-1.webp',
+    'Vintage 35mm': 'https://aipromptzyra.com/wp-content/uploads/2026/10/eyes-prompt-for-girl-banner-2026-thumb-800x450-1.webp',
+    'Fantasy Dreamscape': 'https://aipromptzyra.com/wp-content/uploads/2026/10/baby-krishna-with-mother-yashoda-prompt-3frame-banner-480x270-1.webp',
+    'Cyberpunk Neon': 'https://aipromptzyra.com/wp-content/uploads/2026/10/iphone-lock-screen-wallpaper-featured-banner-480x270-1.webp',
+    'Oil Painting Artwork': 'https://aipromptzyra.com/wp-content/uploads/2026/10/couple-maternity-photoshoot-prompt-ideas-indian-saree-banner-2026-thumb-800x450-1.webp'
   };
 
   function getPreviewImage(subject, style) {
     if (subject === 'Boy') {
-      return 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80';
+      return 'https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp';
     }
     if (subject === 'Couple') {
-      return 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=80';
+      return 'https://aipromptzyra.com/wp-content/uploads/2026/10/Couple-Eyes-Prompt-ChatGPT.jpg';
     }
     if (subject === 'Family') {
-      return 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&auto=format&fit=crop&q=80';
+      return 'https://aipromptzyra.com/wp-content/uploads/2026/10/couple-maternity-photoshoot-prompt-ideas-indian-saree-banner-2026-thumb-800x450-1.webp';
     }
     if (styleImages[style]) {
       return styleImages[style];
     }
-    return 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80';
+    return 'https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp';
   }
 
   function generatePrompt() {

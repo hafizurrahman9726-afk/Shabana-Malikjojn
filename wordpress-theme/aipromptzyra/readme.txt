@@ -3,7 +3,7 @@ Contributors: aipromptzyrateam
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,21 @@ No. The theme is built using lightweight native WordPress templates, semantic HT
 Navigate to Prompts > Add New in your admin sidebar. You can set the featured image, category, prompt formula, and optional negative prompt.
 
 == Changelog ==
+
+= 1.1.3 =
+* Fixed single post sidebar author card to display Zyra Ansari's high-resolution profile photo with alt text.
+* Restyled View Prompt and Copy Prompt buttons to bold yellow (#FFD400) with dark #111111 text and prominent focus outline.
+* Added dedicated frontend script and robust clipboard copy fallback for AI Prompt Box Gutenberg block.
+* Enabled interactive expand/collapse preview and live copy testing within Gutenberg block editor.
+
+= 1.1.2 =
+* Enhanced OpenGraph fallbacks and document title filters for pristine SEO titles.
+* Verified compatibility with Rank Math SEO and native title-tag support.
+* Refined terms-and-conditions route links and accessibility attributes.
+
+= 1.1.1 =
+* Added AJAX post search and tag filtering endpoints.
+* Fixed carousel touch event listeners and keyboard navigation.
 
 = 1.0.0 =
 * Initial release with full homepage sections, prompt builder, custom post types, and dark mode.

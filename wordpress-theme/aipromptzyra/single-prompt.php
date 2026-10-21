@@ -24,7 +24,7 @@ get_header(); ?>
                     <?php if (has_post_thumbnail()) : ?>
                         <?php the_post_thumbnail('aipromptzyra-featured', array('class' => 'prompt-single-img')); ?>
                     <?php else : ?>
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=85" alt="<?php the_title_attribute(); ?>" class="prompt-single-img" />
+                        <img src="https://aipromptzyra.com/wp-content/uploads/2026/10/diwali-gemini-prompt-for-men-3frame-banner-2026-thumb-800x450-1.webp" alt="<?php the_title_attribute(); ?>" class="prompt-single-img" />
                     <?php endif; ?>
                 </div>
 

@@ -1051,12 +1051,12 @@ Key keywords to incorporate:
 
 export const AUTHORS_DATA: AuthorProfile[] = [
   {
-    id: 'author-hafizur',
-    name: 'Hafizur Rahman',
-    slug: 'hafizur-rahman',
-    role: 'Founder & Lead AI Prompt Curator',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=320&auto=format&fit=crop&q=80',
-    bio: 'Founder of AIPromptZyra and visual prompt researcher. Specializes in realistic camera optics, lighting formulas, and technical prompt frameworks across Google Gemini, ChatGPT, and Midjourney.',
+    id: 'author-zyra',
+    name: 'Zyra Ansari',
+    slug: 'zyra-ansari',
+    role: 'Owner',
+    avatar: 'https://aipromptzyra.com/wp-content/uploads/2026/10/Zyra-Ansari.jpg',
+    bio: 'Owner of AIPromptZyra. Guides the platform vision, creative prompt standards, and community resources across Google Gemini, ChatGPT, and Midjourney.',
     categories: ['AI Photo Prompts', 'Trending Prompts'],
     articleCount: 16,
     featuredArticles: [
